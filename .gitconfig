@@ -1,0 +1,32 @@
+[user]
+	email = antonio.subasic.public@gmail.com
+	name = Antonio Subašić
+[init]
+	defaultBranch = main
+[alias]
+	cm = commit -m
+	a = add
+	c = clone
+	pl = pull
+	ps = push
+	cp = "!f() { git clone git@github.com:antoniosubasic/$1.git ${2:-$1}; }; f"
+[help]
+	autocorrect = 50
+[url "git@github.com:"]
+	insteadOf = "gh:"
+[diff]
+	algorithm = histogram
+[transfer]
+	fsckobjects = true
+[fetch]
+	fsckobjects = true
+[receive]
+	fsckObjects = true
+[status]
+	submoduleSummary = true
+[core]
+	autocrlf = false
+	editor = nano
+	excludesFiles = /home/antonio/.gitignore
+[log]
+	date = iso
