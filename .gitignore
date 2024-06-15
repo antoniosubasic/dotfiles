@@ -1,9 +1,1 @@
-# C#
-bin/
-obj/
-
-# Rust
-target/
-
-# JS and TS
-node_modules/
+cookie
