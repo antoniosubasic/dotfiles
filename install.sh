@@ -3,6 +3,7 @@
 # colors
 CYAN='\033[0;36m'
 GREEN='\033[0;32m'
+RED='\033[0;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
@@ -14,6 +15,13 @@ force=false
 if [[ $1 == "-f" || $1 == "--force" ]]; then
     force=true
 fi
+
+errorif() {
+    if [[ $1 -ne 0 ]]; then
+        echo -e "${RED}$2${NC}"
+        exit 1
+    fi
+}
 
 symlink() {
     target="$dotfiles_path/$1"
@@ -27,7 +35,7 @@ symlink() {
             for file in $files; do
                 link="$HOME/${file#$dir/}"
                 if [[ -e $link && $force == false ]]; then
-                    echo -e "${YELLOW}$link${NC} already exists"
+                    echo -e "${YELLOW}$(basename $link)${NC} already exists"
                 elif [[ -e $file ]]; then
                     ln -sf $file $link
                     echo -e "${CYAN}$link${NC} -> ${GREEN}$file${NC}"
@@ -47,7 +55,7 @@ symlink() {
         fi
 
         if [[ -e $link && $force == false ]]; then
-            echo -e "${YELLOW}$link${NC} already exists"
+            echo -e "${YELLOW}$(basename $link)${NC} already exists"
         else
             ln $link_options "$target" "$link"
             echo -e "${CYAN}$link${NC} -> ${GREEN}$target${NC}"
@@ -65,16 +73,28 @@ if [[ $EUID -eq 0 ]]; then
 fi
 
 # update repositories
-sudo apt-get update
+sudo apt-get update > /dev/null
+errorif $? "failed to update repositories"
 
 # install essential packages
-sudo apt-get install -y build-essential libssl-dev
+sudo apt-get install -y build-essential libssl-dev > /dev/null
+errorif $? "failed to install packages"
 
 # upgrade system
-sudo apt-get upgrade -y
+sudo apt-get upgrade -y > /dev/null
+errorif $? "failed to upgrade system"
 
 # create symlinks for dotfiles
 dotfiles=(git/* .config)
 for dotfile in ${dotfiles[@]}; do
     symlink $dotfile
 done
+
+# add aliases to .bashrc
+if ! grep -q "# dotfiles -> custom aliases" "$HOME/.bashrc"; then
+    echo -e "\n# dotfiles -> custom aliases" >> "$HOME/.bashrc"
+    echo "source ~/.config/bash/aliases.sh" >> "$HOME/.bashrc"
+    echo -e "${CYAN}aliases.sh${NC} included in ${GREEN}.bashrc${NC}"
+else
+    echo -e "${YELLOW}aliases.sh${NC} already included"
+fi
