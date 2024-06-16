@@ -9,6 +9,12 @@ NC='\033[0m'
 # dotfiles path
 dotfiles_path="$HOME/.dotfiles"
 
+# option to force symlink creation
+force=false
+if [[ $1 == "-f" || $1 == "--force" ]]; then
+    force=true
+fi
+
 symlink() {
     target="$dotfiles_path/$1"
     link="$HOME/$1"
@@ -20,7 +26,7 @@ symlink() {
             files=$(find $dir -type f)
             for file in $files; do
                 link="$HOME/${file#$dir/}"
-                if [[ -e $link ]]; then
+                if [[ -e $link && $force == false ]]; then
                     echo -e "${YELLOW}$link${NC} already exists"
                 elif [[ -e $file ]]; then
                     ln -sf $file $link
@@ -40,7 +46,7 @@ symlink() {
             link_options="-sfn"
         fi
 
-        if [[ -e $link ]]; then
+        if [[ -e $link && $force == false ]]; then
             echo -e "${YELLOW}$link${NC} already exists"
         else
             ln $link_options "$target" "$link"
