@@ -90,11 +90,11 @@ for dotfile in ${dotfiles[@]}; do
     symlink $dotfile
 done
 
-# add aliases to .bashrc
-if ! grep -q "# dotfiles -> custom aliases" "$HOME/.bashrc"; then
-    echo -e "\n# dotfiles -> custom aliases" >> "$HOME/.bashrc"
-    echo "source ~/.config/bash/aliases.sh" >> "$HOME/.bashrc"
-    echo -e "${CYAN}aliases.sh${NC} included in ${GREEN}.bashrc${NC}"
+# add bash configuration to .bashrc
+if ! grep -q "# custom dotfiles configuration" "$HOME/.bashrc"; then
+    echo -e "\n# custom dotfiles configuration" >> "$HOME/.bashrc"
+    echo "source ~/.config/bash/init.sh" >> "$HOME/.bashrc"
+    echo -e "${CYAN}init.sh${NC} included in ${GREEN}.bashrc${NC}"
 else
-    echo -e "${YELLOW}aliases.sh${NC} already included"
+    echo -e "${YELLOW}init.sh${NC} already included"
 fi
