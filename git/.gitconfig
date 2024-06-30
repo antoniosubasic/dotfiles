@@ -30,3 +30,5 @@
 	excludesFiles = /home/antonio/.gitignore
 [log]
 	date = iso
+[pull]
+	ff = only
