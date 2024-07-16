@@ -77,7 +77,7 @@ sudo apt-get update > /dev/null
 errorif $? "failed to update repositories"
 
 # install essential packages
-sudo apt-get install -y build-essential libssl-dev > /dev/null
+sudo apt-get install -y build-essential libssl-dev xsel ripgrep > /dev/null
 errorif $? "failed to install packages"
 
 # upgrade system
