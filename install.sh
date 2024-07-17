@@ -85,7 +85,7 @@ sudo apt-get upgrade -y > /dev/null
 errorif $? "failed to upgrade system"
 
 # create symlinks for dotfiles
-dotfiles=(git/* .config)
+dotfiles=(git/* .config/*)
 for dotfile in ${dotfiles[@]}; do
     symlink $dotfile
 done
