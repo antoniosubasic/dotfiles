@@ -81,22 +81,22 @@ if [[ $EUID -eq 0 ]]; then
 fi
 
 # update repositories
-sudo apt-get update > /dev/null
+sudo apt-get update > /dev/null 2>&1
 errorif $? "failed to update repositories"
 
 # install essential packages
-sudo apt-get install -y build-essential libssl-dev xsel ripgrep git > /dev/null
+sudo apt-get install -y build-essential libssl-dev xsel ripgrep git > /dev/null 2>&1
 errorif $? "failed to install packages"
 
 # upgrade system
-sudo apt-get upgrade -y > /dev/null
+sudo apt-get upgrade -y > /dev/null 2>&1
 errorif $? "failed to upgrade system"
 
 # clone dotfiles repository
 if [[ -d $dotfiles_path ]]; then
     echo -e "${YELLOW}$dotfiles_path${NC} already exists"
 else
-    git clone https://github.com/antoniosubasic/dotfiles.git $dotfiles_path > /dev/null
+    git clone https://github.com/antoniosubasic/dotfiles.git $dotfiles_path > /dev/null 2>&1
     errorif $? "failed to clone repository"
     echo -e "${CYAN}dotfiles${NC} cloned to ${GREEN}$dotfiles_path${NC}"
 fi
