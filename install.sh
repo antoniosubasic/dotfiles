@@ -29,20 +29,28 @@ symlink() {
 
     # handle directory pattern (.config/*)
     if [[ $target == *"/*" ]]; then
-        dir=$(dirname "$target")
-        if [[ -d $dir ]]; then
-            files=$(find $dir -type f)
-            for file in $files; do
-                link="$HOME/${file#$dir/}"
+        base_target="${target%/*}"
+        base_link="$HOME${base_target#$dotfiles_path}"
+
+        if [[ -d $base_target ]]; then
+            shopt -s dotglob
+            if [[ ! -d $base_link ]]; then
+                mkdir -p $base_link
+                echo -e "${CYAN}$base_link${NC} created"
+            fi
+            for item in $base_target/*; do
+                target="$item"
+                link="$base_link/$(basename $item)"
                 if [[ -e $link && $force == false ]]; then
                     echo -e "${YELLOW}$(basename $link)${NC} already exists"
-                elif [[ -e $file ]]; then
-                    ln -sf $file $link
-                    echo -e "${CYAN}$link${NC} -> ${GREEN}$file${NC}"
+                elif [[ -e $target ]]; then
+                    ln -sf $target $link
+                    echo -e "${CYAN}$link${NC} -> ${GREEN}$target${NC}"
                 else
-                    echo -e "${YELLOW}$file${NC} not found"
+                    echo -e "${YELLOW}$target${NC} not found"
                 fi
             done
+            shopt -u dotglob
         else
             echo -e "${YELLOW}$dir${NC} not found"
         fi
@@ -90,11 +98,11 @@ if [[ -d $dotfiles_path ]]; then
 else
     git clone https://github.com/antoniosubasic/dotfiles.git $dotfiles_path > /dev/null
     errorif $? "failed to clone repository"
-    echo -e "${GREEN}dotfiles${NC} cloned to ${CYAN}$dotfiles_path${NC}"
+    echo -e "${CYAN}dotfiles${NC} cloned to ${GREEN}$dotfiles_path${NC}"
 fi
 
 # create symlinks for dotfiles
-dotfiles=(git/* .config/*)
+dotfiles=(.gitconfig .config/*)
 for dotfile in ${dotfiles[@]}; do
     symlink $dotfile
 done
