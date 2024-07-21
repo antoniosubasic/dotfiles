@@ -77,12 +77,21 @@ sudo apt-get update > /dev/null
 errorif $? "failed to update repositories"
 
 # install essential packages
-sudo apt-get install -y build-essential libssl-dev xsel ripgrep > /dev/null
+sudo apt-get install -y build-essential libssl-dev xsel ripgrep git > /dev/null
 errorif $? "failed to install packages"
 
 # upgrade system
 sudo apt-get upgrade -y > /dev/null
 errorif $? "failed to upgrade system"
+
+# clone dotfiles repository
+if [[ -d $dotfiles_path ]]; then
+    echo -e "${YELLOW}$dotfiles_path${NC} already exists"
+else
+    git clone https://github.com/antoniosubasic/dotfiles.git $dotfiles_path > /dev/null
+    errorif $? "failed to clone repository"
+    echo -e "${GREEN}dotfiles${NC} cloned to ${CYAN}$dotfiles_path${NC}"
+fi
 
 # create symlinks for dotfiles
 dotfiles=(git/* .config/*)
