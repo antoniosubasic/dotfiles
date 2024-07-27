@@ -7,3 +7,6 @@ target/
 
 # JS and TS
 node_modules/
+
+# general
+.env
