@@ -75,31 +75,70 @@ symlink() {
     fi
 }
 
+print() {
+    local message=$1
+    local color=$2
+    local delete=$3
+    echo -ne "${delete:+\n}\r${color}${message}${NC}\033[K"
+}
+
 if [[ $EUID -eq 0 ]]; then
     echo "must not be run as root" 
     exit 1
 fi
 
+sudo -v
+
 # update repositories
+print "updating repositories" $YELLOW
 sudo apt-get update > /dev/null 2>&1
 errorif $? "failed to update repositories"
+print "repositories updated" $CYAN
 
 # install essential packages
-sudo apt-get install -y build-essential libssl-dev xsel ripgrep git > /dev/null 2>&1
+print "installing packages" $YELLOW true
+sudo apt-get install -y build-essential libssl-dev curl xsel ripgrep git bat > /dev/null 2>&1
 errorif $? "failed to install packages"
+print "packages installed" $CYAN
 
 # upgrade system
+print "upgrading system" $YELLOW true
 sudo apt-get upgrade -y > /dev/null 2>&1
 errorif $? "failed to upgrade system"
+print "system upgraded" $CYAN
 
-# clone dotfiles repository
+# install latest dotnet
+print "installing dotnet" $YELLOW true
+release_index=$(eval curl -s https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json)
+dotnet_versions=$(echo "$release_index" | grep -Eo '"latest-release": "[0-9]\.[0-9]+\.[0-9]+"' | awk -F '"' '{print $4}')
+dotnet_version=$(echo "$dotnet_versions" | sort -r -t '"' -k4,4n | head -n 1 | awk -F '.' '{print $1"."$2}')
+sudo apt-get install dotnet-sdk-$dotnet_version > /dev/null 2>&1
+errorif $? "failed to install dotnet"
+print "dotnet $dotnet_version installed" $CYAN
+
+# install latest rust
+print "installing rust" $YELLOW true
+curl https://sh.rustup.rs -sSf | sh -s -- -y >/dev/null 2>&1
+errorif $? "failed to install rust"
+source $HOME/.cargo/env
+source $HOME/.profile
+source $HOME/.bashrc
+print "rust installed" $CYAN
+
+# update dotfiles repository
 if [[ -d $dotfiles_path ]]; then
-    echo -e "${YELLOW}$dotfiles_path${NC} already exists"
+    print "pulling dotfiles" $YELLOW true
+    git -C $dotfiles_path pull > /dev/null 2>&1
+    errorif $? "failed to pull dotfiles repository"
+    print "dotfiles pulled" $CYAN
 else
+    print "cloning dotfiles" $YELLOW true
     git clone https://github.com/antoniosubasic/dotfiles.git $dotfiles_path > /dev/null 2>&1
-    errorif $? "failed to clone repository"
-    echo -e "${CYAN}dotfiles${NC} cloned to ${GREEN}$dotfiles_path${NC}"
+    errorif $? "failed to clone dotfiles repository"
+    print "dotfiles cloned" $CYAN
 fi
+
+echo ""
 
 # create symlinks for dotfiles
 dotfiles=(.gitconfig .config/*)
