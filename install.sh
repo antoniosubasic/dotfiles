@@ -190,16 +190,19 @@ sectionlog "languages" "end" true
 # ---------------------------------- packages ----------------------------------
 sectionlog "packages" "start"
 
-packages=(git xsel ripgrep bat)
-for package in ${packages[@]}; do
+apt_packages=(git xsel ripgrep bat)
+for package in ${apt_packages[@]}; do
     sectionlog "installing ${CYAN}$package${NC}"
     install $package apt
     sectionlog "${CYAN}$package${NC} installed" true
 done
 
-sectionlog "installing ${CYAN}eza${NC}"
-install eza cargo
-sectionlog "${CYAN}eza${NC} installed" true
+cargo_packages=(exa sd)
+for package in ${cargo_packages[@]}; do
+    sectionlog "installing ${CYAN}$package${NC}"
+    install $package cargo
+    sectionlog "${CYAN}$package${NC} installed" true
+done
 
 sectionlog "packages" "end" true
 # ---------------------------------- packages ----------------------------------
