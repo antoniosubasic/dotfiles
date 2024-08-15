@@ -197,7 +197,7 @@ for package in ${apt_packages[@]}; do
     sectionlog "${CYAN}$package${NC} installed" true
 done
 
-cargo_packages=(exa sd)
+cargo_packages=(eza sd)
 for package in ${cargo_packages[@]}; do
     sectionlog "installing ${CYAN}$package${NC}"
     install $package cargo
