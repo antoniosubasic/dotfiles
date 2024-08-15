@@ -94,7 +94,7 @@ section=""
 sectionlog() {
     if [[ $2 == "start" ]]; then
         section=$1
-        echo -ne "---------------------------------------------------------------------------\n[${YELLOW}IN${NC}] $section"
+        echo -ne "---------------------------------------------------------------------------\n[${YELLOW}IP${NC}] $section"
     elif [[ $2 == "end" ]]; then
         echo ""
 
