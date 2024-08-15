@@ -142,6 +142,9 @@ source $HOME/.profile
 source $HOME/.bashrc
 print "rust installed" $CYAN
 
+# install eza
+install eza cargo
+
 # update dotfiles repository
 if [[ -d $dotfiles_path ]]; then
     print "pulling dotfiles" $YELLOW true
