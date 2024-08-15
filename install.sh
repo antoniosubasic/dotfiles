@@ -16,11 +16,35 @@ if [[ $1 == "-f" || $1 == "--force" ]]; then
     force=true
 fi
 
+
+print() {
+    local message=$1
+    local color=$2
+    local delete=$3
+    echo -ne "${delete:+\n}\r${color}${message}${NC}\033[K"
+}
+
 errorif() {
     if [[ $1 -ne 0 ]]; then
         echo -e "${RED}$2${NC}"
         exit 1
     fi
+}
+
+install() {
+    local package=$1
+
+    local command
+    case $2 in
+        apt) command="sudo apt-get install -y" ;;
+        cargo) command="cargo install" ;;
+        *) echo -e "${RED}invalid package manager${NC}"; exit 1 ;;
+    esac
+
+    print "installing $package" $YELLOW true
+    $command $package > /dev/null 2>&1
+    errorif $? "failed to install $package"
+    print "$package installed" $CYAN
 }
 
 symlink() {
@@ -75,13 +99,6 @@ symlink() {
     fi
 }
 
-print() {
-    local message=$1
-    local color=$2
-    local delete=$3
-    echo -ne "${delete:+\n}\r${color}${message}${NC}\033[K"
-}
-
 if [[ $EUID -eq 0 ]]; then
     echo "must not be run as root" 
     exit 1
@@ -95,11 +112,11 @@ sudo apt-get update > /dev/null 2>&1
 errorif $? "failed to update repositories"
 print "repositories updated" $CYAN
 
-# install essential packages
-print "installing packages" $YELLOW true
-sudo apt-get install -y build-essential libssl-dev curl xsel ripgrep git bat > /dev/null 2>&1
-errorif $? "failed to install packages"
-print "packages installed" $CYAN
+# install apt packages
+packages=(build-essential libssl-dev curl git xsel ripgrep bat)
+for package in ${packages[@]}; do
+    install $package apt
+done
 
 # upgrade system
 print "upgrading system" $YELLOW true
@@ -138,7 +155,7 @@ else
     print "dotfiles cloned" $CYAN
 fi
 
-echo ""
+echo -e "\n\n${GREEN}creating symlinks:${NC}"
 
 # create symlinks for dotfiles
 dotfiles=(.gitconfig .config/*)
