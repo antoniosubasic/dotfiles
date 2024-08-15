@@ -24,7 +24,7 @@ install() {
 
     local command
     case $2 in
-        apt) command="sudo apt-get install -y" ;;
+        apt) command="sudo apt install -y" ;;
         cargo) command="cargo install" ;;
         *) echo -e "${RED}invalid package manager${NC}"; exit 1 ;;
     esac
@@ -127,7 +127,7 @@ sectionlog "system" "start"
 
 # update system
 sectionlog "updating ${CYAN}system${NC}"
-sudo apt-get update > /dev/null 2>&1
+sudo apt update > /dev/null 2>&1
 if [[ $? -ne 0 ]]; then
     sectionlog "${RED}failed to update ${CYAN}system${NC}" true
     exit 1
@@ -145,7 +145,7 @@ done
 
 # upgrade system
 sectionlog "upgrading ${CYAN}system${NC}"
-sudo apt-get upgrade -y > /dev/null 2>&1
+sudo apt upgrade -y > /dev/null 2>&1
 if [[ $? -ne 0 ]]; then
     sectionlog "${RED}failed to upgrade ${CYAN}system${NC}" true
     exit 1
@@ -192,12 +192,14 @@ sectionlog "packages" "start"
 
 apt_packages=(git xsel ripgrep bat)
 for package in ${apt_packages[@]}; do
+apt_packages=(git xsel ripgrep bat)
+for package in ${apt_packages[@]}; do
     sectionlog "installing ${CYAN}$package${NC}"
     install $package apt
     sectionlog "${CYAN}$package${NC} installed" true
 done
 
-cargo_packages=(exa sd)
+cargo_packages=(eza sd)
 for package in ${cargo_packages[@]}; do
     sectionlog "installing ${CYAN}$package${NC}"
     install $package cargo
