@@ -164,7 +164,7 @@ sectionlog "installing ${CYAN}dotnet${NC}"
 release_index=$(eval curl -s https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json)
 dotnet_versions=$(echo "$release_index" | grep -Eo '"latest-release": "[0-9]\.[0-9]+\.[0-9]+"' | awk -F '"' '{print $4}')
 dotnet_version=$(echo "$dotnet_versions" | sort -r -t '"' -k4,4n | head -n 1 | awk -F '.' '{print $1"."$2}')
-sudo apt-get install dotnet-sdk-$dotnet_version > /dev/null 2>&1
+install "dotnet-sdk-$dotnet_version" apt
 if [[ $? -ne 0 ]]; then
     sectionlog "${RED}failed to install ${CYAN}dotnet${NC}" true
 else
