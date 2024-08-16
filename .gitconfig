@@ -27,7 +27,6 @@
 [core]
 	autocrlf = false
 	editor = nano
-	excludesFile = /home/antonio/.config/git/.gitignore
 [log]
 	date = iso
 [pull]
