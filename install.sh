@@ -201,6 +201,11 @@ for dotfile in "${dotfiles[@]}"; do
     target="$dotfiles_path/$dotfile"
     link="$HOME${target#$dotfiles_path}"
 
+    base_dir=$(dirname $link)
+    if [[ ! -d $base_dir ]]; then
+        mkdir -p $base_dir
+    fi
+
     if [[ -f $target || -d $target ]]; then
         link_options="-sf"
         if [[ -d $target ]]; then
