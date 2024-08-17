@@ -195,10 +195,37 @@ endlog "dotfiles repo" true
 # ----------------------------------   symlinks   ----------------------------------
 startlog "symlinks" false
 
-# create symlinks for dotfiles
-dotfiles=(.gitconfig $(find .config -mindepth 1 -maxdepth 1))
-for dotfile in "${dotfiles[@]}"; do
-    target="$dotfiles_path/$dotfile"
+# files and directories to symlink - directories with / at the end are expanded
+symlinks=(.gitconfig .config/)
+
+targets=()
+contains() {
+    local element
+    for element in "${targets[@]}"; do
+        if [[ "$element" == "$1" ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
+for symlink in "${symlinks[@]}"; do
+    item="$dotfiles_path/$symlink"
+    if [[ -d "$item" && "$item" == */ ]]; then
+        for entry in $(find "$item" -mindepth 1 -maxdepth 1); do
+            if ! contains "$entry"; then
+                targets+=("$entry")
+            fi
+        done
+    elif [[ -d "$item" || -f "$item" ]]; then
+        if ! contains "$item"; then
+            targets+=("$item")
+        fi
+    else
+        log "${RED}$item not found${NC}"
+    fi
+done
+
+for target in "${targets[@]}"; do
     link="$HOME${target#$dotfiles_path}"
 
     base_dir=$(dirname $link)
@@ -224,7 +251,7 @@ for dotfile in "${dotfiles[@]}"; do
             log "${CYAN}${link/$HOME/"~"}${NC} -> ${MAGENTA}${target/$HOME/"~"}${NC}"
         fi
     else
-        log "${RED}$target not found${NC}"
+        log "${RED}invalid target type: $target${NC}"
     fi
 done
 
