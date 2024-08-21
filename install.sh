@@ -239,7 +239,7 @@ for target in "${targets[@]}"; do
             link_options="-sfn"
         fi
 
-        if [[ -e $link && ($1 == "-f" || $1 == "--force") ]]; then
+        if [[ -e $link ]]; then
             link_target=$(readlink "$link")
             if [[ "$link_target" == "$target" ]]; then
                 log "${CYAN}${link/$HOME/"~"}${NC} -> ${MAGENTA}${target/$HOME/"~"}${NC}"
