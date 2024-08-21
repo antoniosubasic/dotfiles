@@ -157,7 +157,7 @@ for package in ${apt_packages[@]}; do
     log "${CYAN}$package${NC} installed"
 done
 
-cargo_packages=(eza sd)
+cargo_packages=(eza sd zoxide)
 for package in ${cargo_packages[@]}; do
     log "installing ${CYAN}$package${NC}"
     install $package cargo

@@ -9,6 +9,10 @@ alias ls='eza --time-style=+"%d %b %Y %H:%M:%S" --color=always'
 alias ll='ls -al'
 alias tree='ls -T'
 
+# zoxide
+eval "$(zoxide init bash)"
+alias cd='z'
+
 # xsel
 alias copy='xsel --input --clipboard'
 alias paste='xsel --output --clipboard'
