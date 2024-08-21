@@ -5,7 +5,7 @@ alias grep='rg'
 alias bat='batcat --theme "Visual Studio Dark+"'
 
 # eza - https://github.com/eza-community/eza?tab=readme-ov-file#display-options
-alias ls='eza --time-style=+"%d %b %Y %H:%M:%S" --color=always'
+alias ls='eza --time-style=+"%d.%m.%Y %H:%M:%S" --color=always'
 alias ll='ls -al'
 alias tree='ls -T'
 
