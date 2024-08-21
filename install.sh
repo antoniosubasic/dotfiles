@@ -196,7 +196,7 @@ endlog "dotfiles repo" true
 startlog "symlinks" false
 
 # files and directories to symlink - directories with / at the end are expanded
-symlinks=(.gitconfig .config/)
+symlinks=(.config/)
 
 targets=()
 contains() {
