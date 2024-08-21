@@ -20,3 +20,6 @@ alias paste='xsel --output --clipboard'
 # cd
 alias ..='cd ..'
 alias ...='cd ../..'
+
+# git
+alias gu-transpose='git remote set-url origin $(git remote get-url origin | sd https://github.com/ git@github.com:)'
