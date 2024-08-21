@@ -19,7 +19,7 @@ install() {
     local command
     case $2 in
         apt) command="sudo apt install -y" ;;
-        cargo) command="cargo install" ;;
+        cargo) command="cargo install --locked" ;;
         *) echo -e "\n\n${RED}invalid package manager${NC}"; exit 1 ;;
     esac
 
