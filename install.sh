@@ -12,6 +12,10 @@ NC='\033[0m'
 # dotfiles path
 dotfiles_path="$HOME/.dotfiles"
 
+if [ ! -z "${BASH_SOURCE[0]}" ]; then
+    dotfiles_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
+
 # package installation
 install() {
     local package=$1
