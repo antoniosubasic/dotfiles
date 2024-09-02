@@ -260,10 +260,11 @@ for target in "${targets[@]}"; do
 done
 
 # add bash configuration to .bashrc
-if ! grep -q "# -------------- antoniosubasic:dotfiles ---------------" "$HOME/.bashrc"; then
-    echo -e "\n# -------------- antoniosubasic:dotfiles ---------------" >> "$HOME/.bashrc"
+signature="# -------------- antoniosubasic:dotfiles ---------------"
+if ! grep -q "$signature" "$HOME/.bashrc"; then
+    echo -e "\n$signature" >> "$HOME/.bashrc"
     echo "source ~/.config/bash/init.sh" >> "$HOME/.bashrc"
-    echo "# -------------- antoniosubasic:dotfiles ---------------" >> "$HOME/.bashrc"
+    echo "$signature" >> "$HOME/.bashrc"
     log "${CYAN}init.sh${NC} included in ${MAGENTA}.bashrc${NC}"
 else
     log "${CYAN}init.sh${NC} already included"
