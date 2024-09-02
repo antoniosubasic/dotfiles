@@ -232,6 +232,9 @@ done
 for target in "${targets[@]}"; do
     link="$HOME${target#$dotfiles_path}"
 
+    log_link="${link/$HOME/"~"}"
+    log_target="${target/$HOME/"~"}"
+
     base_dir=$(dirname $link)
     if [[ ! -d $base_dir ]]; then
         mkdir -p $base_dir
@@ -246,13 +249,13 @@ for target in "${targets[@]}"; do
         if [[ -e $link ]]; then
             link_target=$(readlink "$link")
             if [[ "$link_target" == "$target" ]]; then
-                log "${CYAN}${link/$HOME/"~"}${NC} -> ${MAGENTA}${target/$HOME/"~"}${NC}"
+                log "${CYAN}$log_link${NC} -> ${MAGENTA}$log_target${NC}"
             else
-                log "${CYAN}$(basename $link) ${YELLOW}already exists${NC}"
+                log "${CYAN}$log_link ${YELLOW}already exists${NC}"
             fi
         else
             ln $link_options "$target" "$link"
-            log "${CYAN}${link/$HOME/"~"}${NC} -> ${MAGENTA}${target/$HOME/"~"}${NC}"
+            log "${CYAN}$log_link${NC} -> ${MAGENTA}$log_target${NC}"
         fi
     else
         log "${RED}invalid target type: $target${NC}"
