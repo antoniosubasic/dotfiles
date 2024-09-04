@@ -10,6 +10,12 @@
 	pl = pull
 	ps = push
 	cp = "!f() { git clone git@github.com:antoniosubasic/$1.git ${2:-$1}; }; f"
+	transpose-ssh = "!f() { \
+		git remote set-url origin $(git remote get-url origin | sed 's|https://github.com/|git@github.com:|'); \
+	}; f"
+	transpose-https = "!f() { \
+		git remote set-url origin $(git remote get-url origin | sed 's|git@github.com:|https://github.com/|'); \
+	}; f"
 [help]
 	autocorrect = 50
 [url "git@github.com:"]
