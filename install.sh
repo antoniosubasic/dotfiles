@@ -154,7 +154,7 @@ endlog "languages" true
 # ----------------------------------   packages   ----------------------------------
 startlog "packages"
 
-apt_packages=(git xsel ripgrep bat)
+apt_packages=(git xsel ripgrep bat jq)
 for package in ${apt_packages[@]}; do
     sectionlog "installing ${CYAN}$package${NC}"
     install $package apt
