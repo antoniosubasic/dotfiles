@@ -151,6 +151,27 @@ else
     log "${CYAN}rust${NC} installed"
 fi
 
+# install latest typescript
+log "installing ${CYAN}typescript${NC}"
+curl -s -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash >/dev/null 2>&1
+if [[ $? -ne 0 ]]; then
+    log "${RED}failed to install ${CYAN}typescript${NC}"
+else
+    nvm_dir="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    [ -s "$nvm_dir/nvm.sh" ] && \. "$nvm_dir/nvm.sh"
+    nvm install 20 >/dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        log "${RED}failed to install ${CYAN}typescript${NC}"
+    else
+        npm install -g typescript >/dev/null 2>&1
+        if [[ $? -ne 0 ]]; then
+            log "${RED}failed to install ${CYAN}typescript${NC}"
+        else
+            log "${CYAN}typescript${NC} installed"
+        fi
+    fi
+fi
+
 endlog "languages" true
 # ----------------------------------  languages   ----------------------------------
 
