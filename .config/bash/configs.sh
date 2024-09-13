@@ -20,3 +20,8 @@ alias paste='xsel --output --clipboard'
 # cd
 alias ..='cd ..'
 alias ...='cd ../..'
+
+# files
+files() {
+    xdg-open "${1:-.}" > /dev/null 2>&1 &
+}
