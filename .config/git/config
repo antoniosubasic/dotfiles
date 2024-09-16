@@ -17,7 +17,7 @@
 		git remote set-url origin $(git remote get-url origin | sed 's|git@github.com:|https://github.com/|'); \
 	}; f"
 [help]
-	autocorrect = 50
+	autocorrect = 30
 [url "git@github.com:"]
 	insteadOf = "gh:"
 [diff]
