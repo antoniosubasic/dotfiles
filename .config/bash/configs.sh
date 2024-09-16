@@ -26,6 +26,9 @@ aoc() {
     local aoc_runtime_path="$HOME/projects/aoc/runtime/aoc"
     if [ -f "${aoc_runtime_path}" ]; then
         "${aoc_runtime_path}" "$@"
+    else
+        echo "aoc: command not found" >&2
+        return 127
     fi
 }
 
