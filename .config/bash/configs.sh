@@ -21,6 +21,14 @@ alias paste='xsel --output --clipboard'
 alias ..='cd ..'
 alias ...='cd ../..'
 
+# aoc runtime
+aoc() {
+    local aoc_runtime_path="$HOME/projects/advent-of-code/runtime/aoc"
+    if [ -f "${aoc_runtime_path}" ]; then
+        "${aoc_runtime_path}" "$@"
+    fi
+}
+
 # files
 files() {
     xdg-open "${1:-.}" > /dev/null 2>&1 &
