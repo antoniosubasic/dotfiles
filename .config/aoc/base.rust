@@ -1,15 +1,8 @@
-use std::{
-    fs::File,
-    io::{BufRead, BufReader},
-    path::Path,
-};
+use std::fs;
 
 fn main() {
-    let path = Path::new("../input.txt");
-    let file = File::open(&path).expect("could not open file");
-    let reader = BufReader::new(file);
-    let input: Vec<String> = reader
+    let input: Vec<&str> = fs::read_to_string("../input.txt")
+        .unwrap()
         .lines()
-        .map(|line| line.expect("could not read line"))
         .collect();
 }
