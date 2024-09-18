@@ -23,7 +23,7 @@ alias ...='cd ../..'
 
 # aoc runtime
 aoc() {
-    local aoc_runtime_path="$HOME/projects/aoc/runtime/main.sh"
+    local aoc_runtime_path="$HOME/projects/advent-of-code/runtime/main.sh"
     if [ -f "${aoc_runtime_path}" ]; then
         "${aoc_runtime_path}" "$@"
     else
