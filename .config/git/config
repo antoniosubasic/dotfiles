@@ -16,7 +16,7 @@
 	transpose-https = "!f() { \
 		git remote set-url origin $(git remote get-url origin | sed 's|git@github.com:|https://github.com/|'); \
 	}; f"
-	discard = reset --hard HEAD
+	undo = reset --hard HEAD
 	acp = "!f() { \
 		git add .; \
     	git commit -m \"$1\"; \
