@@ -34,5 +34,11 @@ aoc() {
 
 # files
 files() {
-    xdg-open "${1:-.}" > /dev/null 2>&1 &
+    local path="${1:-.}"
+
+    if grep -qi '(microsoft|wsl)' /proc/version || grep -qi '(microsoft|wsl)' /proc/sys/kernel/osrelease; then
+        explorer.exe "$path"
+    else
+        nohup xdg-open "$path" > /dev/null 2>&1
+    fi
 }
