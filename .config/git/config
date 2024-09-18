@@ -16,6 +16,14 @@
 	transpose-https = "!f() { \
 		git remote set-url origin $(git remote get-url origin | sed 's|git@github.com:|https://github.com/|'); \
 	}; f"
+	discard = reset --hard HEAD
+	acp = "!f() { \
+		git add .; \
+    	git commit -m \"$1\"; \
+		git push; \
+	}; f"
+	tree = log --graph --oneline --decorate --all
+	diff-head = diff HEAD^ HEAD
 [help]
 	autocorrect = 30
 [url "git@github.com:"]
