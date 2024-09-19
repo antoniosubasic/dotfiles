@@ -24,6 +24,9 @@
 	}; f"
 	tree = log --graph --oneline --decorate --all
 	diff-head = diff HEAD^ HEAD
+	url = "!f() { \
+		git remote get-url origin | sed 's|git@github.com:|https://github.com/|'; \
+	}; f"
 [help]
 	autocorrect = 30
 [url "git@github.com:"]
