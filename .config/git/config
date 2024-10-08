@@ -1,11 +1,10 @@
-[user]
-	email = antonio.subasic.public@gmail.com
-	name = Antonio Subašić
+[include]
+	path = user
 [init]
 	defaultBranch = main
 [alias]
 	cm = commit -m
-	cp = "!f() { git clone git@github.com:antoniosubasic/$1.git ${2:-$1}; }; f"
+	cp = "!f() { git clone git@github.com:$(git config user.github)/$1.git ${2:-$1}; }; f"
 	transpose-ssh = "!f() { \
 		git remote set-url origin $(git remote get-url origin | sed 's|https://github.com/|git@github.com:|'); \
 	}; f"
