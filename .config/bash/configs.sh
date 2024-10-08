@@ -24,11 +24,12 @@ alias ...='cd ../..'
 # aoc runtime
 aoc() {
     local aoc_runtime_path="$HOME/projects/advent-of-code/runtime/main.sh"
-    if [ -f "${aoc_runtime_path}" ]; then
-        "${aoc_runtime_path}" "$@"
+
+    if [ ! -f "$aoc_runtime_path" ]; then
+        echo "error: AoC runtime not found at location \033[1;33m$aoc_runtime_path\033[0m"
+        exit 1
     else
-        echo "aoc: command not found" >&2
-        return 127
+        "$aoc_runtime_path" "$@"
     fi
 }
 
