@@ -236,25 +236,38 @@ contains() {
     done
     return 1
 }
-for symlink in "${symlinks[@]}"; do
-    item="$dotfiles_path/$symlink"
+for entry in "${symlinks[@]}"; do
+    IFS=":" read -r symlink target <<< "$entry" 
+    item="$dotfiles_path/$target"
     if [[ -d "$item" && "$item" == */ ]]; then
-        for entry in $(find "$item" -mindepth 1 -maxdepth 1); do
-            if ! contains "$entry"; then
-                targets+=("$entry")
+        for e in $(find "$item" -mindepth 1 -maxdepth 1); do
+            if ! contains "$e"; then
+                sub_item="${e#$item}"
+                if [[ "$item" != */ ]]; then
+                    temp_item="$item/"
+                    sub_item="${e#$item}"
+                fi
+
+                targets+=("$symlink$sub_item:${target%/}/$sub_item")
             fi
         done
     elif [[ -d "$item" || -f "$item" ]]; then
         if ! contains "$item"; then
-            targets+=("$item")
+            targets+=("$entry")
         fi
     else
         log "${RED}$item not found${NC}"
     fi
 done
 
-for target in "${targets[@]}"; do
-    link="$HOME${target#$dotfiles_path}"
+for entry in "${targets[@]}"; do
+    IFS=":" read -r link target <<< "$entry"
+    
+    if [[ $link == ~* ]]; then
+        link="${HOME}${link:1}"
+    fi
+
+    target="$dotfiles_path/$target"
 
     log_link="${link/$HOME/"~"}"
     log_target="${target/$HOME/"~"}"
