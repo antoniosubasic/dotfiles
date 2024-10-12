@@ -21,6 +21,9 @@ alias paste='xsel --output --clipboard'
 alias ..='cd ..'
 alias ...='cd ../..'
 
+# asciidoctor
+alias adoc='asciidoctor'
+
 # aoc runtime
 aoc() {
     local aoc_runtime_path="$HOME/projects/advent-of-code/runtime/main.sh"
