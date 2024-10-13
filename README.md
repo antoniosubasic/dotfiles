@@ -1,5 +1,5 @@
 to install just run:
 
 ```bash
-curl -sSL antonio.subasic.me/install.sh | bash
+curl -sSL subasic.me/install.sh | bash
 ```
