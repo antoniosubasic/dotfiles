@@ -1,21 +1,21 @@
-#!/bin/bash
+#!/bin/sh
 
-# colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
 MAGENTA='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-# dotfiles path
 dotfiles_path="$HOME/.dotfiles"
-
-if [ ! -z "${BASH_SOURCE[0]}" ]; then
-    dotfiles_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$0" ]; then
+    dotfiles_path=$(dirname "$(realpath "$0")")
 fi
 
+
 # ---------------------------------- log handling ----------------------------------
+log_prefix="     "
 section=""
 logs=0
 deletelogs=true
@@ -23,132 +23,122 @@ deletelogs=true
 startlog() {
     section=$1
     logs=0
-    deletelogs=$2
-    echo -e "[${YELLOW}IP${NC}] $section"
+    deletelogs="${2:-true}"
+    printf "[%bIP%b] %s\n" "$YELLOW" "$NC" "$section"
 }
 
 endlog() {
     move_cursor_n=$(( logs / 2 ))
 
-    if [[ "$deletelogs" == false ]]; then
+    if [ "$deletelogs" = false ]; then
         move_cursor_n=$(( logs ))
     fi
 
-    echo -ne "\033[${move_cursor_n}A"
+    printf "\033[%sA" "$move_cursor_n"
 
-    if [[ $2 == true ]]; then
+    if [ "$2" = true ]; then
         status="OK"
         color=$GREEN
     else
         status="ER"
         color=$RED
     fi
-    echo -ne "\r[${color}${status}${NC}] $section"
+    printf "\r[%b%s%b] %s" "$color" "$status" "$NC" "$section"
 
-    echo -e "\033[${move_cursor_n}B\n"
+    printf "\033[%sB\n\n" "$move_cursor_n"
 }
 
 log() {
-    if (( logs == 0 )); then
-        echo -ne "\t$1\033[K"
+    if [ $logs -eq 0 ]; then
+        printf "%s%b\033[K" "$log_prefix" "$1"
     else
-        if (( logs % 2 == 0 )) || [ "$deletelogs" == false ]; then
-            echo -ne "\n\t$1\033[K"
+        if [ $(( logs % 2 )) -eq 0 ] || [ "$deletelogs" = false ]; then
+            printf "\n%s%b\033[K" "$log_prefix" "$1"
         else
-            echo -ne "\r\t$1\033[K"
+            printf "\r%s%b\033[K" "$log_prefix" "$1"
         fi
     fi
 
-    (( logs++ ))
+    logs=$(( logs + 1 ))
+}
+
+logif() {
+    local_status=$1
+    local_package_name=$2
+    local_continue="${3:-true}"
+
+    if [ $local_status -ne 0 ]; then
+        log "${RED}failed to install ${YELLOW}$local_package_name${NC}"
+        [ "$local_continue" = false ] && exit 1
+    else
+        log "${CYAN}$local_package_name${NC}"
+    fi
 }
 # ---------------------------------- log handling ----------------------------------
 
-if [[ $EUID -eq 0 ]]; then
-    echo -e "${RED}must not be run as root${NC}" 
+if [ "$(id -u)" -eq 0 ]; then
+    printf "must not be run as root\n" 
     exit 1
 fi
 
 # ----------------------------------   symlinks   ----------------------------------
-startlog "symlinks"
+# directories with / at the end are expanded 
+startlog "symlinks" false
 
-# files and directories to symlink - directories with / at the end are expanded
-mapfile -t symlinks < "$dotfiles_path/symlinks"
+remove_symlink() {
+    local_symlink="$1"
+    local_target="$2"
 
-targets=()
-contains() {
-    local element
-    for element in "${targets[@]}"; do
-        if [[ "$element" == "$1" ]]; then
-            return 0
-        fi
-    done
-    return 1
-}
-for entry in "${symlinks[@]}"; do
-    IFS=":" read -r symlink target <<< "$entry" 
-    item="$dotfiles_path/$target"
-    if [[ -d "$item" && "$item" == */ ]]; then
-        for e in $(find "$item" -mindepth 1 -maxdepth 1); do
-            if ! contains "$e"; then
-                sub_item="${e#$item}"
-                if [[ "$item" != */ ]]; then
-                    temp_item="$item/"
-                    sub_item="${e#$item}"
-                fi
+    local_log_symlink=$(printf "%s" "$local_symlink" | sed "s|^$HOME|~|")
+    local_log_target=$(printf "%s" "$local_target" | sed "s|^$HOME|~|")
 
-                targets+=("$symlink$sub_item:${target%/}/$sub_item")
-            fi
-        done
-    elif [[ -d "$item" || -f "$item" ]]; then
-        if ! contains "$item"; then
-            targets+=("$entry")
-        fi
-    else
-        log "${RED}$item not found${NC}"
-    fi
-done
+    if [ -L "$local_symlink" ]; then
+        local_symlink_target=$(readlink "$local_symlink")
 
-for entry in "${targets[@]}"; do
-    IFS=":" read -r link target <<< "$entry"
-    
-    if [[ $link == ~* ]]; then
-        link="${HOME}${link:1}"
-    fi
-
-    target="$dotfiles_path/$target"
-
-    log_link="${link/$HOME/"~"}"
-    log_target="${target/$HOME/"~"}"
-
-    log "removing ${CYAN}$link${NC}"
-
-    if [[ -L "$link" ]]; then
-        link_target=$(readlink "$link")
-        if [[ "$link_target" == "$target" ]]; then
-            rm "$link"
-            log "${CYAN}$log_link${NC} removed"
+        if [ "$local_symlink_target" = "$local_target" ]; then
+            rm "$local_symlink"
+            log "${CYAN}$local_log_symlink${NC} removed"
         else
-            log "${CYAN}$log_link ${RED}is not a symlink to ${MAGENTA}$log_target${NC}"
+            log "${YELLOW}$local_log_symlink${RED} does not point to ${YELLOW}$local_log_target${NC}"
         fi
-    elif [[ -e "$link" ]]; then
-        log "${CYAN}$log_link ${RED}is not a symlink${NC}"
+    elif [ -e "$local_symlink" ]; then
+        log "${YELLOW}$local_log_symlink${RED} is not a symbolic link${NC}"
     else
-        log "${CYAN}$log_link${NC} does not exist"
+        log "${CYAN}$local_log_symlink${NC} does not exist"
     fi
-done
+}
 
-# remove bash configuration from .bashrc
-log "removing ${CYAN}.bashrc${NC} configuration"
+while IFS= read -r line || [ -n "$line" ]; do
+    [ -z "$line" ] && continue
+
+    symlink=$(printf "%s" "$line" | cut -d':' -f1 | sed "s|^~|$HOME|")
+    expand=$( [ "$(printf "%s" "$symlink" | rev | cut -c1)" = "/" ] && echo true || echo false )
+    symlink=$(realpath -sm "$symlink")
+
+    target=$(printf "%s" "$line" | cut -d':' -f2- | sed "s|^~|$HOME|")
+    target=$(realpath -sm "$target")
+
+    if [ "$expand" = true ]; then
+        for sub_target in $(find "$target" -mindepth 1 -maxdepth 1 -print); do
+            sub_target_item="${sub_target#$target}"
+            local_symlink="${symlink%/}/${sub_target_item#/}"
+            remove_symlink "$local_symlink" "$sub_target"
+        done
+    else
+        remove_symlink "$symlink" "$target"
+    fi
+done < "$dotfiles_path/symlinks"
+
 signature="# -------------- antoniosubasic:dotfiles ---------------"
-if grep -q "$signature" "$HOME/.bashrc"; then
+if grep -qF "$signature" "$HOME/.bashrc"; then
     sed -i '/^$/N;/\n'"$signature"'/D' "$HOME/.bashrc"
     sed -i '/'"$signature"'/,/'"$signature"'/d' "$HOME/.bashrc"
-    log "${CYAN}.bashrc${NC} configuration removed"
+    log "${CYAN}.bashrc${NC} config removed"
 else
-    log "${CYAN}.bashrc${NC} configuration not found"
+    log "${CYAN}.bashrc${NC} does not include config"
 fi
 
 endlog "symlinks" true
 # ----------------------------------   symlinks   ----------------------------------
 
-echo -ne "\033[1A"
+printf "\033[1A"
