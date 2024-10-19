@@ -30,7 +30,7 @@ aoc() {
 
     if [ ! -f "$aoc_runtime_path" ]; then
         echo "error: AoC runtime not found at location \033[1;33m$aoc_runtime_path\033[0m"
-        exit 1
+        return 1
     else
         "$aoc_runtime_path" "$@"
     fi
@@ -42,7 +42,7 @@ files() {
 
     if grep -qi '(microsoft|wsl)' /proc/version || grep -qi '(microsoft|wsl)' /proc/sys/kernel/osrelease; then
         explorer.exe "$(wslpath -w "$path")"
-        exit 0
+        return 0
     else
         nohup xdg-open "$path" > /dev/null 2>&1
     fi
