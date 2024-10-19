@@ -41,7 +41,8 @@ files() {
     local path="${1:-.}"
 
     if grep -qi '(microsoft|wsl)' /proc/version || grep -qi '(microsoft|wsl)' /proc/sys/kernel/osrelease; then
-        explorer.exe "$path"
+        explorer.exe "$(wslpath -w "$path")"
+        exit 0
     else
         nohup xdg-open "$path" > /dev/null 2>&1
     fi
