@@ -13,27 +13,8 @@ if [ -f "$0" ]; then
     dotfiles_path=$(dirname "$(realpath "$0")")
 fi
 
-# package installation
-install() {
-    package="$1"
-
-    case "$2" in
-        apt) command="sudo apt install -y" ;;
-        cargo) command="cargo install --locked" ;;
-        *)
-            printf "\n\n${RED}invalid package manager${NC}\n"
-            exit 1
-            ;;
-    esac
-
-    $command "$package" > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        printf "\n\n${RED}failed to install ${CYAN}$package${NC}\n"
-        exit 1
-    fi
-}
-
 # ---------------------------------- log handling ----------------------------------
+log_prefix="     "
 section=""
 logs=0
 deletelogs=true
@@ -67,19 +48,30 @@ endlog() {
 }
 
 log() {
-    prefix="     "
-
     if [ $logs -eq 0 ]; then
-        printf "%s%b\033[K" "$prefix" "$1"
+        printf "%s%b\033[K" "$log_prefix" "$1"
     else
         if [ $(( logs % 2 )) -eq 0 ] || [ "$deletelogs" = false ]; then
-            printf "\n%s%b\033[K" "$prefix" "$1"
+            printf "\n%s%b\033[K" "$log_prefix" "$1"
         else
-            printf "\r%s%b\033[K" "$prefix" "$1"
+            printf "\r%s%b\033[K" "$log_prefix" "$1"
         fi
     fi
 
     logs=$(( logs + 1 ))
+}
+
+logif() {
+    local_status=$1
+    local_package_name=$2
+    local_continue="${3:-true}"
+
+    if [ $local_status -ne 0 ]; then
+        log "${RED}failed to install ${YELLOW}$local_package_name${NC}"
+        [ "$local_continue" = false ] && exit 1
+    else
+        log "${CYAN}$local_package_name${NC}"
+    fi
 }
 # ---------------------------------- log handling ----------------------------------
 
@@ -90,73 +82,66 @@ fi
 
 sudo -v
 
-# ----------------------------------    system    ----------------------------------
-startlog "system"
+# ----------------------------------  essentials  ----------------------------------
+startlog "essentials"
 
-log "updating ${CYAN}system${NC}"
+log "${YELLOW}system${NC}"
 sudo apt update > /dev/null 2>&1
 if [ $? -ne 0 ]; then
-    log "${RED}failed to update ${CYAN}system${NC}"
+    log "${RED}failed to update ${YELLOW}system${NC}"
     exit 1
 else
-    log "${CYAN}system${NC} updated"
+    log "${CYAN}system${NC}"
 fi
 
 essential_packages="build-essential libssl-dev curl wget"
 for package in $essential_packages; do
-    log "installing ${CYAN}$package${NC}"
-    install "$package" apt
-    log "${CYAN}$package${NC} installed"
+    log "${YELLOW}$package${NC}"
+    sudo apt install -y "$package" > /dev/null 2>&1
+    logif $? "$package" false
 done
 
-log "upgrading ${CYAN}system${NC}"
+log "${YELLOW}system${NC}"
 sudo apt upgrade -y > /dev/null 2>&1
 if [ $? -ne 0 ]; then
-    log "${RED}failed to upgrade ${CYAN}system${NC}"
+    log "${RED}failed to upgrade ${YELLOW}system${NC}"
     exit 1
 else
-    log "${CYAN}system${NC} upgraded"
+    log "${CYAN}system${NC}"
 fi
 
-endlog "system" true
-# ----------------------------------    system    ----------------------------------
+endlog "essentials" true
+# ----------------------------------  essentials  ----------------------------------
 
 # ----------------------------------  languages   ----------------------------------
 startlog "languages"
 
-log "installing ${CYAN}dotnet${NC}"
+log "${YELLOW}dotnet${NC}"
 dotnet_version=$(eval curl -s https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json | \
     grep -Eo '"latest-release": "[0-9]\.[0-9]+\.[0-9]+"' | \
     awk -F '"' '{print $4}' | \
     sort -V | \
     tail -n 1 | \
     awk -F '.' '{print $1"."$2}')
-install "dotnet-sdk-$dotnet_version" apt
-if [ $? -ne 0 ]; then
-    log "${RED}failed to install ${CYAN}dotnet${NC}"
-else
-    log "${CYAN}dotnet $dotnet_version${NC} installed"
-fi
+sudo apt install -y dotnet-sdk-$dotnet_version > /dev/null 2>&1
+logif $? "dotnet $dotnet_version"
 
-log "installing ${CYAN}rust${NC}"
+log "${YELLOW}rust${NC}"
 curl https://sh.rustup.rs -sSf | sh -s -- -y >/dev/null 2>&1
-if [ $? -ne 0 ]; then
-    log "${RED}failed to install ${CYAN}rust${NC}"
-    exit 1
-else
+rust_install_status=$?
+logif $rust_install_status "rust"
+if [ $rust_install_status -eq 0 ]; then
     . $HOME/.cargo/env
     . $HOME/.profile
     . $HOME/.bashrc
-    log "${CYAN}rust${NC} installed"
 fi
 
-# install latest typescript
-log "installing ${CYAN}typescript${NC}"
+log "${YELLOW}typescript${NC}"
 if command -v bash >/dev/null 2>&1; then
     curl -s -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash >/dev/null 2>&1
 
     if [ $? -ne 0 ]; then
-        log "${RED}failed to install ${CYAN}typescript${NC}"
+        log "${RED}failed to install ${YELLOW}typescript${NC}"
     else
         if [ -z "$XDG_CONFIG_HOME" ]; then
             nvm_dir="$HOME/.nvm"
@@ -169,19 +154,14 @@ if command -v bash >/dev/null 2>&1; then
         nvm install 20 >/dev/null 2>&1
 
         if [ $? -ne 0 ]; then
-            log "${RED}failed to install ${CYAN}typescript${NC}"
+            log "${RED}failed to install ${YELLOW}typescript${NC}"
         else
             npm install -g typescript >/dev/null 2>&1
-            
-            if [ $? -ne 0 ]; then
-                log "${RED}failed to install ${CYAN}typescript${NC}"
-            else
-                log "${CYAN}typescript${NC} installed"
-            fi
+            logif $? "typescript"
         fi
     fi
 else
-    log "${RED}unsupported shell for installing typescript (bash required)${NC}"
+    log "${RED}unsupported shell for installing ${YELLOW}typescript${NC} (bash required)"
 fi
 
 endlog "languages" true
@@ -192,46 +172,46 @@ startlog "packages"
 
 apt_packages="git xsel ripgrep bat jq sl asciidoctor"
 for package in $apt_packages; do
-    log "installing ${CYAN}$package${NC}"
-    install "$package" apt
-    log "${CYAN}$package${NC} installed"
+    log "${YELLOW}$package${NC}"
+    sudo apt install -y "$package" > /dev/null 2>&1
+    logif $? "$package"
 done
 
 cargo_packages="eza sd zoxide"
 for package in $cargo_packages; do
-    log "installing ${CYAN}$package${NC}"
-    install "$package" cargo
-    log "${CYAN}$package${NC} installed"
+    log "${YELLOW}$package${NC}"
+    cargo install --locked "$package" > /dev/null 2>&1
+    logif $? "$package"
 done
 
 endlog "packages" true
 # ----------------------------------   packages   ----------------------------------
 
 # ---------------------------------- dotfiles repo ---------------------------------
-startlog "dotfiles repo"
+startlog "repository"
 
 if [ -d $dotfiles_path ]; then
-    log "pulling ${CYAN}repo${NC}"
+    log "${YELLOW}pulling${NC}"
     git -C $dotfiles_path pull origin main > /dev/null 2>&1
 
     if [ $? -ne 0 ]; then
-        log "${RED}failed to pull ${CYAN}repo${NC}"
+        log "${RED}failed to ${YELLOW}pull${NC}"
     else
-        log "${CYAN}repo${NC} pulled"
+        log "${CYAN}pulled${NC}"
     fi
 else
-    log "cloning ${CYAN}repo${NC}"
+    log "${YELLOW}cloning${NC}"
     git clone https://github.com/antoniosubasic/dotfiles.git $dotfiles_path > /dev/null 2>&1
 
     if [ $? -ne 0 ]; then
-        log "${RED}failed to clone ${CYAN}repo${NC}"
+        log "${RED}failed to ${YELLOW}clone${NC}"
         exit 1
     else
-        log "${CYAN}repo${NC} cloned"
+        log "${CYAN}cloned${NC}"
     fi
 fi
 
-endlog "dotfiles repo" true
+endlog "repository" true
 # ---------------------------------- dotfiles repo ---------------------------------
 
 # ----------------------------------   symlinks   ----------------------------------
@@ -252,7 +232,7 @@ symlink() {
             if [ "$(readlink "$local_symlink")" = "$local_target" ]; then
                 log "${CYAN}$local_log_symlink${NC} -> ${MAGENTA}$local_log_target${NC}"
             else
-                log "${CYAN}$local_log_symlink ${YELLOW}already exists${NC}"
+                log "${YELLOW}$local_log_symlink ${RED}already exists${NC}"
             fi
         else
             [ ! -d "$local_base_dir" ] && mkdir -p "$local_base_dir"
@@ -285,7 +265,6 @@ while IFS= read -r line || [ -n "$line" ]; do
     fi
 done < "$dotfiles_path/symlinks"
 
-# add bash configuration to .bashrc
 signature="# -------------- antoniosubasic:dotfiles ---------------"
 if ! grep -qF "$signature" "$HOME/.bashrc"; then
     {
