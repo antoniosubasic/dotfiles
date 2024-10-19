@@ -1,5 +1,5 @@
 to install just run:
 
-```bash
+```sh
 curl -sSL subasic.me/install.sh | sh
 ```
