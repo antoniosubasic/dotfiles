@@ -10,7 +10,7 @@ alias ll='ls -al'
 alias tree='ls -T'
 
 # zoxide
-eval "$(zoxide init bash)"
+eval "$(zoxide init posix --hook prompt)"
 alias cd='z'
 
 # xsel
@@ -30,20 +30,28 @@ aoc() {
 
     if [ ! -f "$aoc_runtime_path" ]; then
         echo "error: AoC runtime not found at location \033[1;33m$aoc_runtime_path\033[0m"
-        return 1
+        return 127
     else
         "$aoc_runtime_path" "$@"
     fi
 }
 
-# files
+# open files
 files() {
     local path="${1:-.}"
 
     if grep -qi '(microsoft|wsl)' /proc/version || grep -qi '(microsoft|wsl)' /proc/sys/kernel/osrelease; then
         explorer.exe "$(wslpath -w "$path")"
         return 0
-    else
-        nohup xdg-open "$path" > /dev/null 2>&1
     fi
+
+    case "$XDG_CURRENT_DESKTOP" in
+        X-Cinnamon)
+            xdg-open "$path" > /dev/null 2>&1
+            ;;
+        *)
+            printf "unsupported desktop environment \033[1;33m$XDG_CURRENT_DESKTOP\033[0m\n"
+            return 125
+            ;;
+    esac
 }
