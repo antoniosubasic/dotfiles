@@ -339,10 +339,18 @@ while IFS= read -r line || [ -n "$line" ]; do
     [ -z "$line" ] && continue
 
     symlink=$(printf "%s" "$line" | cut -d':' -f1 | sed "s|^~|$HOME|")
+    case "$symlink" in
+        /*) ;;
+        *) symlink="$HOME/${symlink#./}" ;;
+    esac
     expand=$( [ "$(printf "%s" "$symlink" | rev | cut -c1)" = "/" ] && echo true || echo false )
     symlink=$(realpath -sm "$symlink")
 
     target=$(printf "%s" "$line" | cut -d':' -f2- | sed "s|^~|$HOME|")
+    case "$target" in
+        /*) ;;
+        *) target="$dotfiles_path/${target#./}" ;;
+    esac
     target=$(realpath -sm "$target")
 
     if [ "$expand" = true ]; then
