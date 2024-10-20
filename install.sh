@@ -35,7 +35,7 @@ endlog() {
 
     printf "\033[%sA" "$move_cursor_n"
 
-    if [ "$2" = true ]; then
+    if [ "$1" = true ]; then
         status="OK"
         color=$GREEN
     else
@@ -71,6 +71,7 @@ logif() {
         [ "$local_continue" = false ] && exit 1
     else
         log "${CYAN}$local_package_name${NC}"
+        return $local_status
     fi
 }
 # ---------------------------------- log handling ----------------------------------
@@ -110,11 +111,12 @@ else
     log "${CYAN}system${NC}"
 fi
 
-endlog "essentials" true
+endlog true
 # ----------------------------------  essentials  ----------------------------------
 
 # ----------------------------------  languages   ----------------------------------
 startlog "languages"
+languages_success=true
 
 log "${YELLOW}dotnet${NC}"
 dotnet_version=$(eval curl -s https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json | \
@@ -125,12 +127,14 @@ dotnet_version=$(eval curl -s https://dotnetcli.blob.core.windows.net/dotnet/rel
     awk -F '.' '{print $1"."$2}')
 sudo apt install -y dotnet-sdk-$dotnet_version > /dev/null 2>&1
 logif $? "dotnet $dotnet_version"
+[ $? -ne 0 ] && languages_success=false
 
 log "${YELLOW}rust${NC}"
 curl https://sh.rustup.rs -sSf | sh -s -- -y >/dev/null 2>&1
-rust_install_status=$?
-logif $rust_install_status "rust"
-if [ $rust_install_status -eq 0 ]; then
+logif $? "rust"
+if [ $? -ne 0 ]; then
+    languages_success=false
+else
     . $HOME/.cargo/env
     . $HOME/.profile
     . $HOME/.bashrc
@@ -142,6 +146,7 @@ if command -v bash >/dev/null 2>&1; then
 
     if [ $? -ne 0 ]; then
         log "${RED}failed to install ${YELLOW}typescript${NC}"
+        languages_success=false
     else
         if [ -z "$XDG_CONFIG_HOME" ]; then
             nvm_dir="$HOME/.nvm"
@@ -155,26 +160,31 @@ if command -v bash >/dev/null 2>&1; then
 
         if [ $? -ne 0 ]; then
             log "${RED}failed to install ${YELLOW}typescript${NC}"
+            languages_success=false
         else
             npm install -g typescript >/dev/null 2>&1
             logif $? "typescript"
+            [ $? -ne 0 ] && languages_success=false
         fi
     fi
 else
     log "${RED}unsupported shell for installing ${YELLOW}typescript${NC} (bash required)"
+    languages_success=false
 fi
 
-endlog "languages" true
+endlog "$languages_success"
 # ----------------------------------  languages   ----------------------------------
 
 # ----------------------------------   packages   ----------------------------------
 startlog "packages"
+packages_success=true
 
 apt_packages="git xsel ripgrep bat jq sl asciidoctor"
 for package in $apt_packages; do
     log "${YELLOW}$package${NC}"
     sudo apt install -y "$package" > /dev/null 2>&1
     logif $? "$package"
+    [ $? -ne 0 ] && packages_success=false
 done
 
 cargo_packages="eza sd zoxide"
@@ -182,13 +192,15 @@ for package in $cargo_packages; do
     log "${YELLOW}$package${NC}"
     cargo install --locked "$package" > /dev/null 2>&1
     logif $? "$package"
+    [ $? -ne 0 ] && packages_success=false
 done
 
-endlog "packages" true
+endlog "$packages_success"
 # ----------------------------------   packages   ----------------------------------
 
 # ---------------------------------- dotfiles repo ---------------------------------
 startlog "repository"
+repository_success=true
 
 if [ -d $dotfiles_path ]; then
     log "${YELLOW}pulling${NC}"
@@ -196,6 +208,7 @@ if [ -d $dotfiles_path ]; then
 
     if [ $? -ne 0 ]; then
         log "${RED}failed to ${YELLOW}pull${NC}"
+        repository_success=false
     else
         log "${CYAN}pulled${NC}"
     fi
@@ -211,12 +224,13 @@ else
     fi
 fi
 
-endlog "repository" true
+endlog "$repository_success"
 # ---------------------------------- dotfiles repo ---------------------------------
 
 # ----------------------------------   symlinks   ----------------------------------
 # directories with / at the end are expanded 
 startlog "symlinks" false
+symlinks_success=true
 
 symlink() {
     local_symlink="$1"
@@ -231,16 +245,20 @@ symlink() {
         if [ -e "$local_symlink" ]; then
             if [ "$(readlink "$local_symlink")" = "$local_target" ]; then
                 log "${CYAN}$local_log_symlink${NC} -> ${MAGENTA}$local_log_target${NC}"
+                return 0
             else
                 log "${YELLOW}$local_log_symlink ${RED}already exists${NC}"
+                return 1
             fi
         else
             [ ! -d "$local_base_dir" ] && mkdir -p "$local_base_dir"
             ln -sfn "$local_target" "$local_symlink"
             log "${CYAN}$local_log_symlink${NC} -> ${MAGENTA}$local_log_target${NC}"
+            return 0
         fi
     else
         log "${RED}invalid target ${YELLOW}'$local_log_target'${NC}"
+        return 1
     fi
 }
 
@@ -259,9 +277,11 @@ while IFS= read -r line || [ -n "$line" ]; do
             sub_target_item="${sub_target#$target}"
             local_symlink="${symlink%/}/${sub_target_item#/}"
             symlink "$local_symlink" "$sub_target"
+            [ $? -ne 0 ] && symlinks_success=false
         done
     else
         symlink "$symlink" "$target"
+        [ $? -ne 0 ] && symlinks_success=false
     fi
 done < "$dotfiles_path/symlinks"
 
@@ -277,7 +297,7 @@ else
     log "${CYAN}init.sh${NC} already included"
 fi
 
-endlog "symlinks" true
+endlog "$symlinks_success"
 # ----------------------------------   symlinks   ----------------------------------
 
 printf "\033[1A"
