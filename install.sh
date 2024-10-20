@@ -178,10 +178,11 @@ if [ "$OS" = "arch" ]; then
         makepkg -si --noconfirm > /dev/null 2>&1
         logif $? "yay" false
         cd -
-        USE_YAY=true
     else
         log "${CYAN}yay${NC}"
     fi
+
+    USE_YAY=true
 fi
 
 endlog true
