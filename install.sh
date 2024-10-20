@@ -150,10 +150,10 @@ startlog "essentials"
 log "${YELLOW}system${NC}"
 system_update
 if [ $? -ne 0 ]; then
-    log "${RED}failed to update ${YELLOW}system update${NC}"
+    log "${RED}failed to update ${YELLOW}system${NC}"
     exit 1
 else
-    log "${CYAN}system update${NC}"
+    log "${CYAN}system${NC}"
 fi
 
 case "$OS" in
