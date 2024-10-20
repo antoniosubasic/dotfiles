@@ -81,13 +81,74 @@ if [ "$(id -u)" -eq 0 ]; then
     exit 1
 fi
 
-sudo -v
+if ! sudo -v; then
+    printf "sudo is required\n"
+    exit 1
+fi
+
+# ----------------------------------  os handling  ----------------------------------
+OS=$(uname -s)
+USE_YAY=false
+
+if [ "$OS" != "Linux" ] || [ ! -f /etc/os-release ]; then
+    printf "unsupported OS: %s\n" "$OS"
+    exit 1
+else
+    . /etc/os-release
+    OS=$ID
+    case $OS in
+        debian|ubuntu|arch) ;;
+        *)
+            printf "unsupported OS: %s\n" "$OS"
+            exit 1
+            ;;
+    esac
+fi
+
+system_update() {
+    case "$OS" in
+        debian|ubuntu)
+            sudo apt update > /dev/null 2>&1
+            [ $? -ne 0 ] && return $?
+            sudo apt upgrade -y > /dev/null 2>&1
+            return $?
+            ;;
+        arch)
+            if [ "$USE_YAY" = true ]; then
+                yay -Syu --noconfirm > /dev/null 2>&1
+                return $?
+            else
+                sudo pacman -Syu --noconfirm > /dev/null 2>&1
+                return $?
+            fi
+            ;;
+    esac
+}
+
+install_package() {
+    case "$OS" in
+        debian|ubuntu)
+            sudo apt install -y "$1" > /dev/null 2>&1
+            return $?
+            ;;
+        arch)
+            if [ "$USE_YAY" = true ]; then
+                yay -S --noconfirm "$1" > /dev/null 2>&1
+                return $?
+            else
+                sudo pacman -S --noconfirm "$1" > /dev/null 2>&1
+                return $?
+            fi
+            ;;
+    esac
+}
+# ----------------------------------  os handling  ----------------------------------
 
 # ----------------------------------  essentials  ----------------------------------
 startlog "essentials"
 
-log "${YELLOW}system update${NC}"
-sudo apt update > /dev/null 2>&1
+log "${YELLOW}system${NC}"
+system_update
 if [ $? -ne 0 ]; then
     log "${RED}failed to update ${YELLOW}system update${NC}"
     exit 1
@@ -95,20 +156,32 @@ else
     log "${CYAN}system update${NC}"
 fi
 
-essential_packages="build-essential libssl-dev curl wget"
+case "$OS" in
+    debian|ubuntu) essential_packages="build-essential libssl-dev curl wget git" ;;
+    arch) essential_packages="curl wget git base-devel" ;;
+esac
 for package in $essential_packages; do
     log "${YELLOW}$package${NC}"
-    sudo apt install -y "$package" > /dev/null 2>&1
+    install_package "$package"
     logif $? "$package" false
 done
 
-log "${YELLOW}system upgrade${NC}"
-sudo apt upgrade -y > /dev/null 2>&1
-if [ $? -ne 0 ]; then
-    log "${RED}failed to upgrade ${YELLOW}system upgrade${NC}"
-    exit 1
-else
-    log "${CYAN}system upgrade${NC}"
+if [ "$OS" = "arch" ]; then
+    log "${YELLOW}yay${NC}"
+
+    if ! command -v yay >/dev/null 2>&1; then
+        tempdir=$(mktemp -d)
+        git clone https://aur.archlinux.org/yay.git $tempdir > /dev/null 2>&1
+        logif $? "yay" false
+
+        cd $tempdir
+        makepkg -si --noconfirm > /dev/null 2>&1
+        logif $? "yay" false
+        cd -
+        USE_YAY=true
+    else
+        log "${CYAN}yay${NC}"
+    fi
 fi
 
 endlog true
@@ -125,7 +198,7 @@ dotnet_version=$(eval curl -s https://dotnetcli.blob.core.windows.net/dotnet/rel
     sort -V | \
     tail -n 1 | \
     awk -F '.' '{print $1"."$2}')
-sudo apt install -y dotnet-sdk-$dotnet_version > /dev/null 2>&1
+install_package "dotnet-sdk-$dotnet_version"
 logif $? "dotnet $dotnet_version"
 [ $? -ne 0 ] && languages_success=false
 
@@ -179,10 +252,10 @@ endlog "$languages_success"
 startlog "packages"
 packages_success=true
 
-apt_packages="git xsel ripgrep bat jq sl asciidoctor"
-for package in $apt_packages; do
+packages="xsel ripgrep bat jq sl asciidoctor"
+for package in $packages; do
     log "${YELLOW}$package${NC}"
-    sudo apt install -y "$package" > /dev/null 2>&1
+    install_package "$package"
     logif $? "$package"
     [ $? -ne 0 ] && packages_success=false
 done
