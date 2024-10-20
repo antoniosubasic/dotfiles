@@ -86,13 +86,13 @@ sudo -v
 # ----------------------------------  essentials  ----------------------------------
 startlog "essentials"
 
-log "${YELLOW}system${NC}"
+log "${YELLOW}system update${NC}"
 sudo apt update > /dev/null 2>&1
 if [ $? -ne 0 ]; then
-    log "${RED}failed to update ${YELLOW}system${NC}"
+    log "${RED}failed to update ${YELLOW}system update${NC}"
     exit 1
 else
-    log "${CYAN}system${NC}"
+    log "${CYAN}system update${NC}"
 fi
 
 essential_packages="build-essential libssl-dev curl wget"
@@ -102,13 +102,13 @@ for package in $essential_packages; do
     logif $? "$package" false
 done
 
-log "${YELLOW}system${NC}"
+log "${YELLOW}system upgrade${NC}"
 sudo apt upgrade -y > /dev/null 2>&1
 if [ $? -ne 0 ]; then
-    log "${RED}failed to upgrade ${YELLOW}system${NC}"
+    log "${RED}failed to upgrade ${YELLOW}system upgrade${NC}"
     exit 1
 else
-    log "${CYAN}system${NC}"
+    log "${CYAN}system upgrade${NC}"
 fi
 
 endlog true
