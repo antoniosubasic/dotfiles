@@ -97,7 +97,7 @@ else
     . /etc/os-release
     OS=$ID
     case $OS in
-        debian|ubuntu|arch) ;;
+        debian|ubuntu|arch|endeavouros) ;;
         *)
             printf "unsupported OS: %s\n" "$OS"
             exit 1
@@ -113,7 +113,7 @@ system_update() {
             sudo apt upgrade -y > /dev/null 2>&1
             return $?
             ;;
-        arch)
+        arch|endeavouros)
             if [ "$USE_YAY" = true ]; then
                 yay -Syu --noconfirm > /dev/null 2>&1
                 return $?
@@ -131,7 +131,7 @@ install_package() {
             sudo apt install -y "$1" > /dev/null 2>&1
             return $?
             ;;
-        arch)
+        arch|endeavouros)
             if [ "$USE_YAY" = true ]; then
                 yay -S --noconfirm "$1" > /dev/null 2>&1
                 return $?
@@ -158,7 +158,7 @@ fi
 
 case "$OS" in
     debian|ubuntu) essential_packages="build-essential libssl-dev curl wget git" ;;
-    arch) essential_packages="curl wget git base-devel" ;;
+    arch|endeavouros) essential_packages="curl wget git base-devel" ;;
 esac
 for package in $essential_packages; do
     log "${YELLOW}$package${NC}"
