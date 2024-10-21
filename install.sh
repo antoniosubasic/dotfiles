@@ -371,7 +371,7 @@ signature="# -------------- antoniosubasic:dotfiles ---------------"
 if ! grep -qF "$signature" "$HOME/.bashrc"; then
     {
         printf "\n%s\n" "$signature"
-        printf "source ~/.config/bash/init.sh\n"
+        printf "[ -f ~/.config/bash/init.sh ] && source ~/.config/bash/init.sh\n"
         printf "%s\n" "$signature"
     } >> "$HOME/.bashrc"
     log "${CYAN}init.sh${NC} included in ${MAGENTA}.bashrc${NC}"
