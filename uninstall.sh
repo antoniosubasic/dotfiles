@@ -36,7 +36,7 @@ endlog() {
 
     printf "\033[%sA" "$move_cursor_n"
 
-    if [ "$2" = true ]; then
+    if [ "$1" = true ]; then
         status="OK"
         color=$GREEN
     else
@@ -72,6 +72,7 @@ logif() {
         [ "$local_continue" = false ] && exit 1
     else
         log "${CYAN}$local_package_name${NC}"
+        return $local_status
     fi
 }
 # ---------------------------------- log handling ----------------------------------
@@ -84,6 +85,7 @@ fi
 # ----------------------------------   symlinks   ----------------------------------
 # directories with / at the end are expanded 
 startlog "symlinks" false
+symlinks_success=true
 
 remove_symlink() {
     local_symlink="$1"
@@ -98,13 +100,17 @@ remove_symlink() {
         if [ "$local_symlink_target" = "$local_target" ]; then
             rm "$local_symlink"
             log "${CYAN}$local_log_symlink${NC} removed"
+            return 0
         else
             log "${YELLOW}$local_log_symlink${RED} does not point to ${YELLOW}$local_log_target${NC}"
+            return 1
         fi
     elif [ -e "$local_symlink" ]; then
         log "${YELLOW}$local_log_symlink${RED} is not a symbolic link${NC}"
+        return 1
     else
         log "${CYAN}$local_log_symlink${NC} does not exist"
+        return 0
     fi
 }
 
@@ -112,10 +118,18 @@ while IFS= read -r line || [ -n "$line" ]; do
     [ -z "$line" ] && continue
 
     symlink=$(printf "%s" "$line" | cut -d':' -f1 | sed "s|^~|$HOME|")
+    case "$symlink" in
+        /*) ;;
+        *) symlink="$HOME/${symlink#./}" ;;
+    esac
     expand=$( [ "$(printf "%s" "$symlink" | rev | cut -c1)" = "/" ] && echo true || echo false )
     symlink=$(realpath -sm "$symlink")
 
     target=$(printf "%s" "$line" | cut -d':' -f2- | sed "s|^~|$HOME|")
+    case "$target" in
+        /*) ;;
+        *) target="$dotfiles_path/${target#./}" ;;
+    esac
     target=$(realpath -sm "$target")
 
     if [ "$expand" = true ]; then
@@ -123,9 +137,11 @@ while IFS= read -r line || [ -n "$line" ]; do
             sub_target_item="${sub_target#$target}"
             local_symlink="${symlink%/}/${sub_target_item#/}"
             remove_symlink "$local_symlink" "$sub_target"
+            [ $? -ne 0 ] && symlinks_success=false
         done
     else
         remove_symlink "$symlink" "$target"
+        [ $? -ne 0 ] && symlinks_success=false
     fi
 done < "$dotfiles_path/symlinks"
 
@@ -138,7 +154,7 @@ else
     log "${CYAN}.bashrc${NC} does not include config"
 fi
 
-endlog "symlinks" true
+endlog "$symlinks_success"
 # ----------------------------------   symlinks   ----------------------------------
 
 printf "\033[1A"
