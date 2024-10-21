@@ -97,7 +97,7 @@ else
     . /etc/os-release
     OS=$ID
     case $OS in
-        debian|ubuntu|arch|endeavouros) ;;
+        debian|ubuntu|linuxmint|arch|endeavouros) ;;
         *)
             printf "unsupported OS: %b%s%b\n" "$YELLOW" "$OS" "$NC"
             exit 1
@@ -107,7 +107,7 @@ fi
 
 system_update() {
     case "$OS" in
-        debian|ubuntu)
+        debian|ubuntu|linuxmint)
             sudo apt update > /dev/null 2>&1
             [ $? -ne 0 ] && return $?
             sudo apt upgrade -y > /dev/null 2>&1
@@ -127,7 +127,7 @@ system_update() {
 
 install_package() {
     case "$OS" in
-        debian|ubuntu)
+        debian|ubuntu|linuxmint)
             sudo apt install -y "$1" > /dev/null 2>&1
             return $?
             ;;
@@ -157,10 +157,10 @@ else
 fi
 
 case "$OS" in
-    debian|ubuntu) essential_packages="build-essential libssl-dev curl wget git" ;;
-    arch|endeavouros) essential_packages="curl wget git base-devel" ;;
+    debian|ubuntu|linuxmint) os_dependent_packages="build-essential libssl-dev" ;;
+    arch|endeavouros) os_dependent_packages="base-devel" ;;
 esac
-for package in $essential_packages; do
+for package in curl wget git $os_dependent_packages; do
     log "${YELLOW}$package${NC}"
     install_package "$package"
     logif $? "$package" false
