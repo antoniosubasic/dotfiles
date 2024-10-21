@@ -91,7 +91,7 @@ OS=$(uname -s)
 USE_YAY=false
 
 if [ "$OS" != "Linux" ] || [ ! -f /etc/os-release ]; then
-    printf "unsupported OS: %s\n" "$OS"
+    printf "unsupported OS: %b%s%b\n" "$YELLOW" "$OS" "$NC"
     exit 1
 else
     . /etc/os-release
@@ -99,7 +99,7 @@ else
     case $OS in
         debian|ubuntu|arch|endeavouros) ;;
         *)
-            printf "unsupported OS: %s\n" "$OS"
+            printf "unsupported OS: %b%s%b\n" "$YELLOW" "$OS" "$NC"
             exit 1
             ;;
     esac
