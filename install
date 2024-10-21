@@ -1,0 +1,39 @@
+#!/bin/sh
+
+if [ "$(id -u)" -eq 0 ]; then
+    printf "must not be run as root\n" >&2
+    exit 1
+fi
+
+if ! sudo -v; then
+    printf "sudo is required\n" >&2
+    exit 1
+fi
+
+if [ ! -d "$HOME/.config" ]; then
+    mkdir -p "$HOME/.config"
+fi
+
+CWD="$(dirname "$(realpath "$0")")"
+BASE="$CWD"/scripts/base
+
+. "$BASE"
+
+case "$OS" in
+    ubuntu|linuxmint|arch|endeavouros) ;;
+    *)
+        printf "unsupported OS: %s\n" "$OS" >&2
+        exit 1
+        ;;
+esac
+
+scripts="$(ls -1v $CWD/scripts/*.sh)"
+total="$(echo "$scripts" | wc -l)"
+count=0
+for script in $scripts; do
+    sh "$script" "$BASE"
+    count=$((count + 1))
+    if [ "$count" -lt "$total" ]; then
+        printf "\n"
+    fi
+done

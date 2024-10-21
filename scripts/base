@@ -1,0 +1,28 @@
+if [ "$(uname -s)" = "Linux" ] && [ -f /etc/os-release ]; then
+    . /etc/os-release
+    OS=$ID
+fi
+
+DOTFILES="$HOME/.dotfiles"
+
+throwiferr() {
+    output="$("$@" 2>&1)"
+    status=$?
+
+    if [ $status -ne 0 ]; then
+        printf "%s\n" "$output" >&2
+        exit $status
+    fi
+}
+
+install_package() {
+    case "$OS" in
+        ubuntu|linuxmint)
+            throwiferr sudo apt-get install -y "$1"
+            ;;
+        arch|endeavouros)
+            command -v yay > /dev/null 2>&1 && command="yay" || command="sudo pacman"
+            throwiferr "$command" -S --noconfirm "$1"
+            ;;
+    esac
+}

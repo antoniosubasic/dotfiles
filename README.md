@@ -1,5 +1,5 @@
-to install just run:
+to install run:
 
 ```sh
-curl -sSL subasic.me/install.sh | sh
+git clone https://github.com/antoniosubasic/dotfiles.git ~/.dotfiles && ~/.dotfiles/install
 ```
