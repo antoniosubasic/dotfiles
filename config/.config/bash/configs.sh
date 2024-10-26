@@ -46,7 +46,7 @@ files() {
     fi
 
     case "$XDG_CURRENT_DESKTOP" in
-        X-Cinnamon)
+        X-Cinnamon|KDE)
             xdg-open "$path" > /dev/null 2>&1
             ;;
         *)
