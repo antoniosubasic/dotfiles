@@ -28,5 +28,5 @@ if [ "$OS" = "arch" ] && ! command -v yay > /dev/null 2>&1; then
 
     cd "$tempdir"
     throwiferr makepkg -si --noconfirm
-    cd -
+    cd - > /dev/null
 fi
