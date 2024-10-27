@@ -1,3 +1,8 @@
+[general]
+import = [
+    "~/.config/alacritty/themes/tokyo_night.toml"
+]
+
 [window]
 dimensions = { columns = 125, lines = 30 }
 padding = { x = 7, y = 7 }
