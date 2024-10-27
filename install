@@ -27,7 +27,7 @@ case "$OS" in
         ;;
 esac
 
-scripts="$(ls -1v $CWD/scripts/*.sh)"
+scripts="$(ls -1v $CWD/scripts/[0-9][0-9]_*.sh)"
 total="$(echo "$scripts" | wc -l)"
 count=0
 for script in $scripts; do
