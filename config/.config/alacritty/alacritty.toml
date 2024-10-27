@@ -5,8 +5,9 @@ import = [
 
 [window]
 dimensions = { columns = 125, lines = 30 }
-padding = { x = 7, y = 7 }
+padding = { x = 10, y = 10 }
 decorations = "full"
+opacity = 0.99
 
 [scrolling]
 history = 10000
