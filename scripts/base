@@ -22,7 +22,7 @@ install_package() {
             ;;
         arch|endeavouros)
             command -v yay > /dev/null 2>&1 && command="yay" || command="sudo pacman"
-            throwiferr "$command" -S --noconfirm "$1"
+            throwiferr $command -S --noconfirm "$1"
             ;;
     esac
 }
