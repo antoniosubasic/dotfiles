@@ -10,7 +10,8 @@ alias ll='ls -al'
 alias tree='ls -T'
 
 # zoxide
-eval "$(zoxide init posix --hook prompt)"
+PATH="$HOME/.local/bin:$PATH"
+eval "$(zoxide init bash)"
 alias cd='z'
 
 # xsel
