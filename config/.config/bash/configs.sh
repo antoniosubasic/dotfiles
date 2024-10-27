@@ -2,7 +2,7 @@
 alias grep='rg'
 
 # bat
-alias bat='batcat --theme "Visual Studio Dark+"'
+alias bat='bat --theme "Visual Studio Dark+"'
 
 # eza - https://github.com/eza-community/eza?tab=readme-ov-file#display-options
 alias ls='eza --time-style=+"%d.%m.%Y %H:%M:%S" --color=always'
