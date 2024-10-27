@@ -31,6 +31,8 @@ if command -v bash > /dev/null 2>&1; then
 
     throwiferr nvm install 20
 
+    [ -s "$nvm_dir/nvm.sh" ] && . "$nvm_dir/nvm.sh"
+
     printf "    ==> typescript\n"
     throwiferr npm install -g typescript
 fi
