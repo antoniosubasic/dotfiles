@@ -1,0 +1,33 @@
+name: Test System Setup 🧪
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:latest
+        options: --privileged
+
+    steps:
+      - name: 🛎️ Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: 🐳 Ubuntu - Build and Run Container
+        run: |
+          docker build -t ubuntu-test -f Dockerfile.ubuntu .
+          docker run ubuntu-test
+
+      - name: 🐳 Arch - Build and Run Container
+        run: |
+          docker build -t arch-test -f Dockerfile.arch .
+          docker run arch-test
+      
+      - name: 🧹 Cleanup Containers
+        run: docker container prune -f
