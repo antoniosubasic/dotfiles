@@ -32,6 +32,7 @@ total="$(echo "$scripts" | wc -l)"
 count=0
 for script in $scripts; do
     sh "$script" "$BASE"
+    [ $? -ne 0 ] && exit $?
     count=$((count + 1))
     if [ "$count" -lt "$total" ]; then
         printf "\n"
