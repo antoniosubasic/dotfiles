@@ -1,3 +1,5 @@
+syntax on
+
 set ttyfast
 set timeoutlen=10
 let &t_SI = "\e[6 q"
