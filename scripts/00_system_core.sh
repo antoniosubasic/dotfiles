@@ -14,7 +14,7 @@ case "$OS" in
 esac
 
 printf "installing...\n"
-for package in $packages curl wget git jq; do
+for package in $packages curl wget git jq unzip; do
     printf "    ==> %s\n" "$package"
     install_package "$package"
 done
