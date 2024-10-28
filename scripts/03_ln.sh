@@ -23,7 +23,7 @@ symlink() {
     done
 }
 
-symlink "$DOTFILES/config" "$HOME"
+symlink "$DOTFILES/dotfiles" "$HOME"
 
 signature="# -------------- antoniosubasic:dotfiles ---------------"
 if ! grep -qF "$signature" "$HOME/.bashrc"; then
