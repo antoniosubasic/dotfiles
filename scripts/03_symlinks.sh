@@ -1,7 +1,5 @@
 . "$1"
 
-printf "=== symlinks ===\n"
-
 symlink() {
     find "$1" -mindepth 1 -maxdepth 1 -type f -o -type d | while read -r entry; do
         name=$(basename "$entry")
@@ -32,7 +30,7 @@ if ! grep -qF "$signature" "$HOME/.bashrc"; then
         printf "[ -f ~/.config/bash/init.sh ] && source ~/.config/bash/init.sh\n"
         printf "%s\n" "$signature"
     } >> "$HOME/.bashrc"
-    printf ".bashrc\n"
+    printf ".bashrc configured\n"
 else
-    printf ".bashrc (already linked)\n"
+    printf ".bashrc already configured\n"
 fi

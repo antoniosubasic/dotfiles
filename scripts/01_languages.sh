@@ -1,7 +1,5 @@
 . "$1"
 
-printf "=== languages ===\n"
-
 printf "installing...\n"
 
 latest_dotnet_version=$(\

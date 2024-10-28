@@ -1,7 +1,5 @@
 . "$1"
 
-printf "=== system core ===\n"
-
 printf "updating system...\n"
 case "$OS" in
     ubuntu|linuxmint)
