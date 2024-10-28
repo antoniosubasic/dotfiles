@@ -1,7 +1,5 @@
 . "$1"
 
-printf "=== packages ===\n"
-
 printf "installing...\n"
 
 for package in xsel ripgrep asciidoctor sl; do
