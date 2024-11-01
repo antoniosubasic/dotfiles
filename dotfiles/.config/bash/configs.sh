@@ -25,11 +25,6 @@ alias ...='cd ../..'
 # asciidoctor
 alias adoc='asciidoctor'
 
-# vs code
-if cat /etc/os-release | grep '^ID=arch' > /dev/null; then
-    alias code='code --force-device-scale-factor=1.85'
-fi
-
 # aoc runtime
 aoc() {
     local aoc_runtime_path="$HOME/projects/advent-of-code/runtime/main.sh"
