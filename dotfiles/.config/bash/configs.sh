@@ -25,6 +25,9 @@ alias ...='cd ../..'
 # asciidoctor
 alias adoc='asciidoctor'
 
+# neovim
+alias vim='nvim'
+
 # aoc runtime
 aoc() {
     local aoc_runtime_path="$HOME/projects/advent-of-code/runtime/main.sh"

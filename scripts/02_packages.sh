@@ -2,7 +2,7 @@
 
 printf "installing...\n"
 
-for package in xsel ripgrep asciidoctor sl; do
+for package in xsel ripgrep asciidoctor sl neovim; do
     printf "    ==> %s\n" "$package"
     install_package "$package"
 done
