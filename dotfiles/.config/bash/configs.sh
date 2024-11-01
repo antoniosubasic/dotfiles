@@ -27,6 +27,7 @@ alias adoc='asciidoctor'
 
 # neovim
 alias vim='nvim'
+alias svim='sudo -E nvim'
 
 # aoc runtime
 aoc() {
