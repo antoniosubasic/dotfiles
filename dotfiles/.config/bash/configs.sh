@@ -30,33 +30,24 @@ alias vim='nvim'
 alias svim='sudo -E nvim'
 
 # aoc runtime
-aoc() {
-    local aoc_runtime_path="$HOME/projects/advent-of-code/runtime/main.sh"
-
-    if [ ! -f "$aoc_runtime_path" ]; then
-        echo "error: AoC runtime not found at location \033[1;33m$aoc_runtime_path\033[0m"
-        return 127
-    else
-        "$aoc_runtime_path" "$@"
-    fi
-}
+if [ -f "$HOME/projects/advent-of-code/runtime/main.sh" ]; then
+    aoc() {
+        "$HOME/projects/advent-of-code/runtime/main.sh" $@
+    }
+fi
 
 # open files
-files() {
-    local path="${1:-.}"
-
-    if grep -qi '(microsoft|wsl)' /proc/version || grep -qi '(microsoft|wsl)' /proc/sys/kernel/osrelease; then
-        explorer.exe "$(wslpath -w "$path")"
+if grep -qi '(microsoft|wsl)' /proc/version || grep -qi '(microsoft|wsl)' /proc/sys/kernel/osrelease; then
+    files() {
+        explorer.exe "$(wslpath -w "${1:-.}")"
         return 0
-    fi
-
+    }
+else
     case "$XDG_CURRENT_DESKTOP" in
         X-Cinnamon|KDE)
-            xdg-open "$path" > /dev/null 2>&1
-            ;;
-        *)
-            printf "unsupported desktop environment \033[1;33m$XDG_CURRENT_DESKTOP\033[0m\n"
-            return 125
+            files() {
+                xdg-open "${1:-.}" > /dev/null 2>&1
+            }
             ;;
     esac
-}
+fi
