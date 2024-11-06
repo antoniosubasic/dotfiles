@@ -14,6 +14,8 @@ for package in eza sd bat; do
     throwiferr cargo install --locked "$package"
 done
 
+bat cache --build > /dev/null 2>&1
+
 printf "    ==> zoxide\n"
 zoxide_tempfile=$(mktemp)
 throwiferr curl -sSfL -o "$zoxide_tempfile" https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh
