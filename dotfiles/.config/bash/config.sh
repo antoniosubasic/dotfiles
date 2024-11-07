@@ -25,6 +25,9 @@ alias ...='cd ../..'
 # asciidoctor
 alias adoc='asciidoctor'
 
+# shutdown
+alias shutdown='shutdown -h now'
+
 # neovim
 alias vim='nvim'
 sudo() {
