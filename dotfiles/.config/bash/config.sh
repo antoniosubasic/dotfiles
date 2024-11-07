@@ -27,7 +27,14 @@ alias adoc='asciidoctor'
 
 # neovim
 alias vim='nvim'
-alias svim='sudo -E nvim'
+sudo() {
+    if [ "$1" = "nvim" ] || [ "$1" = "vim" ]; then
+        shift
+        command sudo -E nvim $@
+    else
+        command sudo $@
+    fi
+}
 
 # aoc runtime
 if [ -f "$HOME/projects/advent-of-code/runtime/main.sh" ]; then
