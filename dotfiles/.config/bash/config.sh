@@ -42,6 +42,27 @@ sudo() {
     fi
 }
 
+# locate image position
+locate() {
+    if [ -z "$1" ]; then
+        echo "usage: locate <image>"
+        return 1
+    fi
+
+    if [ -f "$1" ]; then
+        pos=$(exiftool -GPSPosition "$1" | awk -F": " '{print $2}' | sed -e "s| deg|°|g")
+        if [ -z "$pos" ]; then
+            echo "no GPS position found"
+            return 1
+        fi
+        url="https://www.google.com/maps/place/$(echo "$pos" | sed -e "s|°|%C2%B0|g" -e "s|'|%27|g" -e "s|\"|%22|g" -e "s|,|+|g" -e "s| ||g")"
+        printf "%s\n%s\n" "$pos" "$url"
+    else
+        echo "file not found: $1"
+        return 2
+    fi
+}
+
 # aoc runtime
 if [ -f "$HOME/projects/advent-of-code/runtime/main.sh" ]; then
     aoc() {
