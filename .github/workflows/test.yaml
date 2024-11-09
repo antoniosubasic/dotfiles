@@ -25,7 +25,7 @@ jobs:
       - name: 🐳 Build and Run Container
         run: |
           docker build -t ${{ matrix.os }}-test -f Dockerfile.${{ matrix.os }} .
-          docker run ${{ matrix.os }}-test
+          docker run ${{ matrix.os }}-test ./install
 
       - name: 🧹 Cleanup Container
         if: always()
