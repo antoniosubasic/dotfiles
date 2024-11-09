@@ -7,6 +7,13 @@ for package in bash-completion xsel ripgrep asciidoctor sl neovim; do
     install_package "$package"
 done
 
+if [ "$OS" = "arch" ]; then
+    for package in man-db man-pages google-chrome dropbox jdk-temurin maven visual-studio-code-bin jetbrains-toolbox; do
+        printf "    ==> %s\n" "$package"
+        install_package "$package"
+    done
+fi
+
 . "$HOME/.cargo/env"
 
 for package in eza sd bat; do
