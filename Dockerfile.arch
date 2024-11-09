@@ -11,4 +11,3 @@ RUN git clone https://github.com/antoniosubasic/dotfiles.git /home/user/.dotfile
 WORKDIR /home/user/.dotfiles
 
 ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["./install"]
