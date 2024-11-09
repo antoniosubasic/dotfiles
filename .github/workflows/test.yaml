@@ -4,7 +4,21 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '.github/workflows/**'
+      - 'Dockerfile.*'
+      - 'install'
+      - 'scripts/**'
+      - 'dotfiles/**'
   pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/**'
+      - 'Dockerfile.*'
+      - 'install'
+      - 'scripts/**'
+      - 'dotfiles/**'
 
 jobs:
   test:
@@ -20,12 +34,52 @@ jobs:
 
     steps:
       - name: 🛎️ Checkout repository
-        uses: actions/checkout@v3
-        
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 📄 Get changes
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          since_last_remote_commit: true
+
+      - name: 🔍 Check changes
+        env:
+          changes: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          echo "changes: $changes"
+          changes=$(echo $changes | tr ' ' '\n')
+
+          if echo $changes | grep -qE '^(\.github/workflows|Dockerfile|install)'; then
+            args=''
+          else
+            # changes_count=$(echo $changes | wc -l)
+            args=''
+
+            for script in $(echo $changes | grep '^scripts' | sed 's|^scripts/||g'); do
+              args="$args$(echo $script | sed -e 's|^[0-9][0-9]_||g' -e 's|\.sh$||g' -e 's|_|-|g') "
+            done
+            
+            if echo $changes | grep -qE '^dotfiles'; then
+              args="${args}symlinks"
+            else
+              args=$(echo $args | sed 's| $||g')
+            fi
+
+            if [ -z $args ]; then
+              echo "🚨 This should not happen"
+              exit 1
+            fi
+          fi
+
+          echo "args: $args"
+          echo "args=$args" >> $GITHUB_ENV
+
       - name: 🐳 Build and Run Container
         run: |
           docker build -t ${{ matrix.os }}-test -f Dockerfile.${{ matrix.os }} .
-          docker run ${{ matrix.os }}-test ./install
+          docker run -e ARGS="${{ env.args }}" ${{ matrix.os }}-test /bin/bash -c "./install \$ARGS"
 
       - name: 🧹 Cleanup Container
         if: always()
