@@ -2,6 +2,10 @@
 
 printf "installing...\n"
 
+if [ $OS = "ubuntu" ] || [ $OS = "linuxmint" ]; then
+    throwiferr sudo add-apt-repository ppa:dotnet/backports -y
+fi
+
 latest_dotnet_version=$(\
     curl -s https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json | \
     jq -r '.["releases-index"][] | select((.["latest-release"] | contains("-rc") | not) and (.["latest-runtime"] | contains("-rc") | not) and (.["latest-sdk"] | contains("-rc") | not)) | .["channel-version"]' | \
