@@ -4,7 +4,7 @@ if [ "$(uname -s)" = "Linux" ] && [ -f /etc/os-release ]; then
 fi
 
 DOTFILES="$HOME/.dotfiles"
-if grep -qiE 'microsoft|wsl' /proc/version || grep -qiE 'microsoft|wsl' /proc/sys/kernel/osrelease; then IS_WSL=1; else IS_WSL=0; fi
+if grep -qiE 'microsoft|wsl' /proc/version || grep -qiE 'microsoft|wsl' /proc/sys/kernel/osrelease; then IS_WSL=0; else IS_WSL=1; fi
 
 throwiferr() {
     output="$("$@" 2>&1)"
