@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 if [ "$(id -u)" -eq 0 ]; then
     printf "must not be run as root\n" >&2
     exit 1
@@ -27,7 +29,9 @@ case "$OS" in
         ;;
 esac
 
-scripts_pattern="^$(printf "%s" "$CWD" | sed "s|/|\\\/|g" | sed "s|\.|\\\.|g")\/scripts\/[0-9][0-9]$([ "$IS_WSL" -ne 0 ] && printf "!?")_"
+scripts_pattern="^$(printf "%s" "$CWD" | sed "s|/|\\\/|g" | sed "s|\.|\\\.|g")\/scripts\/[0-9][0-9]"
+if [ "$IS_WSL" -ne 0 ]; then scripts_pattern="${scripts_pattern}!?"; fi
+scripts_pattern="${scripts_pattern}_"
 num_of_args="$#"
 if [ "$num_of_args" -eq 0 ]; then
     scripts_pattern="${scripts_pattern}.*\.sh$"
