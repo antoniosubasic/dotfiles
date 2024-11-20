@@ -42,6 +42,21 @@ sudo() {
     fi
 }
 
+# fzf reverse search
+reverse-fzf-search() {
+    selected=$(history | sed -E 's| *[0-9]+ +||' | fzf --tac --no-sort --no-multi --reverse --query "$READLINE_LINE" \
+        --bind "ctrl-r:down" \
+        --bind "ctrl-p:up" \
+    )
+    
+    if [ -n "$selected" ]; then
+        READLINE_LINE="$selected"
+        READLINE_POINT=${#READLINE_LINE}
+    fi
+}
+
+bind -x '"\C-r": reverse-fzf-search'
+
 # locate image position
 locate() {
     if [ -z "$1" ]; then
