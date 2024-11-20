@@ -5,7 +5,7 @@ case "$OS" in
     ubuntu|linuxmint)
         throwiferr sudo apt update
         throwiferr sudo apt upgrade -y
-        packages="build-essential libssl-dev software-properties-common"
+        packages="build-essential libssl-dev software-properties-common locales"
         ;;
     arch|endeavouros)
         throwiferr sudo pacman -Syu --noconfirm
