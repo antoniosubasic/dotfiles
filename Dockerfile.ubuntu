@@ -3,13 +3,14 @@ FROM ubuntu:latest
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
-    && apt-get install -y sudo git \
+    && apt-get install -y sudo \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -s /bin/bash user && echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers
+
+COPY . /home/user/.dotfiles
+RUN chown -R user:user /home/user/.dotfiles
+
 USER user
-
-RUN git clone https://github.com/antoniosubasic/dotfiles.git /home/user/.dotfiles
-
 WORKDIR /home/user/.dotfiles
