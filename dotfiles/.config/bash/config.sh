@@ -31,6 +31,9 @@ alias shutdown='shutdown -h now'
 # quit
 alias :q='exit'
 
+# diff
+alias diff='diff --color=always'
+
 # neovim
 alias vim='nvim'
 sudo() {
