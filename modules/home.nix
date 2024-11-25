@@ -1,18 +1,16 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, ... }:
 
 {
-  home-manager.users.antonio = {
-    home.stateVersion = "24.05";
+  home.stateVersion = "24.05";
 
-    home.username = "antonio";
-    home.homeDirectory = "/home/antonio";
+  home.username = "${username}";
+  home.homeDirectory = "/home/${username}";
 
-    programs.home-manager.enable = true;
+  programs.home-manager.enable = true;
 
-    programs.git = {
-        enable = true;
-        userName = "Antonio Subašić";
-        userEmail = "antonio.subasic.as@gmail.com";
-    };
+  programs.git = {
+    enable = true;
+    userName = "Antonio Subašić";
+    userEmail = "antonio.subasic.as@gmail.com";
   };
 }

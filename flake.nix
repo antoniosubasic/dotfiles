@@ -13,12 +13,21 @@
     nixosConfigurations = let
       hostsPath = ./hosts;
       modulesPath = ./modules;
+      username = "antonio";
       hosts = [ "test-laptop" ];
     in nixpkgs.lib.genAttrs hosts (host: nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = {
+          inherit inputs;
+          inherit username;
+        };
         modules = [
-          home-manager.nixosModules.home-manager
+          home-manager.nixosModules.home-manager {
+            home-manager.extraSpecialArgs = { inherit username; };
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.${username} = import "${modulesPath}/home.nix";
+          }
           { networking.hostName = host; }
         ]
         ++ (import modulesPath)
