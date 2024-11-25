@@ -1,4 +1,3 @@
 [
   ./hardware-configuration.nix
-  ./hostname.nix
 ]

@@ -13,12 +13,15 @@
     nixosConfigurations = let
       hostsPath = ./hosts;
       modulesPath = ./modules;
-    in {
-      test-laptop = nixpkgs.lib.nixosSystem {
+      hosts = [ "test-laptop" ];
+    in nixpkgs.lib.genAttrs hosts (host: nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
-        modules = (import modulesPath) ++ (import "${hostsPath}/test-laptop");
-      };
-    };
+        modules = [
+          { networking.hostName = host; }
+        ]
+        ++ (import modulesPath)
+        ++ (import "${hostsPath}/${host}");
+      });
   };
 }
