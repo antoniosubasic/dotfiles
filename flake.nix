@@ -18,6 +18,7 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
+          home-manager.nixosModules.home-manager
           { networking.hostName = host; }
         ]
         ++ (import modulesPath)
