@@ -6,5 +6,5 @@
     extraGroups = [ "wheel" "networkmanager" ];
     home = "/home/${username}";
     description = "Antonio";
-  }
+  };
 }
