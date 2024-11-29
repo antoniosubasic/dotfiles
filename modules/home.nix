@@ -1,3 +1,5 @@
+# imported in flake.nix
+
 { config, pkgs, username, ... }:
 
 {
@@ -7,10 +9,6 @@
   home.homeDirectory = "/home/${username}";
 
   programs.home-manager.enable = true;
-
-  programs.git = {
-    enable = true;
-    userName = "Antonio Subašić";
-    userEmail = "antonio.subasic.as@gmail.com";
-  };
+  
+  imports = (import ./home-manager);
 }
