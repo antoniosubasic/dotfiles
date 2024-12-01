@@ -8,7 +8,7 @@ alias grep='rg'
 alias bat='bat --theme tokyonight'
 
 # eza - https://github.com/eza-community/eza?tab=readme-ov-file#display-options
-alias ls='eza --icons --time-style=+"%d.%m.%Y %H:%M:%S" --color=always'
+alias ls='eza --git --icons --time-style=+"%d.%m.%Y %H:%M:%S" --color=always'
 alias ll='ls -al'
 alias tree='ls -T'
 
