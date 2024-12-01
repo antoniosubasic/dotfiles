@@ -1,3 +1,6 @@
+# bash
+bind 'set completion-ignore-case on'
+
 # ripgrep
 alias grep='rg'
 
