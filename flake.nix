@@ -15,7 +15,8 @@
       test-laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./machines/test-laptop/configuration.nix
+          ./machines/test-laptop/hardware-configuration.nix
+          { networking.hostName = "test-laptop"; }
 
           home-manager.nixosModules.home-manager
           {
