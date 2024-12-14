@@ -43,7 +43,7 @@
       maven
 
       # fonts
-      jetbrains-mono
+      (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     ];
 
     file = {
@@ -51,6 +51,8 @@
       ".config/bash".source = ./dotfiles/bash;
     };
   };
+
+  fonts.fontconfig.enable = true;
 
   programs.git = {
     enable = true;
@@ -101,19 +103,19 @@
       selection.save_to_clipboard = true;
       font = {
         normal = {
-          family = "JetBrains Mono";
+          family = "JetBrainsMono Nerd Font";
           style = "Regular";
         };
         bold = {
-          family = "JetBrains Mono";
+          family = "JetBrainsMono Nerd Font";
           style = "Bold";
         };
         italic = {
-          family = "JetBrains Mono";
+          family = "JetBrainsMono Nerd Font";
           style = "Italic";
         };
         bold_italic = {
-          family = "JetBrains Mono";
+          family = "JetBrainsMono Nerd Font";
           style = "Bold Italic";
         };
       };
