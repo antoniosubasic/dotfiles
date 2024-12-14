@@ -95,6 +95,15 @@
   #  wget
   ];
 
+  # Exclude KDE packages
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    konsole
+    elisa
+    gwenview
+    okular
+    khelpcenter
+  ];
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
