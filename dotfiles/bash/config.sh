@@ -40,6 +40,9 @@ alias :q='exit'
 # diff
 alias diff='diff --color=always'
 
+# fastfetch
+alias neofetch='fastfetch'
+
 # neovim
 alias vim='nvim'
 sudo() {
