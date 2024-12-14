@@ -31,6 +31,8 @@
       jetbrains.idea-ultimate
       jetbrains.datagrip
       libreoffice-still
+      discord
+      keepassxc
 
       # languages
       gcc
