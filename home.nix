@@ -48,6 +48,7 @@
 
     file = {
       ".config/nvim".source = ./dotfiles/nvim;
+      ".config/bash".source = ./dotfiles/bash;
     };
   };
 
@@ -151,6 +152,28 @@
   programs.bash = {
     enable = true;
     enableCompletion = true;
+    bashrcExtra = "[ -f ~/.config/bash/init.sh ] && source ~/.config/bash/init.sh";
+    historySize = 1000;
+    historyFileSize = 1000;
+    historyControl = [
+      "ignorespace"
+      "ignoredups"
+      "ignoreboth"
+      "erasedups"
+    ];
+    historyIgnore = [
+      "ls"
+      "ll"
+      "la"
+      "l"
+      "cd"
+      "cd -"
+      "pwd"
+      "clear"
+      "exit"
+      "history"
+      ":q"
+    ];
   };
 
 
