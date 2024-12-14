@@ -47,6 +47,156 @@
     file = {
       ".config/nvim".source = ./dotfiles/nvim;
       ".config/bash".source = ./dotfiles/bash;
+      ".local/share/kf6/searchproviders/github.desktop".text = ''
+        [Desktop Entry]
+        Charset=
+        Hidden=false
+        Keys=!gh
+        Name=GitHub
+        Query=https://github.com/search?q=\\{@}
+        Type=Service
+      '';
+      ".local/share/kf6/searchproviders/personal_github.desktop".text = ''
+        [Desktop Entry]
+        Charset=
+        Hidden=false
+        Keys=!pgh
+        Name=Personal GitHub
+        Query=https://github.com/antoniosubasic?tab=repositories&q=\\{@}
+        Type=Service
+      '';
+      ".local/share/kf6/searchproviders/google.desktop".text = ''
+        [Desktop Entry]
+        Charset=
+        Hidden=false
+        Keys=!g
+        Name=Google
+        Query=https://www.google.com/search?q=\\{@}
+        Type=Service
+      '';
+      ".local/share/kf6/searchproviders/google_images.desktop".text = ''
+        [Desktop Entry]
+        Charset=
+        Hidden=false
+        Keys=!gi
+        Name=Google Images
+        Query=https://www.google.com/search?site=imghp&tbm=isch&q=\\{@}
+        Type=Service
+      '';
+      ".local/share/kf6/searchproviders/google_maps.desktop".text = ''
+        [Desktop Entry]
+        Charset=
+        Hidden=false
+        Keys=!gm
+        Name=Google Maps
+        Query=https://www.google.com/maps/search/\\{@}
+        Type=Service
+      '';
+      ".local/share/kf6/searchproviders/youtube.desktop".text = ''
+        [Desktop Entry]
+        Charset=
+        Hidden=false
+        Keys=!yt
+        Name=YouTube
+        Query=https://www.youtube.com/results?search_query=\\{@}
+        Type=Service
+      '';
+      ".local/share/kf6/searchproviders/wikipedia.desktop".text = ''
+        [Desktop Entry]
+        Charset=
+        Hidden=false
+        Keys=!wp
+        Name=WikiPedia
+        Query=https://en.wikipedia.org/wiki/Special:Search?search=\\{@}
+        Type=Service
+      '';
+      ".local/share/kf6/searchproviders/wolfram_alpha.desktop".text = ''
+        [Desktop Entry]
+        Charset=
+        Hidden=false
+        Keys=!wa
+        Name=Wolfram Alpha
+        Query=https://www.wolframalpha.com/input/?i=\\{@}
+        Type=Service
+      '';
+      ".config/dolphinrc" = {
+        text = ''
+          [DetailsMode]
+          ExpandableFolders=false
+
+          [General]
+          ConfirmClosingMultipleTabs=false
+          OpenExternallyCalledFolderInNewTab=true
+          RememberOpenedTabs=false
+          ShowFullPath=true
+          SortingChoice=CaseInsensitiveSorting
+          Version=202
+          ViewPropsTimestamp=2024,11,7,18,3,24.091
+
+          [KFileDialog Settings]
+          Places Icons Auto-resize=false
+          Places Icons Static Size=22
+
+          [MainWindow]
+          MenuBar=Disabled
+          ToolBarsMovable=Disabled
+
+          [PreviewSettings]
+          Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,jxl,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,svgthumbnail,gdk-pixbuf-thumbnailer
+
+          [Search]
+          Location=Everywhere
+        '';
+        force = true;
+      };
+      ".config/krunnerrc".text = ''
+        [General]
+        FreeFloating=true
+
+        [Plugins]
+        krunner_konsoleprofilesEnabled=false
+
+        [Plugins][Favorites]
+        plugins=krunner_services,krunner_systemsettings
+      '';
+      ".config/kuriikwsfiltersrc" = {
+        text = ''
+          [General]
+          DefaultWebShortcut=google
+          EnableWebShortcuts=true
+          PreferredWebShortcuts=google,google_images,google_maps,wikipedia,wolfram_alpha,youtube
+          UsePreferredWebShortcutsOnly=false
+        '';
+        force = true;
+      };
+      ".config/powerdevil.notifyrc".text = ''
+        [Event/lowperipheralbattery]
+        Action=
+      '';
+      ".config/mimeapps.list".text = ''
+        [Added Associations]
+        application/pdf=google-chrome.desktop;
+        image/png=google-chrome.desktop;
+        image/svg+xml=google-chrome.desktop;
+        text/plain=code.desktop;
+        x-scheme-handler/geo=google-maps-geo-handler.desktop;
+
+        [Default Applications]
+        application/pdf=google-chrome.desktop;
+        image/png=google-chrome.desktop;
+        image/svg+xml=google-chrome.desktop;
+        text/html=google-chrome.desktop;
+        text/plain=code.desktop;
+        x-scheme-handler/geo=google-maps-geo-handler.desktop;
+        x-scheme-handler/http=google-chrome.desktop
+        x-scheme-handler/https=google-chrome.desktop
+        x-scheme-handler/mailto=google-chrome.desktop
+      '';
+      ".config/plasmanotifyrc".text = ''
+        [Services][donationmessage]
+        ShowInHistory=false
+        ShowPopups=false
+      '';
     };
   };
 
