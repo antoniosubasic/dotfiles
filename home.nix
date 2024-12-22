@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home = {
@@ -19,6 +19,8 @@
       sl
       fzf
       eza
+      kdePackages.kconfig
+      kdePackages.kalk
 
       # applications
       google-chrome
@@ -196,6 +198,45 @@
         [Services][donationmessage]
         ShowInHistory=false
         ShowPopups=false
+      '';
+      ".config/plasmaparc".text = ''
+        [General]
+        AudioFeedback=false
+      '';
+    };
+
+    activation = {
+      KDEShortcuts = lib.mkAfter ''
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "services" --group "Alacritty.desktop" --key "_launch" "Ctrl+Alt+T"
+
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Switch One Desktop Down" "Meta+J,none,Switch One Desktop Down"
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Switch One Desktop Up" "Meta+K,none,Switch One Desktop Up"
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Switch One Desktop to the Left" "Meta+H,none,Switch One Desktop to the Left"
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Switch One Desktop to the Right" "Meta+L,none,Switch One Desktop to the Right"
+
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Window Maximize" "Meta+Up,none,Maximize Window"
+
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Window One Desktop Down" "Meta+Shift+J,none,Window One Desktop Down"
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Window One Desktop Up" "Meta+Shift+K,none,Window One Desktop Up"
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Window One Desktop to the Left" "Meta+Shift+H,none,Window One Desktop to the Left"
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Window One Desktop to the Right" "Meta+Shift+L,none,Window One Desktop to the Right"
+
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "services" --group "Alacritty.desktop" --key "_launch" "Ctrl+Alt+T"
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "services" --group "org.kde.kalk.desktop" --key "_launch" "Calculator"
+
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "plasma-org.kde.plasma.desktop-appletsrc" --group "Containments" --group "1" --group "Wallpaper" --group "org.kde.image" --group "General" --key "Image" "${toString ./wallpaper/desktop.png}"
+
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "plasma-org.kde.plasma.desktop-appletsrc" --group "Containments" --group "2" --group "Applets" --group "19" --group "Configuration" --group "Appearance" --key "dateFormat" "custom"
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "plasma-org.kde.plasma.desktop-appletsrc" --group "Containments" --group "2" --group "Applets" --group "19" --group "Configuration" --group "Appearance" --key "customDateFormat" "ddd dd MMM"
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "plasma-org.kde.plasma.desktop-appletsrc" --group "Containments" --group "2" --group "Applets" --group "19" --group "Configuration" --group "Appearance" --key "showSeconds" "Always"
+        
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "plasma-org.kde.plasma.desktop-appletsrc" --group "Containments" --group "2" --group "Applets" --group "5" --group "Configuration" --group "General" --key "launchers" "preferred://filemanager,applications:code.desktop,applications:discord.desktop,applications:google-chrome.desktop"
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "plasma-org.kde.plasma.desktop-appletsrc" --group "Containments" --group "2" --group "Applets" --group "5" --group "Configuration" --group "General" --key "wheelEnabled" "false"
+
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "plasma-org.kde.plasma.desktop-appletsrc" --group "Containments" --group "8" --group "General" --key "hiddenItems" "org.kde.plasma.brightness"
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "plasma-org.kde.plasma.desktop-appletsrc" --group "Containments" --group "8" --group "General" --key "shownItems" "org.kde.plasma.volume,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.notifications"
+        
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kwinrc" --group "org.kde.kdecoration2" --key "ButtonsOnLeft" "M"
       '';
     };
   };
