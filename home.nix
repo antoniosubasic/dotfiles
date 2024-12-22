@@ -254,6 +254,7 @@
         ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "plasma-org.kde.plasma.desktop-appletsrc" --group "Containments" --group "8" --group "General" --key "hiddenItems" "org.kde.plasma.brightness"
         ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "plasma-org.kde.plasma.desktop-appletsrc" --group "Containments" --group "8" --group "General" --key "shownItems" "org.kde.plasma.volume,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.notifications"
         
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kwinrc" --group "Plugins" --key "shakecursorEnabled" "false"
         ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kwinrc" --group "org.kde.kdecoration2" --key "ButtonsOnLeft" "M"
       '';
     };
