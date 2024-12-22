@@ -221,6 +221,10 @@
         Image=${toString ./wallpaper/lockscreen.png}
         PreviewImage=${toString ./wallpaper/lockscreen.png}
       '';
+      ".config/kcminputrc".text = ''
+        [Libinput]
+        NaturalScroll=true
+      '';
     };
 
     activation = {
