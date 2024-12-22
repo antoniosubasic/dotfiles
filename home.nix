@@ -238,6 +238,8 @@
 
         ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Window Maximize" "Meta+Up,none,Maximize Window"
 
+        ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "ksmserver" --key "Lock Session" "Ctrl+Alt+L,Meta+L\tScreensaver,Lock Session"
+
         ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Window One Desktop Down" "Meta+Shift+J,none,Window One Desktop Down"
         ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Window One Desktop Up" "Meta+Shift+K,none,Window One Desktop Up"
         ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "kglobalshortcutsrc" --group "kwin" --key "Window One Desktop to the Left" "Meta+Shift+H,none,Window One Desktop to the Left"
