@@ -11,6 +11,7 @@
       curl
       wget
       unzip
+      docker-compose
       jq
       xsel
       ripgrep
@@ -202,6 +203,15 @@
       ".config/plasmaparc".text = ''
         [General]
         AudioFeedback=false
+      '';
+      ".config/kscreenlockerrc".text = ''
+        [Daemon]
+        LockGrace=0
+        Timeout=10
+
+        [Greeter][Wallpaper][org.kde.image][General]
+        Image=${toString ./wallpaper/lockscreen.png}
+        PreviewImage=${toString ./wallpaper/lockscreen.png}
       '';
     };
 
