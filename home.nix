@@ -200,6 +200,14 @@
         ShowInHistory=false
         ShowPopups=false
       '';
+      ".config/ktrashrc".text = ''
+        [/home/antonio/.local/share/Trash]
+        Days=100
+        LimitReachedAction=0
+        Percent=10
+        UseSizeLimit=true
+        UseTimeLimit=true
+      '';
       ".config/plasmaparc".text = ''
         [General]
         AudioFeedback=false
