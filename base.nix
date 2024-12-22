@@ -6,8 +6,17 @@
 
 {
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    efi = {
+      canTouchEfiVariables = true;
+    };
+    grub = {
+      enable = true;
+      device = "nodev";
+      efiSupport = true;
+      useOSProber = true;
+    };
+  };
 
   # Enable flakes permanently
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -22,7 +31,11 @@
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "Europe/Vienna";
+  # time.timeZone = "Europe/Vienna";
+  time = {
+    timeZone = "Europe/Vienna";
+    hardwareClockInLocalTime = true;
+  };
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
