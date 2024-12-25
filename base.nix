@@ -87,12 +87,15 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.antonio = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
     #  kdePackages.kate
     #  thunderbird
     ];
   };
+
+  programs.zsh.enable = true;
 
   virtualisation.docker.enable = true;
 

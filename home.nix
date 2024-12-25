@@ -47,7 +47,6 @@
 
     file = {
       ".config/nvim".source = ./dotfiles/nvim;
-      ".config/bash".source = ./dotfiles/bash;
     };
   };
 
@@ -150,36 +149,97 @@
     };
   };
 
-  programs.bash = {
+  programs.zsh = {
     enable = true;
     enableCompletion = true;
-    bashrcExtra = "[ -f ~/.config/bash/init.sh ] && source ~/.config/bash/init.sh";
-    historySize = 1000;
-    historyFileSize = 1000;
-    historyControl = [
-      "ignorespace"
-      "ignoredups"
-      "ignoreboth"
-      "erasedups"
-    ];
-    historyIgnore = [
-      "ls"
-      "ll"
-      "la"
-      "l"
-      "cd"
-      "cd -"
-      "pwd"
-      "clear"
-      "exit"
-      "history"
-      ":q"
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+    autocd = true;
+
+    shellAliases = {
+      ls = "eza --git --icons --time-style=+\"%d.%m.%Y %H:%M:%S\" --color=always";
+      ll = "ls -al";
+      tree = "ls -T";
+
+      grep = "rg";
+      adoc = "asciidoctor";
+      shutdown = "shutdown -h now";
+      ":q" = "exit";
+      neofetch = "fastfetch";
+
+      copy = "xsel --input --clipboard";
+      paste = "xsel --output --clipboard";
+
+      ".." = "cd ..";
+      "2.." = "cd ../..";
+      "3.." = "cd ../../..";
+      "4.." = "cd ../../../..";
+      "5.." = "cd ../../../../..";
+    };
+
+    history = {
+      size = 500;
+      save = 500;
+      append = true;
+      ignoreSpace = true;
+      ignoreDups = true;
+      ignoreAllDups = true;
+      expireDuplicatesFirst = true;
+      share = true;
+      extended = true;
+      ignorePatterns = [
+        "history *"
+        "pwd"
+        "exit"
+        ":q"
+        "clear"
+      ];
+    };
+
+    initExtra = ''
+      autoload -Uz compinit
+      autoload -Uz vcs_info
+      compinit
+
+      precmd() { vcs_info }
+
+      zstyle ':vcs_info:*' enable git
+      zstyle ':vcs_info:*' check-for-changes true
+      zstyle ':vcs_info:git:*' formats ' %F{yellow}(%b)%f'
+      zstyle ':vcs_info:git:*' unstagedstr '*'
+      zstyle ':vcs_info:git:*' stagedstr '+'
+
+      setopt PROMPT_SUBST
+      PROMPT='%F{blue}%~%f''${vcs_info_msg_0_}%(?.%F{green}.%F{red}) ❯%f '
+
+      bindkey -e
+    '';
+
+    plugins = [
+      {
+        name = "fzf-tab";
+        src = pkgs.fetchFromGitHub {
+          owner = "Aloxaf";
+          repo = "fzf-tab";
+          rev = "master";
+          sha256 = "1brljd9744wg8p9v3q39kdys33jb03d27pd0apbg1cz0a2r1wqqi";
+        };
+      }
+      {
+        name = "zsh-fzf-history-search";
+        src = pkgs.fetchFromGitHub {
+          owner = "joshskidmore";
+          repo = "zsh-fzf-history-search";
+          rev = "master";
+          sha256 = "1dm1asa4ff5r42nadmj0s6hgyk1ljrckw7val8fz2n0892b8h2mm";
+        };
+      }
     ];
   };
 
   programs.zoxide = {
     enable = true;
-    enableBashIntegration = true;
+    enableZshIntegration = true;
   };
 
   programs.bat = {
