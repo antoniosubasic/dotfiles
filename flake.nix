@@ -17,13 +17,17 @@
         modules = [
           ./machines/test-laptop/hardware-configuration.nix
           ./base.nix
+          ./kde/base.nix
           { networking.hostName = "test-laptop"; }
 
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.antonio = import ./home.nix;
+            home-manager.users.antonio = nixpkgs.lib.mkMerge [
+              (import ./home.nix)
+              (import ./kde/home.nix)
+            ];
           }
         ];
       };
