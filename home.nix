@@ -19,6 +19,7 @@
       testdisk
       sl
       eza
+      tree-sitter
 
       # applications
       google-chrome
@@ -43,6 +44,17 @@
       # fonts
       (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     ];
+
+    file = {
+      ".local/share/nvim/parser" = {
+        recursive = true;
+        enable = true;
+        source = pkgs.runCommandNoCC "treesitter-parser-dir" {} ''
+          mkdir -p $out
+          chmod 755 $out
+        '';
+      };
+    };
   };
 
   fonts.fontconfig.enable = true;
@@ -111,7 +123,9 @@
 
         vim.cmd.colorscheme("tokyonight-night")
 
+        vim.opt.runtimepath:append(vim.fn.stdpath('data') .. '/parser')
         require('nvim-treesitter.configs').setup({
+          parser_install_dir = vim.fn.stdpath('data') .. '/parser',
           ensure_installed = {
             "bash", "c", "c_sharp", "cpp", "css", "dockerfile",
             "go", "html", "java", "javascript", "json", "lua",
