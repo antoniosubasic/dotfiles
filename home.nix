@@ -18,7 +18,6 @@
       asciidoctor
       testdisk
       sl
-      fzf
       eza
 
       # applications
@@ -224,6 +223,13 @@
           };
         };
       };
+    };
+
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+      defaultCommand = "fd --type f --hidden --follow --exclude .git";
+      defaultOptions = ["--reverse"];
     };
 
     zsh = {
