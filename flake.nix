@@ -10,27 +10,33 @@
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }: {
-    nixosConfigurations = {
-      test-laptop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./machines/test-laptop/hardware-configuration.nix
-          ./base.nix
-          ./kde/base.nix
-          { networking.hostName = "test-laptop"; }
+  outputs = inputs@{ nixpkgs, home-manager, ... }:
+  let
+    username = "antonio";
+    system = "x86_64-linux";
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.antonio = nixpkgs.lib.mkMerge [
-              (import ./home.nix)
-              (import ./kde/home.nix)
-            ];
-          }
-        ];
-      };
+    mkSystem = hostname: desktop: nixpkgs.lib.nixosSystem {
+      inherit system;
+      specialArgs = { inherit username hostname; };
+      modules = [
+        ./machines/${hostname}/hardware-configuration.nix
+        ./base.nix
+        ./${desktop}/base.nix
+
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.${username} = nixpkgs.lib.mkMerge [
+            (import ./home.nix { inherit username; })
+            (import ./${desktop}/home.nix { inherit username; })
+          ];
+        }
+      ];
+    };
+  in {
+    nixosConfigurations = {
+      test-laptop = mkSystem "test-laptop" "kde";
     };
   };
 }

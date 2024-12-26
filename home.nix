@@ -1,9 +1,9 @@
-{ config, pkgs, lib, ... }:
+{ username }: { config, pkgs, lib, ... }:
 
 {
   home = {
-    username = "antonio";
-    homeDirectory = "/home/antonio";
+    username = username;
+    homeDirectory = "/home/${username}";
 
     packages = with pkgs; [
       # packages
