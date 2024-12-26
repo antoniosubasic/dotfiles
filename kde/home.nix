@@ -31,7 +31,7 @@ let
       file = "plasma-org.kde.plasma.desktop-appletsrc";
       config = {
         Containments = {
-          "1".Wallpaper."org.kde.image".General.Image = "${toString ./wallpaper/desktop.png}";
+          "1".Wallpaper."org.kde.image".General.Image = "${toString ../wallpaper/desktop.png}";
           "2".Applets = {
             "19".Configuration.Appearance = {
               dateFormat = "custom";
@@ -159,8 +159,8 @@ let
           Timeout = "10";
         };
         Greeter.Wallpaper."org.kde.image".General = {
-          Image = "${toString ./wallpaper/lockscreen.png}";
-          PreviewImage = "${toString ./wallpaper/lockscreen.png}";
+          Image = "${toString ../wallpaper/lockscreen.png}";
+          PreviewImage = "${toString ../wallpaper/lockscreen.png}";
         };
       };
     }
