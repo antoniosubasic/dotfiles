@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ username }: { config, pkgs, lib, ... }:
 
 let
   inherit (lib.strings) toLower replaceStrings;
@@ -136,7 +136,7 @@ let
     {
       file = "ktrashrc";
       config = {
-        "/home/antonio/.local/share/Trash" = {
+        "/home/${username}/.local/share/Trash" = {
           Days = "100";
           LimitReachedAction = "0";
           Percent = "10";
