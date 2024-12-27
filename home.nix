@@ -54,7 +54,15 @@
           chmod 755 $out
         '';
       };
+
+      ".local/bin" = {
+        source = ./bin;
+      };
     };
+
+    sessionPath = [
+      "$HOME/.local/bin"
+    ];
   };
 
   fonts.fontconfig.enable = true;
