@@ -308,18 +308,20 @@
 
         precmd() { vcs_info }
 
+        # zsh prompt
         zstyle ':vcs_info:*' enable git
         zstyle ':vcs_info:*' check-for-changes true
-        zstyle ':vcs_info:git:*' formats ' %F{yellow}(%b)%f'
         zstyle ':vcs_info:git:*' unstagedstr '*'
         zstyle ':vcs_info:git:*' stagedstr '+'
+        zstyle ':vcs_info:git:*' formats ' %F{yellow}(%b)%f' # %b = branch, %c = +, %u = *
+        zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
         setopt PROMPT_SUBST
         PROMPT='%F{blue}%~%f''${vcs_info_msg_0_}%(?.%F{green}.%F{red}) ❯%f '
 
+        # bash like keybindings (https://www.enlinux.com/bash-keyboard-shortcuts)
         bindkey -e
 
-        # bash like keybindings (https://www.enlinux.com/bash-keyboard-shortcuts)
         bindkey "^A" beginning-of-line
         bindkey "^B" backward-char
         bindkey "^E" end-of-line
