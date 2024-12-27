@@ -3,6 +3,9 @@
 let
   inherit (lib.strings) toLower replaceStrings;
 
+  lockscreenWallpaper = toString ../wallpaper/lockscreen.png;
+  desktopWallpaper = toString ../wallpaper/desktop.png;
+
   configs = [
     {
       file = "kglobalshortcutsrc";
@@ -31,7 +34,7 @@ let
       file = "plasma-org.kde.plasma.desktop-appletsrc";
       config = {
         Containments = {
-          "1".Wallpaper."org.kde.image".General.Image = "${toString ../wallpaper/desktop.png}";
+          "1".Wallpaper."org.kde.image".General.Image = desktopWallpaper;
           "2".Applets = {
             "19".Configuration.Appearance = {
               dateFormat = "custom";
@@ -159,8 +162,8 @@ let
           Timeout = "10";
         };
         Greeter.Wallpaper."org.kde.image".General = {
-          Image = "${toString ../wallpaper/lockscreen.png}";
-          PreviewImage = "${toString ../wallpaper/lockscreen.png}";
+          Image = lockscreenWallpaper;
+          PreviewImage = lockscreenWallpaper;
         };
       };
     }
@@ -276,9 +279,9 @@ let
 in
 {
   home = {
-    packages = with pkgs; [
-      kdePackages.kconfig
-      kdePackages.kalk
+    packages = with pkgs.kdePackages; [
+      kconfig
+      kalk
     ];
 
     activation.KDEShortcuts = lib.mkAfter ''
