@@ -301,7 +301,7 @@ in
       kalk
     ];
 
-    activation.KDEShortcuts = lib.mkAfter ''
+    activation.KDESettings = lib.mkAfter ''
       ${generateBuildCommands (configs ++ searchProviders)}
     '';
 
