@@ -13,6 +13,7 @@ let
         services = {
           "Alacritty.desktop"._launch = "Ctrl+Alt+T";
           "org.kde.kalk.desktop"._launch = "Calculator";
+          "net.local.printf.desktop"._launch = "Ctrl+Alt+S";
         };
         kwin = {
           "Switch One Desktop Down" = "Meta+J,none,Switch One Desktop Down";
@@ -303,5 +304,17 @@ in
     activation.KDEShortcuts = lib.mkAfter ''
       ${generateBuildCommands (configs ++ searchProviders)}
     '';
+
+    file = {
+      ".local/share/applications/net.local.printf.desktop".text = ''
+        [Desktop Entry]
+        Exec=printf "Subašić" | xsel --clipboard --input && notify-send --app-name "surname" "copied" || notify-send --app-name "surname" "failed"
+        Name=Copy surname to clipboard
+        NoDisplay=true
+        StartupNotify=false
+        Type=Application
+        X-KDE-GlobalAccel-CommandShortcut=true
+      '';
+    };
   };
 }
