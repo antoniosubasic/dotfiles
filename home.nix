@@ -20,6 +20,7 @@
       sl
       eza
       tree-sitter
+      libnotify
 
       # applications
       google-chrome
