@@ -101,6 +101,7 @@
   programs.zsh.enable = true;
 
   virtualisation.docker.enable = true;
+  virtualisation.containerd.enable = true;
 
   services.tailscale.enable = true;
 
