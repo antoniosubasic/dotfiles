@@ -197,6 +197,12 @@ let
         };
       };
     }
+    {
+      file = "ksmserverrc";
+      config = {
+        General.confirmLogout = "false";
+      };
+    }
   ];
 
   searchProviders = map (provider: {
