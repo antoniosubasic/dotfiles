@@ -8,6 +8,12 @@ let
 
   configs = [
     {
+      file = "kdeglobals";
+      config = {
+        General.ColorScheme = "BreezeDark";
+      };
+    }
+    {
       file = "kglobalshortcutsrc";
       config = {
         services = {
