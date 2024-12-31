@@ -63,6 +63,7 @@ let
     {
       file = "kwinrc";
       config = {
+        "Effect-overview".BorderActivate = "9";
         Plugins.shakecursorEnabled = "false";
         "org.kde.kdecoration2".ButtonsOnLeft = "M";
       };
