@@ -104,6 +104,11 @@
 
   services.tailscale.enable = true;
 
+  services.plantuml-server = {
+    enable = true;
+    listenPort = 9090;
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
