@@ -200,7 +200,10 @@ let
     {
       file = "ksmserverrc";
       config = {
-        General.confirmLogout = "false";
+        General = {
+          confirmLogout = "false";
+          loginMode = "emptySession";
+        };
       };
     }
   ];
