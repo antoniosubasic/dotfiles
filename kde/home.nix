@@ -209,7 +209,7 @@ let
   ];
 
   searchProviders = map (provider: {
-    file = ".local/share/kf6/searchproviders/${toLower (replaceStrings [" "] ["_"] provider.name)}.desktop";
+    file = "/home/${username}/.local/share/kf6/searchproviders/${toLower (replaceStrings [" "] ["_"] provider.name)}.desktop";
     config = {
       "Desktop Entry" = {
         Charset = "";
