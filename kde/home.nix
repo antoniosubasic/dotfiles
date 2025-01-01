@@ -96,7 +96,7 @@ let
       };
     }
     {
-      file = "kuriikwsfiltersrc";
+      file = "kuriikwsfilterrc";
       config = {
         General = {
           DefaultWebShortcut = "google";
