@@ -326,7 +326,6 @@ in
 {
   home = {
     packages = with pkgs.kdePackages; [
-      kconfig
       kalk
     ];
 
