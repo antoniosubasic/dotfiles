@@ -283,6 +283,7 @@
         shutdown = "shutdown -h now";
         ":q" = "exit";
         neofetch = "fastfetch";
+        cat = "bat";
 
         copy = "xsel --input --clipboard";
         paste = "xsel --output --clipboard";
