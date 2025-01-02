@@ -20,5 +20,14 @@
       [General]
       background=${../wallpaper/lockscreen.png}
     '')
+    (pkgs.symlinkJoin {
+      name = "sddm-face-icon";
+      paths = [
+        (pkgs.runCommand "sddm-face-icon" {} ''
+          mkdir -p $out/share/sddm/faces
+          cp ${../wallpaper/avatar.png} $out/share/sddm/faces/${username}.face.icon
+        '')
+      ];
+    })
   ];
 }
