@@ -259,10 +259,16 @@
       };
     };
 
+    fd = {
+      enable = true;
+      hidden = true;
+      ignores = [ ".git" "node_modules" ];
+    };
+
     fzf = {
       enable = true;
       enableZshIntegration = true;
-      defaultCommand = "fd --type f --hidden --follow --exclude .git";
+      defaultCommand = "fd --type f --follow";
       defaultOptions = ["--reverse"];
     };
 
