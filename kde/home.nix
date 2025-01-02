@@ -101,6 +101,7 @@ let
         General = {
           DefaultWebShortcut = "google";
           EnableWebShortcuts = "true";
+          KeywordDelimiter = "\\s";
           PreferredWebShortcuts = "google,google_images,google_maps,wikipedia,wolfram_alpha,youtube";
           UsePreferredWebShortcutsOnly = "false";
         };
