@@ -329,6 +329,7 @@ in
 
     file = {
       ".wallpaper".source = ../wallpaper;
+      ".face.icon".source = ../wallpaper/avatar.png;
     };
 
     activation.KDESettings = lib.mkAfter ''
