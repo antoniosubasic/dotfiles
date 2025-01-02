@@ -53,6 +53,7 @@
     LC_PAPER = "de_AT.UTF-8";
     LC_TELEPHONE = "de_AT.UTF-8";
     LC_TIME = "de_AT.UTF-8";
+    LC_COLLATE = "de_AT.UTF-8";
   };
 
   # Enable the X11 windowing system.
