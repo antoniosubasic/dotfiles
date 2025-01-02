@@ -99,6 +99,13 @@
     ];
   };
 
+  nix.gc = {
+    automatic = true;
+    persistent = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
+
   programs.zsh.enable = true;
 
   virtualisation.docker.enable = true;
