@@ -3,9 +3,6 @@
 let
   inherit (lib.strings) toLower replaceStrings;
 
-  lockscreenWallpaper = toString ../wallpaper/lockscreen.png;
-  desktopWallpaper = toString ../wallpaper/desktop.png;
-
   configs = [
     {
       file = "kdeglobals";
@@ -41,7 +38,7 @@ let
       file = "plasma-org.kde.plasma.desktop-appletsrc";
       config = {
         Containments = {
-          "1".Wallpaper."org.kde.image".General.Image = desktopWallpaper;
+          "1".Wallpaper."org.kde.image".General.Image = "/home/${username}/.wallpaper/desktop.png";
           "2".Applets = {
             "19".Configuration.Appearance = {
               dateFormat = "custom";
@@ -171,8 +168,8 @@ let
           Timeout = "10";
         };
         Greeter.Wallpaper."org.kde.image".General = {
-          Image = lockscreenWallpaper;
-          PreviewImage = lockscreenWallpaper;
+          Image = "/home/${username}/.wallpaper/lockscreen.png";
+          PreviewImage = "/home/${username}/.wallpaper/lockscreen.png";
         };
       };
     }
@@ -329,6 +326,10 @@ in
     packages = with pkgs.kdePackages; [
       kalk
     ];
+
+    file = {
+      ".wallpaper".source = ../wallpaper;
+    };
 
     activation.KDESettings = lib.mkAfter ''
       ${generateBuildCommands (configs ++ searchProviders)}
