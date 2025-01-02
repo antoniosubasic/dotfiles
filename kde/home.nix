@@ -206,6 +206,19 @@ let
         };
       };
     }
+    {
+      file = "/home/${username}/.local/share/applications/net.local.printf.desktop";
+      config = {
+        "Desktop Entry" = {
+          Exec = "printf \"Subašić\" | xsel --clipboard --input && notify-send --app-name \"surname\" \"copied\" || notify-send --app-name \"surname\" \"failed\"";
+          Name = "Copy surname to clipboard";
+          NoDisplay = "true";
+          StartupNotify = "false";
+          Type = "Application";
+          "X-KDE-GlobalAccel-CommandShortcut" = "true";
+        };
+      };
+    }
   ];
 
   searchProviders = map (provider: {
@@ -320,17 +333,5 @@ in
     activation.KDESettings = lib.mkAfter ''
       ${generateBuildCommands (configs ++ searchProviders)}
     '';
-
-    file = {
-      ".local/share/applications/net.local.printf.desktop".text = ''
-        [Desktop Entry]
-        Exec=printf "Subašić" | xsel --clipboard --input && notify-send --app-name "surname" "copied" || notify-send --app-name "surname" "failed"
-        Name=Copy surname to clipboard
-        NoDisplay=true
-        StartupNotify=false
-        Type=Application
-        X-KDE-GlobalAccel-CommandShortcut=true
-      '';
-    };
   };
 }
