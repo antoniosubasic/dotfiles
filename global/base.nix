@@ -1,5 +1,13 @@
 { config, pkgs, username, hostname, ... }:
 
+let
+  grubTheme = pkgs.fetchFromGitHub {
+    owner = "sandesh236";
+    repo = "sleek--themes";
+    rev = "0c47e645ccc2d72aa165e9d994f9d09f58de9f6d";
+    sha256 = "1q5583hvfjv19g503whl5mq4vqw2ci4f6w1z8pya23bw4h4ki2qz";
+  };
+in
 {
   boot.loader = {
     efi.canTouchEfiVariables = true;
@@ -8,6 +16,7 @@
       device = "nodev";
       efiSupport = true;
       useOSProber = true;
+      theme = "${grubTheme}/Sleek theme-dark/sleek";
     };
   };
 
