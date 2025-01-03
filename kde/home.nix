@@ -93,18 +93,6 @@ let
       };
     }
     {
-      file = "kuriikwsfilterrc";
-      config = {
-        General = {
-          DefaultWebShortcut = "google";
-          EnableWebShortcuts = "true";
-          KeywordDelimiter = "\\s";
-          PreferredWebShortcuts = "google,google_images,google_maps,wikipedia,wolfram_alpha,youtube";
-          UsePreferredWebShortcutsOnly = "false";
-        };
-      };
-    }
-    {
       file = "powerdevil.notifyrc";
       config = {
         "Event/lowperipheralbattery".Action = "";
@@ -330,6 +318,16 @@ in
     file = {
       ".wallpaper".source = ../global/images;
       ".face.icon".source = ../global/images/avatar.png;
+
+      # needed because kwriteconfig6 does not allow unescaped characters like '\s'
+      ".config/kuriikwsfilterrc".text = ''
+        [General]
+        DefaultWebShortcut=google
+        EnableWebShortcuts=true
+        KeywordDelimiter=\s
+        PreferredWebShortcuts=google,google_images,google_maps,wikipedia,wolfram_alpha,youtube
+        UsePreferredWebShortcutsOnly=false
+      '';
     };
 
     activation.KDESettings = lib.mkAfter ''
