@@ -20,7 +20,7 @@
       specialArgs = { inherit username hostname; };
       modules = [
         ./machines/${hostname}/hardware-configuration.nix
-        ./base.nix
+        ./global/base.nix
         ./${desktop}/base.nix
 
         home-manager.nixosModules.home-manager
@@ -28,7 +28,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.${username} = nixpkgs.lib.mkMerge [
-            (import ./home.nix { inherit username; })
+            (import ./global/home.nix { inherit username; })
             (import ./${desktop}/home.nix { inherit username; })
           ];
         }

@@ -328,8 +328,8 @@ in
     ];
 
     file = {
-      ".wallpaper".source = ../wallpaper;
-      ".face.icon".source = ../wallpaper/avatar.png;
+      ".wallpaper".source = ../global/images;
+      ".face.icon".source = ../global/images/avatar.png;
     };
 
     activation.KDESettings = lib.mkAfter ''

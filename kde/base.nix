@@ -18,14 +18,14 @@
   environment.systemPackages = [
     (pkgs.writeTextDir "share/sddm/themes/breeze/theme.conf.user" ''
       [General]
-      background=${../wallpaper/lockscreen.png}
+      background=${../global/images/lockscreen.png}
     '')
     (pkgs.symlinkJoin {
       name = "sddm-face-icon";
       paths = [
         (pkgs.runCommand "sddm-face-icon" {} ''
           mkdir -p $out/share/sddm/faces
-          cp ${../wallpaper/avatar.png} $out/share/sddm/faces/${username}.face.icon
+          cp ${../global/images/avatar.png} $out/share/sddm/faces/${username}.face.icon
         '')
       ];
     })
