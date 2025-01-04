@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ ! -e "$1" ]; then
+    dir=$(zoxide query "$@")
+    if [ $? -eq 0 ] && [ -n "$dir" ]; then
+        code "$dir"
+        exit 0
+    fi
+fi
+
+code "$@"
