@@ -29,7 +29,7 @@ in
       };
 
       ".local/bin" = {
-        source = ./files/bin;
+        source = ./files/scripts;
       };
     };
 
