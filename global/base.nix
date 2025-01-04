@@ -52,7 +52,10 @@ in
     extraGroups = [ "networkmanager" "wheel" "docker" ];
   };
 
-  hardware.pulseaudio.enable = false;
+  hardware = {
+    pulseaudio.enable = true;
+    bluetooth.enable = true;
+  };
   security.rtkit.enable = true;
 
   services = {
