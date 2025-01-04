@@ -169,12 +169,6 @@ let
       };
     }
     {
-      file = "kcminputrc";
-      config = {
-        Libinput.NaturalScroll = "true";
-      };
-    }
-    {
       file = "kwinrulesrc";
       config = {
         General = {
