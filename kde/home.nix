@@ -100,6 +100,12 @@ let
       };
     }
     {
+      file = "bluedevilglobalrc";
+      config = {
+        Global.launchState = "enable";
+      };
+    }
+    {
       file = "mimeapps.list";
       config = {
         "Added Associations" = {
