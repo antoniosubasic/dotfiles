@@ -10,15 +10,23 @@
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }:
+  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, ... }:
   let
     username = "antonio";
     system = "x86_64-linux";
+
+    unstable = import nixpkgs-unstable {
+      inherit system;
+      config = { allowUnfree = true; };
+    };
+    unstableOverlay = final: prev: { vscode = unstable.vscode; };
 
     mkSystem = hostname: desktop: nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = { inherit username hostname; };
       modules = [
+        { nixpkgs.overlays = [ unstableOverlay ]; }
+
         ./machines/${hostname}/hardware-configuration.nix
         ./global/base.nix
         ./${desktop}/base.nix
