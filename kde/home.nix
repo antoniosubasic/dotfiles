@@ -323,8 +323,8 @@ in
     ];
 
     file = {
-      ".wallpaper".source = ../global/images;
-      ".face.icon".source = ../global/images/avatar.png;
+      ".wallpaper".source = ../global/files/images;
+      ".face.icon".source = ../global/files/images/avatar.png;
 
       # needed because kwriteconfig6 does not allow unescaped characters like '\s'
       ".config/kuriikwsfilterrc".text = ''
