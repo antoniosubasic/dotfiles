@@ -329,6 +329,9 @@ in
         PreferredWebShortcuts=google,google_images,google_maps,wikipedia,wolfram_alpha,youtube
         UsePreferredWebShortcutsOnly=false
       '';
+
+      ".config/google-chrome/NativeMessagingHosts/org.kde.plasma.browser_integration.json".source =
+        "${pkgs.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";
     };
 
     activation.KDESettings = lib.mkAfter ''
