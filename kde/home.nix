@@ -169,6 +169,12 @@ let
       };
     }
     {
+      file = "kcminputrc";
+      config = {
+        Keyboard.NumLock = "0";
+      };
+    }
+    {
       file = "kwinrulesrc";
       config = {
         General = {
