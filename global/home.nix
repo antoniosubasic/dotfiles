@@ -31,22 +31,15 @@ in
       ".local/bin" = {
         source = ./bin;
       };
-
-      "Templates/ERD.pu".text = ''
-        @startuml
-
-        !define primary_key(x) <b><color:#b8861b><&key></color> x</b>
-        !define foreign_key(x) <color:#aaaaaa><&key></color> x
-        !define column(x) <color:#efefef><&media-record></color> x
-        !define table(x) entity x << (T, white) >>
-
-        @enduml
-      '';
     };
 
     sessionPath = [
       "$HOME/.local/bin"
     ];
+
+    activation.copyTemplates = lib.mkAfter ''
+      cp -r ${./templates}/* $HOME/Templates
+    '';
   };
 
   fonts.fontconfig.enable = true;
