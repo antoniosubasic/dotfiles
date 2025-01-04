@@ -18,7 +18,7 @@
     dotnet-sdk
     cargo
     rustc
-    nodejs_23
+    nodejs
     typescript
     temurin-bin
     maven
