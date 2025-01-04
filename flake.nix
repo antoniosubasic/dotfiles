@@ -36,7 +36,7 @@
     };
   in {
     nixosConfigurations = {
-      test-laptop = mkSystem "test-laptop" "kde";
+      dell-inspiron = mkSystem "dell-inspiron" "kde";
     };
   };
 }
