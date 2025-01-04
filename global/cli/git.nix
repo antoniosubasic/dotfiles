@@ -25,5 +25,15 @@
       fetch.fsckobjects = true;
       receive.fsckObjects = true;
     };
+    ignores = [
+      "bin/"
+      "obj/"
+
+      "target/"
+
+      "node_modules/"
+
+      ".env"
+    ];
   };
 }
