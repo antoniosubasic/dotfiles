@@ -90,7 +90,10 @@ in
     };
   };
 
-  programs.zsh.enable = true;
+  programs = {
+    zsh.enable = true;
+    nix-ld.enable = true;
+  };
 
   virtualisation = {
     docker.enable = true;
