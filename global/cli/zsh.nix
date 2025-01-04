@@ -39,7 +39,7 @@
       share = true;
       extended = true;
       ignorePatterns = [
-        "history *"
+        "history"
         "pwd"
         "exit"
         ":q"
