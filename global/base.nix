@@ -53,7 +53,12 @@ in
   };
 
   hardware.bluetooth.enable = true;
-  security.rtkit.enable = true;
+  security = {
+    rtkit.enable = true;
+    pam.services = {
+      login.fprintAuth = false;
+    };
+  };
 
   services = {
     xserver = {
@@ -72,6 +77,8 @@ in
       };
       pulse.enable = true;
     };
+
+    fprintd.enable = true;
 
     printing.enable = true;
 
