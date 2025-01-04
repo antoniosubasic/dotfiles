@@ -29,7 +29,7 @@ in
       };
 
       ".local/bin" = {
-        source = ./bin;
+        source = ./files/bin;
       };
     };
 
@@ -38,7 +38,8 @@ in
     ];
 
     activation.copyTemplates = lib.mkAfter ''
-      cp -r ${./templates}/* $HOME/Templates
+      rm -rf $HOME/Templates/*
+      cp -r ${./files/templates}/* $HOME/Templates/
     '';
   };
 
