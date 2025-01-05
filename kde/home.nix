@@ -212,6 +212,21 @@ let
         };
       };
     }
+    {
+      file = "spectaclerc";
+      config = {
+        General.clipboardGroup = "PostScreenshotCopyImage";
+        GuiConfig = {
+          captureMode = "0";
+          quitAfterSaveCopyExport = "true";
+        };
+        ImageSave.translatedScreenshotsFolder = "Screenshots";
+        VideoSave = {
+          preferredVideoFormat = "2";
+          translatedScreencastsFolder = "Screencasts";
+        };
+      };
+    }
   ];
 
   searchProviders = map (provider: {
