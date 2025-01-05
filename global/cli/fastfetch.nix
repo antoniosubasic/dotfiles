@@ -2,32 +2,48 @@
   programs.fastfetch = {
     enable = true;
     settings = {
+      display = {
+        size = {
+          maxPrefix = "MB";
+          ndigits = 0;
+        };
+      };
       modules = [
         "title"
         "separator"
         "os"
+        "host"
         {
-          "type" = "host";
-          "format" = "{/2}{-}{/}{2}{?3} {3}{?}";
+          type = "kernel";
+          format = "{release}";
         }
-        "kernel"
         "uptime"
-        {
-          "type" = "battery";
-          "format" = "{/4}{-}{/}{4}{?5} [{5}]{?}";
-        }
-        "break"
         "packages"
         "shell"
-        "display"
+        {
+          type = "display";
+          compactType = "original";
+          key = "Resolution";
+        }
+        "de"
+        "wm"
+        "wmtheme"
+        "theme"
+        "icons"
         "terminal"
-        "break"
+        {
+          type = "terminalfont";
+          format = "{/name}{-}{/}{name}{?size} {size}{?}";
+        }
         "cpu"
         {
-          "type" = "gpu";
-          "key" = "GPU";
+          type = "gpu";
+          key = "GPU";
         }
-        "memory"
+        {
+          type = "memory";
+          format = "{} / {}";
+        }
         "break"
         "colors"
       ];
