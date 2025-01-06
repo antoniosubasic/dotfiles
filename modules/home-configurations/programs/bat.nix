@@ -1,4 +1,6 @@
-{ config, pkgs, ... }: {
+{ pkgs, ... }:
+
+{
   programs.bat = {
     enable = true;
     themes = {
@@ -13,6 +15,10 @@
         file = "extras/sublime/tokyonight_night.tmTheme";
       };
     };
-    extraPackages = with pkgs.bat-extras; [ batgrep batman prettybat ];
+    extraPackages = with pkgs.bat-extras; [
+      batgrep
+      batman
+      prettybat
+    ];
   };
 }

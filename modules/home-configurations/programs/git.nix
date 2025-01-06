@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{
   programs.git = {
     enable = true;
     userName = "Antonio Subašić";
@@ -17,7 +17,10 @@
       url."git@github.com".insteadOf = "gh:";
       diff.algorithm = "histogram";
       status.submoduleSummary = true;
-      core = { autocrlf = false; editor = "nvim"; };
+      core = {
+        autocrlf = false;
+        editor = "nvim";
+      };
       log.date = "iso";
       pull.ff = "only";
       push.autoSetupRemote = true;
@@ -28,11 +31,8 @@
     ignores = [
       "bin/"
       "obj/"
-
       "target/"
-
       "node_modules/"
-
       ".env"
     ];
   };
