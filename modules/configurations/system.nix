@@ -1,13 +1,5 @@
-{ config, pkgs, username, hostname, ... }:
+{ pkgs, hostname, ... }:
 
-let
-  grubTheme = pkgs.fetchFromGitHub {
-    owner = "sandesh236";
-    repo = "sleek--themes";
-    rev = "0c47e645ccc2d72aa165e9d994f9d09f58de9f6d";
-    sha256 = "1q5583hvfjv19g503whl5mq4vqw2ci4f6w1z8pya23bw4h4ki2qz";
-  };
-in
 {
   boot.loader = {
     efi.canTouchEfiVariables = true;
@@ -16,7 +8,14 @@ in
       device = "nodev";
       efiSupport = true;
       useOSProber = true;
-      theme = "${grubTheme}/Sleek theme-dark/sleek";
+      theme = "${
+        pkgs.fetchFromGitHub {
+          owner = "sandesh236";
+          repo = "sleek--themes";
+          rev = "0c47e645ccc2d72aa165e9d994f9d09f58de9f6d";
+          sha256 = "1q5583hvfjv19g503whl5mq4vqw2ci4f6w1z8pya23bw4h4ki2qz";
+        }
+      }/Sleek theme-dark/sleek";
     };
   };
 
@@ -46,12 +45,6 @@ in
     };
   };
 
-  users.users.${username} = {
-    isNormalUser = true;
-    shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
-  };
-
   hardware.bluetooth.enable = true;
   security = {
     rtkit.enable = true;
@@ -79,39 +72,10 @@ in
     };
 
     fprintd.enable = true;
-
     printing.enable = true;
-
-    tailscale.enable = true;
-
-    plantuml-server = {
-      enable = true;
-      listenPort = 9090;
-    };
   };
 
-  programs = {
-    zsh.enable = true;
-    nix-ld.enable = true;
-  };
-
-  virtualisation = {
-    docker.enable = true;
-    containerd.enable = true;
-  };
-
-  nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
-
-    gc = {
-      automatic = true;
-      persistent = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-  };
-
-  nixpkgs.config.allowUnfree = true;
+  programs.nix-ld.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

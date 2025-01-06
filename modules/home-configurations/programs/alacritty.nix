@@ -1,11 +1,17 @@
-{ config, pkgs, ... }: {
+{
   programs.alacritty = {
     enable = true;
     settings = {
       env.TERM = "xterm-256color";
       window = {
-        dimensions = { columns = 125; lines = 30; };
-        padding = { x = 10; y = 10; };
+        dimensions = {
+          columns = 125;
+          lines = 30;
+        };
+        padding = {
+          x = 10;
+          y = 10;
+        };
         decorations = "full";
         opacity = 0.99;
       };
@@ -30,7 +36,11 @@
         };
       };
       keyboard.bindings = [
-        { key = "N"; mods = "Control"; action = "SpawnNewInstance"; }
+        {
+          key = "N";
+          mods = "Control";
+          action = "SpawnNewInstance";
+        }
       ];
       colors = {
         primary = {

@@ -1,21 +1,26 @@
-{ config, pkgs, ... }: {
+{ utilities, pkgs, ... }:
+
+{
+  imports = utilities.importNixFiles ./programs;
+
   home.packages = with pkgs; [
-    man
-    curl
-    wget
-    unzip
-    docker-compose
     jq
     xsel
     ripgrep
     asciidoctor
-    testdisk
     sl
     eza
-    libnotify
     nixd
     nixfmt-rfc-style
-    
+
+    vscode
+    discord
+    dropbox
+    libreoffice-still
+    keepassxc
+    jetbrains.idea-ultimate
+    jetbrains.datagrip
+
     gcc
     dotnet-sdk
     cargo
@@ -24,7 +29,5 @@
     typescript
     temurin-bin
     maven
-    
-    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
 }

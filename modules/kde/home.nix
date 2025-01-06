@@ -1,4 +1,9 @@
-{ username }: { config, pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  username,
+  ...
+}:
 
 let
   inherit (lib.strings) toLower replaceStrings;
@@ -229,105 +234,123 @@ let
     }
   ];
 
-  searchProviders = map (provider: {
-    file = "/home/${username}/.local/share/kf6/searchproviders/${toLower (replaceStrings [" "] ["_"] provider.name)}.desktop";
-    config = {
-      "Desktop Entry" = {
-        Charset = "";
-        Hidden = "false";
-        Keys = provider.shortcut;
-        Name = provider.name;
-        Query = provider.query;
-        Type = "Service";
-      };
-    };
-  }) [
-    {
-      name = "GitHub";
-      shortcut = "!gh";
-      query = "https://github.com/search?q=\\{@}";
-    }
-    {
-      name = "Personal GitHub";
-      shortcut = "!pgh";
-      query = "https://github.com/antoniosubasic?tab=repositories&q=\\{@}";
-    }
-    {
-      name = "Google";
-      shortcut = "!g";
-      query = "https://www.google.com/search?q=\\{@}";
-    }
-    {
-      name = "Google Images";
-      shortcut = "!gi";
-      query = "https://www.google.com/search?site=imghp&tbm=isch&q=\\{@}";
-    }
-    {
-      name = "Google Maps";
-      shortcut = "!gm";
-      query = "https://www.google.com/maps/search/\\{@}";
-    }
-    {
-      name = "YouTube";
-      shortcut = "!yt";
-      query = "https://www.youtube.com/results?search_query=\\{@}";
-    }
-    {
-      name = "WikiPedia";
-      shortcut = "!wp";
-      query = "https://en.wikipedia.org/wiki/Special:Search?search=\\{@}";
-    }
-    {
-      name = "Wolfram Alpha";
-      shortcut = "!wa";
-      query = "https://www.wolframalpha.com/input/?i=\\{@}";
-    }
-  ];
-
-
+  searchProviders =
+    map
+      (provider: {
+        file = "/home/${username}/.local/share/kf6/searchproviders/${
+          toLower (replaceStrings [ " " ] [ "_" ] provider.name)
+        }.desktop";
+        config = {
+          "Desktop Entry" = {
+            Charset = "";
+            Hidden = "false";
+            Keys = provider.shortcut;
+            Name = provider.name;
+            Query = provider.query;
+            Type = "Service";
+          };
+        };
+      })
+      [
+        {
+          name = "GitHub";
+          shortcut = "!gh";
+          query = "https://github.com/search?q=\\{@}";
+        }
+        {
+          name = "Personal GitHub";
+          shortcut = "!pgh";
+          query = "https://github.com/antoniosubasic?tab=repositories&q=\\{@}";
+        }
+        {
+          name = "Google";
+          shortcut = "!g";
+          query = "https://www.google.com/search?q=\\{@}";
+        }
+        {
+          name = "Google Images";
+          shortcut = "!gi";
+          query = "https://www.google.com/search?site=imghp&tbm=isch&q=\\{@}";
+        }
+        {
+          name = "Google Maps";
+          shortcut = "!gm";
+          query = "https://www.google.com/maps/search/\\{@}";
+        }
+        {
+          name = "YouTube";
+          shortcut = "!yt";
+          query = "https://www.youtube.com/results?search_query=\\{@}";
+        }
+        {
+          name = "WikiPedia";
+          shortcut = "!wp";
+          query = "https://en.wikipedia.org/wiki/Special:Search?search=\\{@}";
+        }
+        {
+          name = "Wolfram Alpha";
+          shortcut = "!wa";
+          query = "https://www.wolframalpha.com/input/?i=\\{@}";
+        }
+      ];
 
   #! HELPER FUNCTIONS
 
-  init = list: 
-    if list == [] then []
-    else if builtins.length list == 1 then []
-    else [(builtins.head list)] ++ init (builtins.tail list);
+  init =
+    list:
+    if list == [ ] then
+      [ ]
+    else if builtins.length list == 1 then
+      [ ]
+    else
+      [ (builtins.head list) ] ++ init (builtins.tail list);
 
-  last = list:
-    if list == [] then null
-    else if builtins.length list == 1 then builtins.head list
-    else last (builtins.tail list);
+  last =
+    list:
+    if list == [ ] then
+      null
+    else if builtins.length list == 1 then
+      builtins.head list
+    else
+      last (builtins.tail list);
 
-  flattenAttrs = prefix: set:
+  flattenAttrs =
+    prefix: set:
     builtins.concatLists (
-      builtins.map (name:
-        let 
+      builtins.map (
+        name:
+        let
           value = set.${name};
-          newPrefix = prefix ++ [name];
+          newPrefix = prefix ++ [ name ];
         in
-          if builtins.isAttrs value then
-            flattenAttrs newPrefix value
-          else
-            [{ path = newPrefix; value = value; }]
+        if builtins.isAttrs value then
+          flattenAttrs newPrefix value
+        else
+          [
+            {
+              path = newPrefix;
+              value = value;
+            }
+          ]
       ) (builtins.attrNames set)
     );
 
-  generateBuildGroups = path:
-    builtins.concatStringsSep " " (
-      builtins.map (name: "--group \"${name}\"") 
-        (init path)
-    );
+  generateBuildGroups =
+    path: builtins.concatStringsSep " " (builtins.map (name: "--group \"${name}\"") (init path));
 
-  generateBuildCommands = configs:
+  generateBuildCommands =
+    configs:
     builtins.concatStringsSep "\n" (
-      builtins.map (cfg:
+      builtins.map (
+        cfg:
         let
-          flattened = flattenAttrs [] cfg.config;
-          commands = builtins.map (item: 
+          flattened = flattenAttrs [ ] cfg.config;
+          commands = builtins.map (
+            item:
             "${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file \"${cfg.file}\" ${generateBuildGroups item.path} --key \"${last item.path}\" \"${toString item.value}\""
           ) flattened;
         in
-          builtins.concatStringsSep "\n" commands
+        builtins.concatStringsSep "\n" commands
       ) configs
     );
 in
@@ -338,8 +361,8 @@ in
     ];
 
     file = {
-      ".wallpaper".source = ../global/files/images;
-      ".face.icon".source = ../global/files/images/avatar.png;
+      ".wallpaper".source = ../home-configurations/files/images;
+      ".face.icon".source = ../home-configurations/files/images/avatar.png;
 
       # needed because kwriteconfig6 does not allow unescaped characters like '\s'
       ".config/kuriikwsfilterrc".text = ''

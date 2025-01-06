@@ -10,41 +10,65 @@
     };
   };
 
-  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, ... }:
-  let
-    username = "antonio";
-    system = "x86_64-linux";
+  outputs =
+    {
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      ...
+    }:
+    let
+      hosts = {
+        dell-inspiron = {
+          username = "antonio";
+          desktop = "kde";
+          system = "x86_64-linux";
+        };
+      };
 
-    unstable = import nixpkgs-unstable {
-      inherit system;
-      config = { allowUnfree = true; };
-    };
-    unstableOverlay = final: prev: { vscode = unstable.vscode; };
+      lib = nixpkgs.lib;
+      utilities = import ./lib/utils.nix { inherit lib; };
 
-    mkSystem = hostname: desktop: nixpkgs.lib.nixosSystem {
-      inherit system;
-      specialArgs = { inherit username hostname; };
-      modules = [
-        { nixpkgs.overlays = [ unstableOverlay ]; }
+      unstable =
+        hostname:
+        import nixpkgs-unstable {
+          system = hosts.${hostname}.system;
+          config = {
+            allowUnfree = true;
+          };
+        };
+      unstableOverlay = hostname: final: prev: {
+        vscode = (unstable hostname).vscode;
+      };
 
-        ./machines/${hostname}/hardware-configuration.nix
-        ./global/base.nix
-        ./${desktop}/base.nix
+      mkSystem =
+        name: config:
+        let
+          system = config.system;
+          hostname = name;
+          specialArgs = config // {
+            inherit hostname utilities;
+          };
+        in
+        nixpkgs.lib.nixosSystem {
+          inherit system specialArgs;
+          modules = [
+            { nixpkgs.overlays = [ (unstableOverlay hostname) ]; }
 
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.${username} = nixpkgs.lib.mkMerge [
-            (import ./global/home.nix { inherit username; })
-            (import ./${desktop}/home.nix { inherit username; })
+            ./machines/${hostname}/hardware-configuration.nix
+            ./modules/configuration.nix
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = specialArgs;
+              home-manager.users.${config.username} = import ./modules/home.nix;
+            }
           ];
-        }
-      ];
+        };
+    in
+    {
+      nixosConfigurations = builtins.mapAttrs mkSystem hosts;
     };
-  in {
-    nixosConfigurations = {
-      dell-inspiron = mkSystem "dell-inspiron" "kde";
-    };
-  };
 }

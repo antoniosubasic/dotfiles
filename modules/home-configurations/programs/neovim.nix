@@ -1,4 +1,6 @@
-{ config, pkgs, ... }: {
+{ pkgs, ... }:
+
+{
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -85,6 +87,15 @@
       }
 
       alpha.setup(dashboard.opts)
+    '';
+  };
+
+  home.file.".local/share/nvim/parser" = {
+    recursive = true;
+    enable = true;
+    source = pkgs.runCommandNoCC "treesitter-parser-dir" { } ''
+      mkdir -p $out
+      chmod 755 $out
     '';
   };
 }
