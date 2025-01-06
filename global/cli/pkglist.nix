@@ -13,6 +13,8 @@
     sl
     eza
     libnotify
+    nixd
+    nixfmt-rfc-style
     
     gcc
     dotnet-sdk
