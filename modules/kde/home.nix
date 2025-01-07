@@ -180,22 +180,6 @@ let
       };
     }
     {
-      file = "kwinrulesrc";
-      config = {
-        General = {
-          count = "1";
-          rules = "b91a3f7a-0618-448f-a814-fad4bfaf1d2c";
-        };
-        "b91a3f7a-0618-448f-a814-fad4bfaf1d2c" = {
-          Description = "Application settings for Discord";
-          desktops = "a36c2ddd-367b-4d66-bf7c-1441085e4dce";
-          desktopsrule = "3";
-          wmclass = "discord";
-          wmclassmatch = "1";
-        };
-      };
-    }
-    {
       file = "ksmserverrc";
       config = {
         General = {
