@@ -14,7 +14,6 @@
     nixfmt-rfc-style
 
     vscode
-    discord
     dropbox
     libreoffice-still
     keepassxc
