@@ -1,4 +1,4 @@
-{ utilities, pkgs, ... }:
+{ utilities, pkgs, unstable, ... }:
 
 {
   imports = utilities.importNixFiles ./programs;
@@ -13,7 +13,7 @@
     nixd
     nixfmt-rfc-style
 
-    vscode
+    unstable.vscode
     dropbox
     libreoffice-still
     keepassxc
