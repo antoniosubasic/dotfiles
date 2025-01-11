@@ -49,11 +49,10 @@
       ];
     };
 
-    initExtra = ''
-      autoload -Uz compinit
-      autoload -Uz vcs_info
-      compinit
+    completionInit = "autoload -Uz compinit && autoload -Uz vcs_info && compinit";
+    defaultKeymap = "emacs";
 
+    initExtra = ''
       precmd() { vcs_info }
 
       # zsh prompt
@@ -68,16 +67,7 @@
       PROMPT='%F{blue}%~%f''${vcs_info_msg_0_}%(?.%F{green}.%F{red}) ❯%f '
 
       # bash like keybindings (https://www.enlinux.com/bash-keyboard-shortcuts)
-      bindkey -e
-
-      bindkey "^A" beginning-of-line
-      bindkey "^B" backward-char
-      bindkey "^E" end-of-line
-      bindkey "^F" forward-char
-      bindkey "^K" kill-line
       bindkey "^T" transpose-chars
-      bindkey "^U" backward-kill-line
-      bindkey "^W" backward-kill-word
       bindkey "^[[3~" delete-char
       bindkey "^[[1;5D" backward-word
       bindkey "^[[1;5C" forward-word
