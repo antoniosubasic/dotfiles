@@ -33,13 +33,8 @@
         hostname:
         import nixpkgs-unstable {
           system = hosts.${hostname}.system;
-          config = {
-            allowUnfree = true;
-          };
+          config.allowUnfree = true;
         };
-      unstableOverlay = hostname: final: prev: {
-        vscode = (unstable hostname).vscode;
-      };
 
       mkSystem =
         name: config:
@@ -48,13 +43,12 @@
           hostname = name;
           specialArgs = config // {
             inherit hostname utilities;
+            unstable = unstable hostname;
           };
         in
         nixpkgs.lib.nixosSystem {
           inherit system specialArgs;
           modules = [
-            { nixpkgs.overlays = [ (unstableOverlay hostname) ]; }
-
             ./machines/${hostname}/hardware-configuration.nix
             ./modules/configuration.nix
 
