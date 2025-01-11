@@ -12,6 +12,7 @@
 
   outputs =
     {
+      self,
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
@@ -44,6 +45,8 @@
           specialArgs = config // {
             inherit hostname utilities;
             unstable = unstable hostname;
+            flakePath = "/home/${config.username}/.dotfiles";
+            flakeStorePath = self.outPath;
           };
         in
         nixpkgs.lib.nixosSystem {
