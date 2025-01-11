@@ -66,6 +66,19 @@
       setopt PROMPT_SUBST
       PROMPT='%F{blue}%~%f''${vcs_info_msg_0_}%(?.%F{green}.%F{red}) ❯%f '
 
+      code() {
+        if [ ! -e "$1" ]; then
+          local dir=$(zoxide query "$@")
+          if [ $? -eq 0 ] && [ -n "$dir" ]; then
+            command code "$dir"
+          else
+            return 1
+          fi
+        else
+          command code "$@"
+        fi
+      }
+
       # bash like keybindings (https://www.enlinux.com/bash-keyboard-shortcuts)
       bindkey "^T" transpose-chars
       bindkey "^[[3~" delete-char
