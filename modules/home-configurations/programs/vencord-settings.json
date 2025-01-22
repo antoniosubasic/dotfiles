@@ -245,13 +245,13 @@
         },
         "ImageZoom": {
             "enabled": true,
-            "saveZoomValues": true,
+            "saveZoomValues": false,
             "invertScroll": true,
             "nearestNeighbour": false,
             "square": false,
-            "zoom": 2,
-            "size": 100,
-            "zoomSpeed": 0.5
+            "zoom": 6.5,
+            "size": 650,
+            "zoomSpeed": 0.1
         },
         "ImplicitRelationships": {
             "enabled": false
