@@ -8,6 +8,7 @@
     unzip
     docker-compose
     libnotify
+    sqlite
 
     google-chrome
   ];
