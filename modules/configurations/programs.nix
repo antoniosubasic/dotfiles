@@ -9,6 +9,7 @@
     docker-compose
     libnotify
     sqlite
+    exiftool
 
     google-chrome
   ];
