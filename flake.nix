@@ -4,9 +4,16 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
   };
 
@@ -15,6 +22,7 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
+      plasma-manager,
       ...
     }:
     let
@@ -57,6 +65,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = specialArgs;
+              home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
               home-manager.users.${config.username} = import ./modules/home.nix;
             }
           ];
