@@ -47,7 +47,7 @@ let
           "2".Applets = {
             "19".Configuration.Appearance = {
               dateFormat = "custom";
-              customDateFormat = "ddd dd MMM";
+              customDateFormat = "ddd MMM dd";
               showSeconds = "Always";
             };
             "5".Configuration.General = {
