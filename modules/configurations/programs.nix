@@ -10,6 +10,7 @@
     libnotify
     sqlite
     exiftool
+    testdisk
 
     google-chrome
   ];
