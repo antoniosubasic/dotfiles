@@ -26,7 +26,10 @@
     rustc
     nodejs
     typescript
-    temurin-bin
+    
+    # jdk with javafx support
+    (pkgs.jdk.override { enableJavaFX = true; })
+    (pkgs.openjfx.override { withWebKit = true; })
     maven
   ];
 }
