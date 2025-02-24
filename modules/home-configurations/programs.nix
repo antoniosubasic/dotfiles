@@ -26,6 +26,7 @@
     rustc
     nodejs
     typescript
+    swi-prolog
     
     # jdk with javafx support
     (pkgs.jdk.override { enableJavaFX = true; })
