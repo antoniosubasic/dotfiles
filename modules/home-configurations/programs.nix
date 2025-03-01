@@ -29,7 +29,7 @@
     swi-prolog
     
     # jdk with javafx support
-    (pkgs.jdk.override { enableJavaFX = true; })
+    (pkgs.jdk23.override { enableJavaFX = true; })
     (pkgs.openjfx.override { withWebKit = true; })
     maven
   ];
