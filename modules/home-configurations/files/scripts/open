@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+    read input
+    url="$input"
+else
+    url="$1"
+fi
+
+nohup google-chrome-stable --new-tab "$url" &> /dev/null &
