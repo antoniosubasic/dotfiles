@@ -61,7 +61,7 @@
       zstyle ':vcs_info:git:*' unstagedstr '*'
       zstyle ':vcs_info:git:*' stagedstr '+'
       zstyle ':vcs_info:git:*' formats ' %F{yellow}(%b)%f' # %b = branch, %c = +, %u = *
-      zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+      zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' '+l:|=* r:|=*'
 
       setopt PROMPT_SUBST
       PROMPT='%F{blue}%~%f''${vcs_info_msg_0_}%(?.%F{green}.%F{red}) ❯%f '
