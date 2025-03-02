@@ -21,7 +21,10 @@
     jetbrains.datagrip
 
     gcc
-    dotnet-sdk
+    (dotnetCorePackages.combinePackages [
+      dotnet-sdk_8
+      dotnet-sdk_9
+    ])
     cargo
     rustc
     nodejs
