@@ -4,22 +4,16 @@
   imports = utilities.importNixFiles ./programs;
 
   home.packages = with pkgs; [
-    jq
-    xsel
-    ripgrep
+    # CLI
     asciidoctor
     sl
-    eza
     nixd
     nixfmt-rfc-style
+    sqlite
+    exiftool
+    testdisk
 
-    unstable.vscode
-    dropbox
-    libreoffice-still
-    keepassxc
-    jetbrains.idea-ultimate
-    jetbrains.datagrip
-
+    # Languages
     gcc
     (dotnetCorePackages.combinePackages [
       dotnet-sdk_8
@@ -30,10 +24,17 @@
     nodejs
     typescript
     swi-prolog
-    
-    # jdk with javafx support
     (pkgs.jdk23.override { enableJavaFX = true; })
     (pkgs.openjfx.override { withWebKit = true; })
     maven
+
+    # GUI
+    google-chrome
+    unstable.vscode
+    dropbox
+    keepassxc
+    libreoffice-still
+    jetbrains.idea-ultimate
+    jetbrains.datagrip
   ];
 }

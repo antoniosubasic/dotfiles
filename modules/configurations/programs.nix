@@ -8,11 +8,10 @@
     unzip
     docker-compose
     libnotify
-    sqlite
-    exiftool
-    testdisk
-
-    google-chrome
+    jq
+    xsel
+    ripgrep
+    eza
   ];
 
   services = {
