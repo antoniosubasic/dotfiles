@@ -30,6 +30,7 @@
 
     # GUI
     google-chrome
+    tor-browser
     unstable.vscode
     dropbox
     keepassxc
