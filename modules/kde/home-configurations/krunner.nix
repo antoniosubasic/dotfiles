@@ -79,9 +79,9 @@ in
       historyBehavior = "enableSuggestions";
     };
     configFile = {
-      krunnerrc.Plugins = {
-        krunner_konsoleprofilesEnabled = false;
-        Favorites.plugins = "krunner_services,krunner_systemsettings";
+      krunnerrc = {
+        Plugins.krunner_konsoleprofilesEnabled = false;
+        "Plugins/Favorites".plugins = "krunner_services,krunner_systemsettings";
       };
       kuriikwsfilterrc = {
         General = {

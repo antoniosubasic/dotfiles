@@ -22,7 +22,7 @@
       Search.Location = "Everywhere";
     };
     ktrashrc = {
-      "/home/${username}/.local/share/Trash" = {
+      "\\/home\\/${username}\\/.local\\/share\\/Trash" = {
         Days = 100;
         LimitReachedAction = 0;
         Percent = 10;
