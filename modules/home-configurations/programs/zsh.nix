@@ -12,6 +12,7 @@
       ls = "eza --git --icons --time-style=+\"%d.%m.%Y %H:%M:%S\" --color=always";
       ll = "ls -al";
       tree = "ls -T";
+      open = "xdg-open";
 
       grep = "rg";
       adoc = "asciidoctor";
