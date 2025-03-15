@@ -1,7 +1,7 @@
 {
   programs.plasma.configFile = {
     plasmanotifyrc = {
-      Services.donationmessage = {
+      "Services/donationmessage" = {
         ShowInHistory = false;
         ShowPopups = false;
       };

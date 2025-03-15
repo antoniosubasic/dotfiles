@@ -1,6 +1,6 @@
 {
   programs.plasma = {
-    configFile."powerdevil.notifyrc"."Event/lowperipheralbattery".Action = "";
+    configFile."powerdevil.notifyrc"."Event\/lowperipheralbattery".Action = "";
     powerdevil = {
       AC = {
         dimDisplay = {
