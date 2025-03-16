@@ -33,7 +33,6 @@
     tor-browser
     unstable.vscode
     dropbox
-    keepassxc
     libreoffice-still
     jetbrains.idea-ultimate
     jetbrains.datagrip
