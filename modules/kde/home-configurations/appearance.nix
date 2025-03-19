@@ -11,4 +11,7 @@
       Xwayland.Scale = "1.85";
     };
   };
+
+  # also see ../configuration.nix
+  home.file.".face.icon".source = ./appearance/avatar.png;
 }
