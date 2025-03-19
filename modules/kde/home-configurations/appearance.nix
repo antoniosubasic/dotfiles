@@ -1,8 +1,8 @@
 {
   programs.plasma = {
-    kscreenlocker.appearance.wallpaper = ../../home-configurations/files/images/lockscreen.png;
+    kscreenlocker.appearance.wallpaper = ./appearance/lockscreen.png;
     workspace = {
-      wallpaper = ../../home-configurations/files/images/desktop.png;
+      wallpaper = ./appearance/desktop.png;
       colorScheme = "BreezeDark";
     };
     kwin.effects.shakeCursor.enable = false;

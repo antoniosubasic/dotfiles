@@ -14,5 +14,12 @@
       okular
       khelpcenter
     ];
+
+    systemPackages = [
+      (pkgs.writeTextDir "share/sddm/themes/breeze/theme.conf.user" ''
+        [General]
+        background=${./home-configurations/appearance/lockscreen.png}
+      '')
+    ];
   };
 }
