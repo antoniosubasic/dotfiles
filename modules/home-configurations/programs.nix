@@ -12,6 +12,7 @@
     sqlite
     exiftool
     testdisk
+    just
 
     # Languages
     gcc
