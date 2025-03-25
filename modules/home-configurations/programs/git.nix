@@ -13,6 +13,7 @@
     };
     extraConfig = {
       user.github = "antoniosubasic";
+      init.defaultBranch = "main";
       help.autocorrect = 10;
       url."git@github.com".insteadOf = "gh:";
       diff.algorithm = "histogram";
