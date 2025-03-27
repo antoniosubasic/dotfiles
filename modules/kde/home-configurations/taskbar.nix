@@ -27,6 +27,7 @@
               "org.kde.plasma.bluetooth"
               "org.kde.plasma.clipboard"
               "org.kde.plasma.notifications"
+              "org.kde.plasma.battery"
               "dropbox-client-PID"
             ];
           };
