@@ -14,7 +14,8 @@ let
       value = {
         text = ''
           [Desktop Entry]
-          Charset=
+          Charset=UTF-8
+          X-KDE-ServiceTypes=KRunner/SearchPlugin
           Hidden=false
           Keys=${shortcut}
           Name=${name}
@@ -28,47 +29,47 @@ let
     {
       name = "GitHub";
       shortcut = "gh";
-      query = "https://github.com/search?q=\\{@}";
+      query = "https://github.com/search?q=\\\\{@}";
     }
     {
       name = "Personal GitHub";
       shortcut = "pgh";
-      query = "https://github.com/antoniosubasic?tab=repositories&q=\\{@}";
+      query = "https://github.com/antoniosubasic?tab=repositories&q=\\\\{@}";
     }
     {
       name = "Google";
       shortcut = "g";
-      query = "https://www.google.com/search?q=\\{@}";
+      query = "https://www.google.com/search?q=\\\\{@}";
     }
     {
       name = "Google Drive";
       shortcut = "gd";
-      query = "https://drive.google.com/drive/search?q=\\{@}";
+      query = "https://drive.google.com/drive/search?q=\\\\{@}";
     }
     {
       name = "Google Images";
       shortcut = "gi";
-      query = "https://www.google.com/search?site=imghp&tbm=isch&q=\\{@}";
+      query = "https://www.google.com/search?site=imghp&tbm=isch&q=\\\\{@}";
     }
     {
       name = "Google Maps";
       shortcut = "gm";
-      query = "https://www.google.com/maps/search/\\{@}";
+      query = "https://www.google.com/maps/search/\\\\{@}";
     }
     {
       name = "YouTube";
       shortcut = "yt";
-      query = "https://www.youtube.com/results?search_query=\\{@}";
+      query = "https://www.youtube.com/results?search_query=\\\\{@}";
     }
     {
       name = "WikiPedia";
       shortcut = "wp";
-      query = "https://en.wikipedia.org/wiki/Special:Search?search=\\{@}";
+      query = "https://en.wikipedia.org/wiki/Special:Search?search=\\\\{@}";
     }
     {
       name = "Wolfram Alpha";
       shortcut = "wa";
-      query = "https://www.wolframalpha.com/input/?i=\\{@}";
+      query = "https://www.wolframalpha.com/input/?i=\\\\{@}";
     }
   ];
 in
