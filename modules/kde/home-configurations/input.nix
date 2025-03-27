@@ -1,5 +1,3 @@
-{ lib, ... }:
-
 let
   touchpads = [
     {
@@ -37,6 +35,7 @@ in
           leftHanded = false;
           middleButtonEmulation = false;
           pointerSpeed = 0;
+          accelerationProfile = "none";
           scrollSpeed = 0.3;
           scrollMethod = "twoFingers";
           naturalScroll = true;
@@ -49,16 +48,5 @@ in
       ) touchpads;
       mice = mice;
     };
-
-    configFile.kcminputrc = builtins.listToAttrs (
-      map (touchpad: {
-        name = "Libinput/${builtins.toString (lib.fromHexString touchpad.vendorId)}/${builtins.toString (lib.fromHexString touchpad.productId)}/${
-          lib.escape [ "/" ] touchpad.name
-        }";
-        value = {
-          PointerAccelerationProfile = 1;
-        };
-      }) touchpads
-    );
   };
 }
