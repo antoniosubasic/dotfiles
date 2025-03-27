@@ -34,6 +34,7 @@
     tor-browser
     unstable.vscode
     dropbox
+    gimp
     libreoffice-still
     jetbrains.idea-ultimate
     jetbrains.datagrip
