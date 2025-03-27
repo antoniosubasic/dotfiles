@@ -23,7 +23,7 @@
       };
       apply = {
         desktops = {
-          value = 2;
+          value = "Desktop_2";
           apply = "force";
         };
       };
