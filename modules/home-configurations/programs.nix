@@ -13,6 +13,7 @@
     exiftool
     testdisk
     just
+    gh
 
     # Languages
     gcc
