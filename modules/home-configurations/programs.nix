@@ -14,6 +14,7 @@
     testdisk
     just
     gh
+    tokei
 
     # Languages
     gcc

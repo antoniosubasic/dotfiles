@@ -20,6 +20,7 @@
       ":q" = "exit";
       neofetch = "fastfetch";
       cat = "bat";
+      cloc = "tokei";
 
       copy = "xsel --input --clipboard";
       paste = "xsel --output --clipboard";
