@@ -1,4 +1,9 @@
-{ pkgs, hostname, ... }:
+{
+  pkgs,
+  hostname,
+  username,
+  ...
+}:
 
 {
   boot.loader = {
@@ -8,14 +13,10 @@
       device = "nodev";
       efiSupport = true;
       useOSProber = true;
-      theme = "${
-        pkgs.fetchFromGitHub {
-          owner = "sandesh236";
-          repo = "sleek--themes";
-          rev = "0c47e645ccc2d72aa165e9d994f9d09f58de9f6d";
-          sha256 = "1q5583hvfjv19g503whl5mq4vqw2ci4f6w1z8pya23bw4h4ki2qz";
-        }
-      }/Sleek theme-dark/sleek";
+      theme = pkgs.sleek-grub-theme.override {
+        withBanner = "Hello ${username}";
+        withStyle = "dark";
+      };
     };
   };
 

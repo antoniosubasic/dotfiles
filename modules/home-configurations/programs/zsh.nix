@@ -93,21 +93,11 @@
     plugins = [
       {
         name = "fzf-tab";
-        src = pkgs.fetchFromGitHub {
-          owner = "Aloxaf";
-          repo = "fzf-tab";
-          rev = "master";
-          sha256 = "1brljd9744wg8p9v3q39kdys33jb03d27pd0apbg1cz0a2r1wqqi";
-        };
+        src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
       }
       {
         name = "zsh-fzf-history-search";
-        src = pkgs.fetchFromGitHub {
-          owner = "joshskidmore";
-          repo = "zsh-fzf-history-search";
-          rev = "master";
-          sha256 = "1dm1asa4ff5r42nadmj0s6hgyk1ljrckw7val8fz2n0892b8h2mm";
-        };
+        src = pkgs.zsh-fzf-history-search;
       }
     ];
   };
