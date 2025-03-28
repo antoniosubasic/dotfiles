@@ -21,6 +21,7 @@
     (dotnetCorePackages.combinePackages [
       dotnet-sdk_8
       dotnet-sdk_9
+      dotnet-sdk_10
     ])
     cargo
     rustc
