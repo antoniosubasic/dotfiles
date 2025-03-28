@@ -32,6 +32,11 @@
           desktop = "kde";
           system = "x86_64-linux";
         };
+        hp-envy = {
+          username = "antonio";
+          desktop = "kde";
+          system = "x86_64-linux";
+        };
       };
 
       lib = nixpkgs.lib;
