@@ -12,13 +12,11 @@ let
       name = "Logitech M705";
       vendorId = "046D";
       productId = "406D";
-      enable = true;
-      leftHanded = false;
-      middleButtonEmulation = false;
-      acceleration = 0.2;
-      accelerationProfile = "none";
-      scrollSpeed = 1;
-      naturalScroll = false;
+    }
+    {
+      name = "Logitech USB Receiver";
+      vendorId = "046D";
+      productId = "C547";
     }
   ];
 in
@@ -46,7 +44,19 @@ in
           rightClickMethod = "bottomRight";
         }
       ) touchpads;
-      mice = mice;
+      mice = map (
+        identifier:
+        identifier
+        // {
+          enable = true;
+          leftHanded = false;
+          middleButtonEmulation = false;
+          acceleration = 0.2;
+          accelerationProfile = "none";
+          scrollSpeed = 1;
+          naturalScroll = false;
+        }
+      ) mice;
     };
   };
 }
