@@ -40,6 +40,5 @@
     libreoffice-still
     jetbrains.idea-ultimate
     jetbrains.datagrip
-    wireshark
   ];
 }
