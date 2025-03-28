@@ -24,7 +24,7 @@
       apply = {
         desktops = {
           value = "Desktop_2";
-          apply = "force";
+          apply = "initially";
         };
       };
     }
