@@ -9,7 +9,7 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,36 +26,38 @@
       ...
     }:
     let
-      hosts = {
-        dell-inspiron = {
-          username = "antonio";
-          desktop = "kde";
-          system = "x86_64-linux";
-        };
-      };
-
       lib = nixpkgs.lib;
-      utilities = import ./lib/utils.nix { inherit lib; };
 
-      unstable =
-        hostname:
-        import nixpkgs-unstable {
-          system = hosts.${hostname}.system;
-          config.allowUnfree = true;
-        };
+      machines = builtins.attrNames (
+        lib.filterAttrs (name: type: type == "directory") (builtins.readDir ./machines)
+      );
 
       mkSystem =
-        name: config:
+        name:
         let
-          system = config.system;
+          configPath = ./machines/${name}/configuration.nix;
+          config = {
+            username = "antonio";
+            desktop = "kde";
+            system = "x86_64-linux";
+          } // (if builtins.pathExists configPath then import configPath else { });
+
+          username = config.username;
           hostname = name;
-          specialArgs = config // {
-            inherit hostname utilities;
-            unstable = unstable hostname;
+          system = config.system;
+
+          args = config // {
+            inherit hostname;
+            utilities = import ./lib/utils.nix { inherit lib; };
+            unstable = import nixpkgs-unstable {
+              system = system;
+              config.allowUnfree = true;
+            };
           };
         in
         nixpkgs.lib.nixosSystem {
-          inherit system specialArgs;
+          inherit system;
+          specialArgs = args;
           modules = [
             ./machines/${hostname}/hardware-configuration.nix
             ./modules/configuration.nix
@@ -64,14 +66,14 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = specialArgs;
+              home-manager.extraSpecialArgs = args;
               home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
-              home-manager.users.${config.username} = import ./modules/home.nix;
+              home-manager.users.${username} = import ./modules/home.nix;
             }
           ];
         };
     in
     {
-      nixosConfigurations = builtins.mapAttrs mkSystem hosts;
+      nixosConfigurations = lib.genAttrs machines (name: mkSystem name);
     };
 }
