@@ -2,6 +2,7 @@
   pkgs,
   hostname,
   username,
+  config,
   ...
 }:
 
@@ -46,7 +47,21 @@
     };
   };
 
-  hardware.bluetooth.enable = true;
+  hardware = {
+    bluetooth.enable = true;
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+    nvidia = {
+      modesetting.enable = true;
+      nvidiaSettings = true;
+      open = false;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      powerManagement.enable = true;
+    };
+  };
+
   security = {
     rtkit.enable = true;
     pam.services = {
@@ -61,6 +76,7 @@
         layout = "at";
         variant = "";
       };
+      videoDrivers = [ "nvidia" ];
     };
 
     pipewire = {
