@@ -12,5 +12,6 @@
     };
     virtualDesktops.number = 2;
     edgeBarrier = 0;
+    cornerBarrier = true;
   };
 }
