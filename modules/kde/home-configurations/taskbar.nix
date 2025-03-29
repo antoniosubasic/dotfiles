@@ -2,6 +2,7 @@
   programs.plasma.panels = [
     {
       floating = true;
+      screen = "all";
       widgets = [
         "org.kde.plasma.kickoff"
         "org.kde.plasma.pager"
