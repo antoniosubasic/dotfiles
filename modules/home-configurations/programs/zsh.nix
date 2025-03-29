@@ -12,7 +12,6 @@
       ls = "eza --git --icons --time-style=+\"%d.%m.%Y %H:%M:%S\" --color=always";
       ll = "ls -al";
       tree = "ls -T";
-      open = "xdg-open";
 
       grep = "rg";
       adoc = "asciidoctor";
@@ -21,6 +20,7 @@
       neofetch = "fastfetch";
       cat = "bat";
       cloc = "tokei";
+      url = "open";
 
       copy = "xsel --input --clipboard";
       paste = "xsel --output --clipboard";
