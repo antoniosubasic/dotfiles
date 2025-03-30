@@ -37,6 +37,7 @@
     tor-browser
     unstable.vscode
     gimp
+    banana-cursor
     libreoffice-still
     jetbrains.idea-ultimate
     jetbrains.datagrip
