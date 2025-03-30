@@ -76,7 +76,18 @@
     printing.enable = true;
   };
 
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc.lib
+      glib
+      util-linux
+    ];
+  };
+
+  environment.variables = {
+    LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
