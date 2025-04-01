@@ -58,6 +58,7 @@
       package = config.boot.kernelPackages.nvidiaPackages.production;
       powerManagement.enable = true;
     };
+    nvidia-container-toolkit.enable = true;
   };
 
   security = {
