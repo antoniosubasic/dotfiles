@@ -21,6 +21,7 @@
       cat = "bat";
       cloc = "tokei";
       url = "open";
+      man = "batman";
 
       copy = "xsel --input --clipboard";
       paste = "xsel --output --clipboard";
