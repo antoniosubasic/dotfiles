@@ -92,13 +92,23 @@
     printing.enable = true;
   };
 
-  programs.nix-ld = {
-    enable = true;
-    libraries = with pkgs; [
-      stdenv.cc.cc.lib
-      glib
-      util-linux
-    ];
+  programs = {
+    nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        stdenv.cc.cc.lib
+        glib
+        util-linux
+      ];
+    };
+    nh = {
+      enable = true;
+      clean = {
+        enable = true;
+        extraArgs = "--keep 5 --keep-since 3d";
+      };
+      flake = "/home/${username}/.dotfiles";
+    };
   };
 
   environment.variables = {
