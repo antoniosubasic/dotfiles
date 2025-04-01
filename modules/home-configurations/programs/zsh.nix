@@ -22,6 +22,7 @@
       cloc = "tokei";
       url = "open";
       man = "batman";
+      diff = "batdiff";
 
       copy = "xsel --input --clipboard";
       paste = "xsel --output --clipboard";
