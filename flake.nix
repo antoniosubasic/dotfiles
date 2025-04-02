@@ -33,30 +33,26 @@
       );
 
       mkSystem =
-        name:
+        hostname:
         let
-          configPath = ./machines/${name}/configuration.nix;
+          configPath = ./machines/${hostname}/configuration.nix;
           config = {
             username = "antonio";
             desktop = "kde";
             system = "x86_64-linux";
           } // (if builtins.pathExists configPath then import configPath else { });
 
-          username = config.username;
-          hostname = name;
-          system = config.system;
-
           args = config // {
             inherit hostname;
             utilities = import ./lib/utils.nix { inherit lib; };
             unstable = import nixpkgs-unstable {
-              system = system;
+              system = config.system;
               config.allowUnfree = true;
             };
           };
         in
         nixpkgs.lib.nixosSystem {
-          inherit system;
+          system = config.system;
           specialArgs = args;
           modules = [
             ./machines/${hostname}/hardware-configuration.nix
@@ -68,7 +64,7 @@
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = args;
               home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
-              home-manager.users.${username} = import ./modules/home.nix;
+              home-manager.users.${config.username} = import ./modules/home.nix;
             }
           ];
         };
