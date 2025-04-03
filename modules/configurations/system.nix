@@ -3,22 +3,28 @@
   hostname,
   username,
   config,
+  lib,
+  tags,
+  utils,
   ...
 }:
 
 {
   boot.loader = {
     efi.canTouchEfiVariables = true;
-    grub = {
-      enable = true;
-      device = "nodev";
-      efiSupport = true;
-      useOSProber = true;
-      theme = pkgs.sleek-grub-theme.override {
-        withBanner = "Hello ${username}";
-        withStyle = "dark";
+    grub =
+      {
+        enable = true;
+        device = "nodev";
+        efiSupport = true;
+        useOSProber = utils.hasTag tags "dual-boot";
+      }
+      // lib.mkIf (utils.hasTag tags "personal") {
+        theme = pkgs.sleek-grub-theme.override {
+          withBanner = "Hello ${username}";
+          withStyle = "dark";
+        };
       };
-    };
   };
 
   networking = {
@@ -47,36 +53,40 @@
     };
   };
 
-  hardware = {
-    bluetooth.enable = true;
-    graphics = {
-      enable = true;
-      enable32Bit = true;
+  hardware =
+    {
+      bluetooth.enable = utils.hasTag tags "bluetooth";
+      graphics = {
+        enable = true;
+        enable32Bit = true;
+      };
+    }
+    // lib.mkIf (utils.hasTag tags "nvidia") {
+      nvidia = {
+        modesetting.enable = true;
+        package = config.boot.kernelPackages.nvidiaPackages.production;
+        powerManagement.enable = true;
+      };
+      nvidia-container-toolkit.enable = true;
     };
-    nvidia = {
-      modesetting.enable = true;
-      package = config.boot.kernelPackages.nvidiaPackages.production;
-      powerManagement.enable = true;
-    };
-    nvidia-container-toolkit.enable = true;
-  };
 
   security = {
     rtkit.enable = true;
-    pam.services = {
-      login.fprintAuth = false;
-    };
+    pam.services.login.fprintAuth = false;
   };
 
   services = {
-    xserver = {
-      enable = true;
-      xkb = {
-        layout = "at";
-        variant = "";
+    xserver =
+      {
+        enable = true;
+        xkb = {
+          layout = "at";
+          variant = "";
+        };
+      }
+      // lib.mkIf (utils.hasTag tags "nvidia") {
+        videoDrivers = [ "nvidia" ];
       };
-      videoDrivers = [ "nvidia" ];
-    };
 
     pipewire = {
       enable = true;
@@ -87,7 +97,7 @@
       pulse.enable = true;
     };
 
-    fprintd.enable = true;
+    fprintd.enable = utils.hasTag tags "fingerprint";
     printing.enable = true;
   };
 
@@ -101,7 +111,10 @@
       ];
     };
     nh = {
-      enable = true;
+      enable = utils.hasTags tags [
+        "personal"
+        "shell"
+      ];
       clean = {
         enable = true;
         extraArgs = "--keep 5 --keep-since 3d";

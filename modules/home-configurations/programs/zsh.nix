@@ -9,7 +9,7 @@
     autocd = true;
 
     shellAliases = {
-      ls = "eza --git --icons --time-style=+\"%d.%m.%Y %H:%M:%S\" --color=always";
+      ls = "eza";
       ll = "ls -al";
       tree = "ls -T";
 
