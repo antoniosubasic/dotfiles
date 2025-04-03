@@ -38,6 +38,7 @@
     tor-browser
     unstable.vscode
     gimp
+    gnome-disk-utility
     banana-cursor
     libreoffice-still
     jetbrains.idea-ultimate
