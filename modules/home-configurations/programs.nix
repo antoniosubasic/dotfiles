@@ -15,6 +15,7 @@
     just
     gh
     tokei
+    act
 
     # Languages
     gcc
