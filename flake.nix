@@ -32,22 +32,78 @@
         lib.filterAttrs (name: type: type == "directory") (builtins.readDir ./machines)
       );
 
+      tagGroups = rec {
+        desktop = [
+          personal
+          "nvidia"
+        ];
+        laptop = [
+          personal
+          "fingerprint"
+        ];
+        personal = [
+          "personal"
+          "shell"
+          "dev"
+          "kde"
+          "unfree"
+          "dual-boot"
+          "bluetooth"
+        ];
+      };
+
+      baseTags = [
+        "personal"
+        "fingerprint"
+        "shell"
+        "dev"
+        "kde"
+        "nvidia"
+        "unfree"
+        "dual-boot"
+        "bluetooth"
+      ];
+
       mkSystem =
         hostname:
         let
           configPath = ./machines/${hostname}/configuration.nix;
           config = {
             username = "antonio";
-            desktop = "kde";
             system = "x86_64-linux";
           } // (if builtins.pathExists configPath then import configPath else { });
 
-          args = config // {
+          givenTags =
+            if !(builtins.hasAttr "tags" config) then
+              builtins.abort "error: missing required 'tags' attribute in '${hostname}' configuration"
+            else if !(builtins.isList config.tags) then
+              builtins.abort "error: 'tags' attribute must be a list"
+            else if builtins.length config.tags == 0 then
+              builtins.abort "error: 'tags' attribute must not be empty"
+            else
+              config.tags;
+
+          flattenTags =
+            tags:
+            lib.flatten (
+              map (
+                tag:
+                if builtins.hasAttr tag tagGroups then
+                  flattenTags tagGroups.${tag}
+                else if builtins.elem tag baseTags then
+                  tag
+                else
+                  builtins.abort "error: unknown tag '${tag}'"
+              ) tags
+            );
+
+          args = config // rec {
             inherit hostname;
-            utilities = import ./lib/utils.nix { inherit lib; };
+            tags = flattenTags givenTags;
+            utils = import ./lib/utils.nix { inherit lib; };
             unstable = import nixpkgs-unstable {
               system = config.system;
-              config.allowUnfree = true;
+              config.allowUnfree = utils.hasTag tags "unfree";
             };
           };
         in

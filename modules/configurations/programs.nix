@@ -1,37 +1,45 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  tags,
+  utils,
+  ...
+}:
 
 {
-  environment.systemPackages = with pkgs; [
-    man
-    curl
-    wget
-    unzip
-    docker-compose
-    libnotify
-    jq
-    xsel
-    ripgrep
-    eza
-  ];
+  environment.systemPackages =
+    with pkgs;
+    lib.mkIf (utils.hasTag tags "shell") [
+      man
+      curl
+      wget
+      unzip
+      libnotify
+      jq
+      xsel
+      ripgrep
+    ]
+    ++ lib.mkIf (utils.hasTag tags "dev") [
+      docker-compose
+    ];
 
   services = {
-    tailscale.enable = true;
+    tailscale.enable = utils.hasTag tags "personal";
     plantuml-server = {
-      enable = true;
+      enable = utils.hasTag tags "dev";
       listenPort = 9090;
     };
   };
 
   programs = {
-    zsh.enable = true;
+    zsh.enable = utils.hasTag tags "shell";
     wireshark = {
-      enable = true;
+      enable = utils.hasTag tags "dev";
       package = pkgs.wireshark;
     };
   };
 
   virtualisation = {
-    docker.enable = true;
-    containerd.enable = true;
+    docker.enable = utils.hasTag tags "dev";
+    containerd.enable = utils.hasTag tags "dev";
   };
 }

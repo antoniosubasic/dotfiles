@@ -1,7 +1,7 @@
-{ utilities, desktop, ... }:
+{ utils, desktop, ... }:
 
 {
   imports = [
     ./${desktop}/configuration.nix
-  ] ++ utilities.importNixFiles ./configurations;
+  ] ++ utils.importNixFiles ./configurations;
 }

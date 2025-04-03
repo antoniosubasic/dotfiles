@@ -1,3 +1,5 @@
+{ tags, utils, ... }:
+
 {
   nix = {
     settings.experimental-features = [
@@ -6,5 +8,5 @@
     ];
   };
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfree = utils.hasTag tags "unfree";
 }
