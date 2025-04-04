@@ -1,6 +1,6 @@
 { lib, utils, ... }:
 
-lib.mkIf (utils.hasTag "personal") {
+lib.optionalAttrs (utils.hasTag "personal") {
   services.dropbox.enable = true;
   home.file.".config/autostart/dropbox.desktop".text = ''
     [Desktop Entry]

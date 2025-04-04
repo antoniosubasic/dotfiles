@@ -18,7 +18,7 @@
         efiSupport = true;
         useOSProber = utils.hasTag "dual-boot";
       }
-      // lib.mkIf (utils.hasTag "personal") {
+      // lib.optionalAttrs (utils.hasTag "personal") {
         theme = pkgs.sleek-grub-theme.override {
           withBanner = "Hello ${username}";
           withStyle = "dark";
@@ -60,7 +60,7 @@
         enable32Bit = true;
       };
     }
-    // lib.mkIf (utils.hasTag "nvidia") {
+    // lib.optionalAttrs (utils.hasTag "nvidia") {
       nvidia = {
         modesetting.enable = true;
         package = config.boot.kernelPackages.nvidiaPackages.production;
@@ -83,7 +83,7 @@
           variant = "";
         };
       }
-      // lib.mkIf (utils.hasTag "nvidia") {
+      // lib.optionalAttrs (utils.hasTag "nvidia") {
         videoDrivers = [ "nvidia" ];
       };
 

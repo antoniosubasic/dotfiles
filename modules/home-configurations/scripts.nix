@@ -5,7 +5,7 @@
   ...
 }:
 
-lib.mkIf (utils.hasTag "shell") {
+lib.optionalAttrs (utils.hasTag "shell") {
   home.packages = [
     (pkgs.writeShellScriptBin "open" ''
       if [ -z "''$1" ]; then

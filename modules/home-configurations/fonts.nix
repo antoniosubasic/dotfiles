@@ -5,7 +5,7 @@
   ...
 }:
 
-lib.mkIf (utils.hasTag "personal") {
+lib.optionalAttrs (utils.hasTag "personal") {
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
