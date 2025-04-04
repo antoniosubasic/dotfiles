@@ -1,6 +1,11 @@
-{ unstable, ... }:
-
 {
+  utils,
+  lib,
+  unstable,
+  ...
+}:
+
+lib.mkIf (utils.hasTag "personal") {
   home.packages = [
     (unstable.discord.override { withVencord = true; })
   ];
