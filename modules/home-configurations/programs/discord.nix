@@ -5,7 +5,7 @@
   ...
 }:
 
-lib.mkIf (utils.hasTag "personal") {
+lib.optionalAttrs (utils.hasTag "personal") {
   home.packages = [
     (unstable.discord.override { withVencord = true; })
   ];
