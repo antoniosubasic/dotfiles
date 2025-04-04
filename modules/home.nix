@@ -3,7 +3,7 @@
 {
   imports =
     utils.importNixFiles ./home-configurations
-    ++ lib.mkIf (utils.hasTag "kde") [
+    ++ lib.optionals (utils.hasTag "kde") [
       ./kde/home.nix
     ];
 }
