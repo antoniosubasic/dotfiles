@@ -11,14 +11,14 @@
 
   home.packages =
     with pkgs;
-    lib.mkIf (utils.hasTag "shell") [
+    lib.optionals (utils.hasTag "shell") [
       asciidoctor
       sl
       exiftool
       testdisk
     ]
     ++
-      lib.mkIf
+      lib.optionals
         (utils.hasTags [
           "shell"
           "dev"
@@ -28,7 +28,7 @@
           gh
           tokei
         ]
-    ++ lib.mkIf (utils.hasTag "dev") [
+    ++ lib.optionals (utils.hasTag "dev") [
       # language server
       nixd
       nixfmt-rfc-style
@@ -57,7 +57,7 @@
       jetbrains.idea-ultimate
       jetbrains.datagrip
     ]
-    ++ lib.mkIf (utils.hasTag "personal") [
+    ++ lib.optionals (utils.hasTag "personal") [
       google-chrome
       tor-browser
       gimp

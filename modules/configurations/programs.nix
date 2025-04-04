@@ -7,7 +7,7 @@
 {
   environment.systemPackages =
     with pkgs;
-    lib.mkIf (utils.hasTag "shell") [
+    lib.optionals (utils.hasTag "shell") [
       man
       curl
       wget
@@ -17,7 +17,7 @@
       xsel
       ripgrep
     ]
-    ++ lib.mkIf (utils.hasTag "dev") [
+    ++ lib.optionals (utils.hasTag "dev") [
       docker-compose
     ];
 
