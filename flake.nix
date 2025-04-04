@@ -34,13 +34,11 @@
 
       tagGroups = rec {
         desktop = [
-          personal
           "nvidia"
-        ];
+        ] ++ personal;
         laptop = [
-          personal
           "fingerprint"
-        ];
+        ] ++ personal;
         personal = [
           "personal"
           "shell"
@@ -88,9 +86,9 @@
             lib.flatten (
               map (
                 tag:
-                if builtins.hasAttr tag tagGroups then
+                if builtins.isString tag && builtins.hasAttr tag tagGroups then
                   flattenTags tagGroups.${tag}
-                else if builtins.elem tag baseTags then
+                else if builtins.isString tag && builtins.elem tag baseTags then
                   tag
                 else
                   builtins.abort "error: unknown tag '${tag}'"
