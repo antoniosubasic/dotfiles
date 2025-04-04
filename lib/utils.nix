@@ -1,4 +1,4 @@
-{ lib }:
+{ lib, tags }:
 
 rec {
   importNixFiles =
@@ -12,6 +12,6 @@ rec {
     in
     map (path: import path) importPaths;
 
-  hasTag = tags: tag: builtins.elem tag tags;
-  hasTags = tags: tagList: lib.all (hasTag tags) tagList;
+  hasTag = tag: builtins.elem tag tags;
+  hasTags = tagList: lib.all hasTag tagList;
 }

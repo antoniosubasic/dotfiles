@@ -4,7 +4,6 @@
   username,
   config,
   lib,
-  tags,
   utils,
   ...
 }:
@@ -17,9 +16,9 @@
         enable = true;
         device = "nodev";
         efiSupport = true;
-        useOSProber = utils.hasTag tags "dual-boot";
+        useOSProber = utils.hasTag "dual-boot";
       }
-      // lib.mkIf (utils.hasTag tags "personal") {
+      // lib.mkIf (utils.hasTag "personal") {
         theme = pkgs.sleek-grub-theme.override {
           withBanner = "Hello ${username}";
           withStyle = "dark";
@@ -55,13 +54,13 @@
 
   hardware =
     {
-      bluetooth.enable = utils.hasTag tags "bluetooth";
+      bluetooth.enable = utils.hasTag "bluetooth";
       graphics = {
         enable = true;
         enable32Bit = true;
       };
     }
-    // lib.mkIf (utils.hasTag tags "nvidia") {
+    // lib.mkIf (utils.hasTag "nvidia") {
       nvidia = {
         modesetting.enable = true;
         package = config.boot.kernelPackages.nvidiaPackages.production;
@@ -84,7 +83,7 @@
           variant = "";
         };
       }
-      // lib.mkIf (utils.hasTag tags "nvidia") {
+      // lib.mkIf (utils.hasTag "nvidia") {
         videoDrivers = [ "nvidia" ];
       };
 
@@ -97,7 +96,7 @@
       pulse.enable = true;
     };
 
-    fprintd.enable = utils.hasTag tags "fingerprint";
+    fprintd.enable = utils.hasTag "fingerprint";
     printing.enable = true;
   };
 
@@ -111,7 +110,7 @@
       ];
     };
     nh = {
-      enable = utils.hasTags tags [
+      enable = utils.hasTags [
         "personal"
         "shell"
       ];

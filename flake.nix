@@ -100,10 +100,10 @@
           args = config // rec {
             inherit hostname;
             tags = flattenTags givenTags;
-            utils = import ./lib/utils.nix { inherit lib; };
+            utils = import ./lib/utils.nix { inherit lib tags; };
             unstable = import nixpkgs-unstable {
               system = config.system;
-              config.allowUnfree = utils.hasTag tags "unfree";
+              config.allowUnfree = utils.hasTag "unfree";
             };
           };
         in
