@@ -1,6 +1,8 @@
+{ utils, ... }:
+
 {
   programs.fzf = {
-    enable = true;
+    enable = utils.hasTag "shell";
     enableZshIntegration = true;
     defaultCommand = "fd --type f --follow";
     defaultOptions = [ "--reverse" ];

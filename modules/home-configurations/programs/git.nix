@@ -1,6 +1,11 @@
+{ utils, ... }:
+
 {
   programs.git = {
-    enable = true;
+    enable = utils.hasTags [
+      "shell"
+      "dev"
+    ];
     userName = "Antonio Subašić";
     userEmail = "antonio.subasic.public@gmail.com";
     aliases = {

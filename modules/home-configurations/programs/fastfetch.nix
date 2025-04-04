@@ -1,6 +1,8 @@
+{ utils, ... }:
+
 {
   programs.fastfetch = {
-    enable = true;
+    enable = utils.hasTag "shell";
     settings = {
       display = {
         size = {

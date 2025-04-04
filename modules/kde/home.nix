@@ -1,7 +1,7 @@
-{ pkgs, utilities, ... }:
+{ pkgs, utils, ... }:
 
 {
-  imports = utilities.importNixFiles ./home-configurations;
+  imports = utils.importNixFiles ./home-configurations;
   programs.plasma.enable = true;
 
   home.packages = with pkgs.kdePackages; [

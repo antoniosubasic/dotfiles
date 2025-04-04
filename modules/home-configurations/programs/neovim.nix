@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ utils, pkgs, ... }:
 
 {
   programs.neovim = {
-    enable = true;
+    enable = utils.hasTag "shell";
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;

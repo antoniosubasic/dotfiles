@@ -1,6 +1,11 @@
-{ pkgs, ... }:
-
 {
+  lib,
+  utils,
+  pkgs,
+  ...
+}:
+
+lib.mkIf (utils.hasTag "personal") {
   home = {
     packages = [ pkgs.keepassxc ];
     file = {

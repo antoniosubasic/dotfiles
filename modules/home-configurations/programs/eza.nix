@@ -1,6 +1,8 @@
+{ utils, ... }:
+
 {
   programs.eza = {
-    enable = true;
+    enable = utils.hasTag "shell";
     colors = "always";
     git = true;
     icons = "always";

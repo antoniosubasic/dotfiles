@@ -1,7 +1,9 @@
-{ utilities, desktop, ... }:
+{ utils, lib, ... }:
 
 {
-  imports = [
-    ./${desktop}/home.nix
-  ] ++ utilities.importNixFiles ./home-configurations;
+  imports =
+    utils.importNixFiles ./home-configurations
+    ++ lib.mkIf (utils.hasTag "kde") [
+      ./kde/home.nix
+    ];
 }
