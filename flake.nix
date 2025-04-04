@@ -35,11 +35,11 @@
       tagGroups = rec {
         desktop = [
           "nvidia"
-        ] ++ personal;
+        ] ++ user;
         laptop = [
           "fingerprint"
-        ] ++ personal;
-        personal = [
+        ] ++ user;
+        user = [
           "personal"
           "shell"
           "dev"
