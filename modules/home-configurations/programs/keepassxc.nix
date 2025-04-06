@@ -1,11 +1,11 @@
 {
   lib,
-  utils,
+  utilities,
   pkgs,
   ...
 }:
 
-lib.optionalAttrs (utils.hasTag "personal") {
+lib.optionalAttrs (utilities.hasTag "personal") {
   home = {
     packages = [ pkgs.keepassxc ];
     file = {

@@ -1,6 +1,6 @@
-{ lib, utils, ... }:
+{ lib, utilities, ... }:
 
-lib.optionalAttrs (utils.hasTag "personal") {
+lib.optionalAttrs (utilities.hasTag "personal") {
   services.dropbox.enable = true;
   home.file.".config/autostart/dropbox.desktop".text = ''
     [Desktop Entry]

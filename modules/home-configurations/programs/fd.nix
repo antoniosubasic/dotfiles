@@ -1,8 +1,8 @@
-{ utils, ... }:
+{ utilities, ... }:
 
 {
   programs.fd = {
-    enable = utils.hasTag "shell";
+    enable = utilities.hasTag "shell";
     hidden = true;
     ignores = [
       ".git"

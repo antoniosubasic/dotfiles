@@ -1,4 +1,4 @@
-{ utils, ... }:
+{ utilities, ... }:
 
 {
   nix = {
@@ -8,5 +8,5 @@
     ];
   };
 
-  nixpkgs.config.allowUnfree = utils.hasTag "unfree";
+  nixpkgs.config.allowUnfree = utilities.hasTag "unfree";
 }

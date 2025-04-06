@@ -1,11 +1,11 @@
 {
-  utils,
+  utilities,
   lib,
   pkgs,
   ...
 }:
 
-lib.optionalAttrs (utils.hasTag "shell") {
+lib.optionalAttrs (utilities.hasTag "shell") {
   home.packages = [
     (pkgs.writeShellScriptBin "open" ''
       if [ -z "''$1" ]; then

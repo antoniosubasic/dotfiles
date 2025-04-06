@@ -1,9 +1,9 @@
-{ utils, lib, ... }:
+{ utilities, lib, ... }:
 
 {
   imports =
-    utils.importNixFiles ./configurations
-    ++ lib.optionals (utils.hasTag "kde") [
+    utilities.importNixFiles ./configurations
+    ++ lib.optionals (utilities.hasTag "kde") [
       ./kde/configuration.nix
     ];
 }

@@ -1,8 +1,8 @@
-{ utils, ... }:
+{ utilities, ... }:
 
 {
   programs.zoxide = {
-    enable = utils.hasTag "shell";
+    enable = utilities.hasTag "shell";
     enableZshIntegration = true;
     options = [ "--cmd cd" ];
   };

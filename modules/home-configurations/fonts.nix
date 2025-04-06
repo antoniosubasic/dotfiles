@@ -1,11 +1,11 @@
 {
-  utils,
+  utilities,
   pkgs,
   lib,
   ...
 }:
 
-lib.optionalAttrs (utils.hasTag "personal") {
+lib.optionalAttrs (utilities.hasTag "personal") {
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];

@@ -1,5 +1,5 @@
 {
-  utils,
+  utilities,
   lib,
   pkgs,
   unstable,
@@ -7,11 +7,11 @@
 }:
 
 {
-  imports = utils.importNixFiles ./programs;
+  imports = utilities.importNixFiles ./programs;
 
   home.packages =
     with pkgs;
-    lib.optionals (utils.hasTag "shell") [
+    lib.optionals (utilities.hasTag "shell") [
       asciidoctor
       sl
       exiftool
@@ -19,7 +19,7 @@
     ]
     ++
       lib.optionals
-        (utils.hasTags [
+        (utilities.hasTags [
           "shell"
           "dev"
         ])
@@ -28,7 +28,7 @@
           gh
           tokei
         ]
-    ++ lib.optionals (utils.hasTag "dev") [
+    ++ lib.optionals (utilities.hasTag "dev") [
       # language server
       nixd
       nixfmt-rfc-style
@@ -57,7 +57,7 @@
       jetbrains.idea-ultimate
       jetbrains.datagrip
     ]
-    ++ lib.optionals (utils.hasTag "personal") [
+    ++ lib.optionals (utilities.hasTag "personal") [
       google-chrome
       tor-browser
       gimp

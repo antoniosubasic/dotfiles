@@ -1,8 +1,8 @@
-{ utils, ... }:
+{ utilities, ... }:
 
 {
   programs.alacritty = {
-    enable = utils.hasTag "personal";
+    enable = utilities.hasTag "personal";
     settings = {
       env.TERM = "xterm-256color";
       window = {

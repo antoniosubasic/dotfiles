@@ -1,8 +1,8 @@
-{ utils, pkgs, ... }:
+{ utilities, pkgs, ... }:
 
 {
   programs.zsh = {
-    enable = utils.hasTag "shell";
+    enable = utilities.hasTag "shell";
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;

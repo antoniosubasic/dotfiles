@@ -1,8 +1,8 @@
-{ utils, pkgs, ... }:
+{ utilities, pkgs, ... }:
 
 {
   programs.bat = {
-    enable = utils.hasTag "shell";
+    enable = utilities.hasTag "shell";
     extraPackages = with pkgs.bat-extras; [
       batgrep
       batman

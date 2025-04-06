@@ -1,13 +1,13 @@
 {
   pkgs,
-  utils,
+  utilities,
   ...
 }:
 
 {
   environment.systemPackages =
     with pkgs;
-    lib.optionals (utils.hasTag "shell") [
+    lib.optionals (utilities.hasTag "shell") [
       man
       curl
       wget
@@ -17,28 +17,28 @@
       xsel
       ripgrep
     ]
-    ++ lib.optionals (utils.hasTag "dev") [
+    ++ lib.optionals (utilities.hasTag "dev") [
       docker-compose
     ];
 
   services = {
-    tailscale.enable = utils.hasTag "personal";
+    tailscale.enable = utilities.hasTag "personal";
     plantuml-server = {
-      enable = utils.hasTag "dev";
+      enable = utilities.hasTag "dev";
       listenPort = 9090;
     };
   };
 
   programs = {
-    zsh.enable = utils.hasTag "shell";
+    zsh.enable = utilities.hasTag "shell";
     wireshark = {
-      enable = utils.hasTag "dev";
+      enable = utilities.hasTag "dev";
       package = pkgs.wireshark;
     };
   };
 
   virtualisation = {
-    docker.enable = utils.hasTag "dev";
-    containerd.enable = utils.hasTag "dev";
+    docker.enable = utilities.hasTag "dev";
+    containerd.enable = utilities.hasTag "dev";
   };
 }

@@ -1,8 +1,8 @@
-{ utils, ... }:
+{ utilities, ... }:
 
 {
   programs.git = {
-    enable = utils.hasTags [
+    enable = utilities.hasTags [
       "shell"
       "dev"
     ];

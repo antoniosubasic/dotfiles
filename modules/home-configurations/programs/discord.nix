@@ -1,11 +1,11 @@
 {
-  utils,
+  utilities,
   lib,
   unstable,
   ...
 }:
 
-lib.optionalAttrs (utils.hasTag "personal") {
+lib.optionalAttrs (utilities.hasTag "personal") {
   home.packages = [
     (unstable.discord.override { withVencord = true; })
   ];
