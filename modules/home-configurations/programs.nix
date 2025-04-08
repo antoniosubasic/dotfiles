@@ -46,8 +46,8 @@
         dotnet-sdk_9
         dotnet-sdk_10
       ])
-      cargo
-      rustc
+      rustup
+      trunk
       nodejs
       typescript
       swi-prolog
