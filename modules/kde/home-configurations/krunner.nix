@@ -71,6 +71,16 @@ let
       shortcut = "wa";
       query = "https://www.wolframalpha.com/input/?i=\\\\{@}";
     }
+    {
+      name = "Nix Packages 24.11";
+      shortcut = "pkgs";
+      query = "https://search.nixos.org/packages?channel=24.11&from=0&size=50&sort=relevance&type=packages&query=\\\\{@}";
+    }
+    {
+      name = "Nix Packages unstable";
+      shortcut = "upkgs";
+      query = "https://search.nixos.org/packages?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=\\\\{@}";
+    }
   ];
 in
 {
