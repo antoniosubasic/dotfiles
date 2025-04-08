@@ -33,6 +33,9 @@
       nixd
       nixfmt-rfc-style
 
+      # tools
+      act
+
       # database
       sqlite
 
