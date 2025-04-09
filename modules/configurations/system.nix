@@ -107,6 +107,7 @@
         stdenv.cc.cc.lib
         glib
         util-linux
+        xorg.libX11
       ];
     };
     nh = {
