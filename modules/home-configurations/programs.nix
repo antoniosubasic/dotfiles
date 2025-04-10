@@ -34,7 +34,7 @@
       nixfmt-rfc-style
 
       # tools
-      act
+      unstable.act
 
       # database
       sqlite
