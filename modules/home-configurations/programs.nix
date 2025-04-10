@@ -47,7 +47,7 @@
         dotnet-sdk_10
       ])
       rustup
-      trunk
+      unstable.trunk
       nodejs
       typescript
       swi-prolog
