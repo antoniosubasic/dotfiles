@@ -1,5 +1,6 @@
 {
   pkgs,
+  unstable,
   utilities,
   ...
 }:
@@ -22,7 +23,10 @@
     ];
 
   services = {
-    tailscale.enable = utilities.hasTag "personal";
+    tailscale = {
+      enable = utilities.hasTag "personal";
+      package = unstable.tailscale;
+    };
     plantuml-server = {
       enable = utilities.hasTag "dev";
       listenPort = 9090;
