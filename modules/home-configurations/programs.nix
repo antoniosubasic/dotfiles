@@ -66,5 +66,6 @@
       gimp
       banana-cursor
       libreoffice-still
+      vlc
     ];
 }
