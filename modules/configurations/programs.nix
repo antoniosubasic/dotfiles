@@ -39,6 +39,7 @@
       enable = utilities.hasTag "dev";
       package = pkgs.wireshark;
     };
+    gnome-disks.enable = utilities.hasTag "personal";
   };
 
   virtualisation = {
