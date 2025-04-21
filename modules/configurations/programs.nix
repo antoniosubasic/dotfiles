@@ -26,6 +26,7 @@
     tailscale = {
       enable = utilities.hasTag "personal";
       package = unstable.tailscale;
+      extraUpFlags = [ "--operator=$USER" ];
     };
     plantuml-server = {
       enable = utilities.hasTag "dev";
