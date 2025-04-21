@@ -66,23 +66,25 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           fi
         fi
 
-        ${pkgs.nix}/bin/nix flake update --flake "''$FLAKE"
-        if [ $? -ne 0 ]; then
-          echo "updating flake.lock failed"
-          exit 1
-        fi
-
-        if [ -n "''$(${pkgs.git}/bin/git -C "''$FLAKE" status --porcelain)" ]; then
-          ${pkgs.git}/bin/git -C "''$FLAKE" commit -m "bump(flake): update flake.lock" flake.lock
+        if [ "''$1" = "-u" ] || [ "''$1" = "--update" ]; then
+          ${pkgs.nix}/bin/nix flake update --flake "''$FLAKE"
           if [ $? -ne 0 ]; then
-            echo "committing flake.lock failed"
+            echo "updating flake.lock failed"
             exit 1
           fi
 
-          ${pkgs.git}/bin/git -C "''$FLAKE" push
-          if [ $? -ne 0 ]; then
-            echo "pushing flake.lock failed"
-            exit 1
+          if [ -n "''$(${pkgs.git}/bin/git -C "''$FLAKE" status --porcelain)" ]; then
+            ${pkgs.git}/bin/git -C "''$FLAKE" commit -m "bump(flake): update flake.lock" flake.lock
+            if [ $? -ne 0 ]; then
+              echo "committing flake.lock failed"
+              exit 1
+            fi
+
+            ${pkgs.git}/bin/git -C "''$FLAKE" push
+            if [ $? -ne 0 ]; then
+              echo "pushing flake.lock failed"
+              exit 1
+            fi
           fi
         fi
 
