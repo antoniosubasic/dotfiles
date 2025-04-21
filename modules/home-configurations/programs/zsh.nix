@@ -23,6 +23,7 @@
       url = "open";
       man = "batman";
       diff = "batdiff";
+      nohist = "HISTFILE=/dev/null";
 
       copy = "xsel --input --clipboard";
       paste = "xsel --output --clipboard";
@@ -50,6 +51,7 @@
         "exit"
         ":q"
         "clear"
+        "nohist"
       ];
     };
 
