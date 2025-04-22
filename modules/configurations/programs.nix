@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   unstable,
   utilities,
@@ -99,6 +100,31 @@
     plantuml-server = {
       enable = utilities.hasTag "dev";
       listenPort = 9090;
+    };
+    ollama =
+      {
+        enable = utilities.hasTags [
+          "shell"
+          "personal"
+        ];
+        package = unstable.ollama;
+      }
+      // lib.optionalAttrs (utilities.hasTag "nvidia") {
+        acceleration = "cuda";
+      };
+    open-webui = {
+      enable = utilities.hasTags [
+        "gui"
+        "personal"
+      ];
+      package = unstable.open-webui;
+      environment = {
+        WEBUI_AUTH = "False";
+        DEFAULT_USER_ROLE = "admin";
+        DO_NOT_TRACK = "True";
+        SCARF_NO_ANALYTICS = "True";
+      };
+      port = 8888;
     };
   };
 
