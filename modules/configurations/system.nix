@@ -6,6 +6,7 @@
   config,
   lib,
   utilities,
+  unstable,
   ...
 }:
 
@@ -110,7 +111,7 @@
     nix-ld = {
       enable = true;
       libraries = with pkgs; [
-        stdenv.cc.cc.lib
+        unstable.stdenv.cc.cc.lib
         glib
         util-linux
         xorg.libX11
