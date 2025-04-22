@@ -17,14 +17,19 @@
         enable = true;
         device = "nodev";
         efiSupport = true;
-        useOSProber = utilities.hasTag "dual-boot";
+        useOSProber = utilities.hasTag "dualboot";
       }
-      // lib.optionalAttrs (utilities.hasTag "personal") {
-        theme = pkgs.sleek-grub-theme.override {
-          withBanner = "Hello ${username}";
-          withStyle = "dark";
+      // lib.optionalAttrs
+        (utilities.hasTags [
+          "gui"
+          "personal"
+        ])
+        {
+          theme = pkgs.sleek-grub-theme.override {
+            withBanner = "Hello ${username}";
+            withStyle = "dark";
+          };
         };
-      };
   };
 
   networking = {
@@ -111,13 +116,13 @@
         xorg.libX11
       ];
     };
-    nh = {
+    nh = rec {
       enable = utilities.hasTags [
         "personal"
         "shell"
       ];
       clean = {
-        enable = true;
+        inherit enable;
         extraArgs = "--keep 5 --keep-since 3d";
       };
       flake = "/home/${username}/.dotfiles";

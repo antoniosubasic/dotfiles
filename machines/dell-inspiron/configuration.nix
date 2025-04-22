@@ -1,3 +1,3 @@
 {
-  tags = [ "laptop" ];
+  tags = [ "tg_laptop" ];
 }

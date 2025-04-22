@@ -1,39 +1,57 @@
-{ utilities, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  osConfig,
+  config,
+  ...
+}:
 
 {
   programs.zsh = {
-    enable = utilities.hasTag "shell";
+    enable = osConfig.programs.zsh.enable;
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     autocd = true;
 
-    shellAliases = {
-      ls = "eza";
-      ll = "ls -al";
-      tree = "ls -T";
+    shellAliases =
+      {
+        shutdown = "shutdown -h now";
+        ":q" = "exit";
+        nohist = "HISTFILE=/dev/null";
 
-      grep = "rg";
-      adoc = "asciidoctor";
-      shutdown = "shutdown -h now";
-      ":q" = "exit";
-      neofetch = "fastfetch";
-      cat = "bat";
-      cloc = "tokei";
-      url = "open";
-      man = "batman";
-      diff = "batdiff";
-      nohist = "HISTFILE=/dev/null";
-
-      copy = "xsel --input --clipboard";
-      paste = "xsel --output --clipboard";
-
-      ".." = "cd ..";
-      "2.." = "cd ../..";
-      "3.." = "cd ../../..";
-      "4.." = "cd ../../../..";
-      "5.." = "cd ../../../../..";
-    };
+        ".." = "cd ..";
+        "2.." = "cd ../..";
+        "3.." = "cd ../../..";
+        "4.." = "cd ../../../..";
+        "5.." = "cd ../../../../..";
+      }
+      // lib.optionalAttrs (config.programs.eza.enable) {
+        ls = "eza";
+        ll = "ls -al";
+        tree = "ls -T";
+      }
+      // lib.optionalAttrs (builtins.elem pkgs.ripgrep osConfig.environment.systemPackages) {
+        grep = "rg";
+      }
+      // lib.optionalAttrs (builtins.elem pkgs.asciidoctor config.home.packages) {
+        adoc = "asciidoctor";
+      }
+      // lib.optionalAttrs (config.programs.fastfetch.enable) {
+        neofetch = "fastfetch";
+      }
+      // lib.optionalAttrs (config.programs.bat.enable) {
+        cat = "bat";
+        man = "batman";
+        diff = "batdiff";
+      }
+      // lib.optionalAttrs (builtins.elem pkgs.tokei config.home.packages) {
+        cloc = "tokei";
+      }
+      // lib.optionalAttrs (builtins.elem pkgs.xsel osConfig.environment.systemPackages) {
+        copy = "xsel --input --clipboard";
+        paste = "xsel --output --clipboard";
+      };
 
     history = {
       size = 500;

@@ -32,34 +32,36 @@
         lib.filterAttrs (name: type: type == "directory") (builtins.readDir ./machines)
       );
 
-      tagGroups = rec {
-        desktop = [
-          "nvidia"
-        ] ++ user;
-        laptop = [
-          "fingerprint"
-        ] ++ user;
-        user = [
-          "personal"
-          "shell"
-          "dev"
-          "kde"
-          "unfree"
-          "dual-boot"
-          "bluetooth"
+      tagGroups = {
+        tg_desktop = [
+          "tg_personal"
+          "bt_nvidia"
+        ];
+        tg_laptop = [
+          "tg_personal"
+          "bt_fingerprint"
+        ];
+        tg_personal = [
+          "bt_personal"
+          "bt_bluetooth"
+          "bt_dualboot"
+          "bt_shell"
+          "bt_gui"
+          "bt_dev"
+          "bt_kde"
         ];
       };
 
       baseTags = [
-        "personal"
-        "fingerprint"
-        "shell"
-        "dev"
-        "kde"
-        "nvidia"
-        "unfree"
-        "dual-boot"
-        "bluetooth"
+        "bt_personal"
+        "bt_fingerprint"
+        "bt_bluetooth"
+        "bt_dualboot"
+        "bt_shell"
+        "bt_gui"
+        "bt_dev"
+        "bt_nvidia"
+        "bt_kde"
       ];
 
       mkSystem =
@@ -87,9 +89,9 @@
             lib.flatten (
               map (
                 tag:
-                if builtins.isString tag && builtins.hasAttr tag tagGroups then
+                if builtins.hasAttr tag tagGroups then
                   flattenTags tagGroups.${tag}
-                else if builtins.isString tag && builtins.elem tag baseTags then
+                else if builtins.elem tag baseTags then
                   tag
                 else
                   builtins.abort "error: unknown tag '${tag}'"
@@ -102,7 +104,7 @@
             utilities = import ./lib/utils.nix { inherit lib tags; };
             unstable = import nixpkgs-unstable {
               system = config.system;
-              config.allowUnfree = utilities.hasTag "unfree";
+              config.allowUnfree = true;
             };
           };
         in

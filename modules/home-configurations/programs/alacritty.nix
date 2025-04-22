@@ -2,7 +2,10 @@
 
 {
   programs.alacritty = {
-    enable = utilities.hasTag "personal";
+    enable = utilities.hasTags [
+      "gui"
+      "personal"
+    ];
     settings = {
       env.TERM = "xterm-256color";
       window = {

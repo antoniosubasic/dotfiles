@@ -13,14 +13,27 @@
       curl
       wget
       unzip
-      libnotify
       jq
-      xsel
-      ripgrep
     ]
+    ++
+      lib.optionals
+        (utilities.hasTags [
+          "shell"
+          "personal"
+        ])
+        [
+          xsel
+          ripgrep
+          libnotify
+        ]
     ++ lib.optionals (utilities.hasTag "dev") [
       docker-compose
     ];
+
+  virtualisation = {
+    docker.enable = utilities.hasTag "dev";
+    containerd.enable = utilities.hasTag "dev";
+  };
 
   services = {
     tailscale = {
@@ -37,14 +50,15 @@
   programs = {
     zsh.enable = utilities.hasTag "shell";
     wireshark = {
-      enable = utilities.hasTag "dev";
+      enable = utilities.hasTags [
+        "gui"
+        "dev"
+      ];
       package = pkgs.wireshark;
     };
-    gnome-disks.enable = utilities.hasTag "personal";
-  };
-
-  virtualisation = {
-    docker.enable = utilities.hasTag "dev";
-    containerd.enable = utilities.hasTag "dev";
+    gnome-disks.enable = utilities.hasTags [
+      "gui"
+      "personal"
+    ];
   };
 }

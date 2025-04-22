@@ -12,6 +12,6 @@ rec {
     in
     map (path: import path) importPaths;
 
-  hasTag = tag: builtins.elem tag tags;
+  hasTag = tag: builtins.elem "bt_${tag}" tags;
   hasTags = tagList: lib.all hasTag tagList;
 }

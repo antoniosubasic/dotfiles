@@ -1,4 +1,10 @@
-{ utilities, lib, ... }:
+{
+  utilities,
+  lib,
+  osConfig,
+  username,
+  ...
+}:
 
 {
   imports =
@@ -6,4 +12,9 @@
     ++ lib.optionals (utilities.hasTag "kde") [
       ./kde/home.nix
     ];
+
+  home = {
+    username = osConfig.users.users.${username}.name;
+    homeDirectory = osConfig.users.users.${username}.home;
+  };
 }

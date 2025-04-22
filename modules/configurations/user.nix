@@ -1,14 +1,27 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  username,
+  ...
+}:
 
 {
   users.users.${username} = {
     isNormalUser = true;
+    name = username;
+    home = "/home/${username}";
     shell = pkgs.zsh;
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "docker"
-      "wireshark"
-    ];
+    extraGroups =
+      [
+        "networkmanager"
+        "wheel"
+      ]
+      ++ lib.optionals (config.virtualisation.docker.enable) [
+        "docker"
+      ]
+      ++ lib.optionals (config.programs.wireshark.enable) [
+        "wireshark"
+      ];
   };
 }

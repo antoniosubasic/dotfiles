@@ -2,7 +2,7 @@
 
 {
   programs.neovim = {
-    enable = utilities.hasTag "shell";
+    enable = utilities.hasTag "shell" || utilities.hasTag "dev";
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;

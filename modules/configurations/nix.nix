@@ -1,5 +1,3 @@
-{ utilities, ... }:
-
 {
   nix = {
     settings.experimental-features = [
@@ -8,5 +6,5 @@
     ];
   };
 
-  nixpkgs.config.allowUnfree = utilities.hasTag "unfree";
+  nixpkgs.config.allowUnfree = true;
 }

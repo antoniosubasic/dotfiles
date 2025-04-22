@@ -1,3 +1,3 @@
 {
-  tags = [ "desktop" ];
+  tags = [ "tg_desktop" ];
 }

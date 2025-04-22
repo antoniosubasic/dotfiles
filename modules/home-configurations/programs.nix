@@ -11,12 +11,17 @@
 
   home.packages =
     with pkgs;
-    lib.optionals (utilities.hasTag "shell") [
-      asciidoctor
-      sl
-      exiftool
-      testdisk
-    ]
+    lib.optionals
+      (utilities.hasTags [
+        "shell"
+        "personal"
+      ])
+      [
+        asciidoctor
+        sl
+        exiftool
+        testdisk
+      ]
     ++
       lib.optionals
         (utilities.hasTags [
@@ -27,14 +32,12 @@
           just
           gh
           tokei
+          unstable.act
         ]
     ++ lib.optionals (utilities.hasTag "dev") [
       # language server
       nixd
       nixfmt-rfc-style
-
-      # tools
-      unstable.act
 
       # database
       sqlite
@@ -54,18 +57,30 @@
       (pkgs.jdk23.override { enableJavaFX = true; })
       (pkgs.openjfx.override { withWebKit = true; })
       maven
-
-      # editor
-      unstable.vscode
-      jetbrains.idea-ultimate
-      jetbrains.datagrip
     ]
-    ++ lib.optionals (utilities.hasTag "personal") [
-      google-chrome
-      tor-browser
-      gimp
-      banana-cursor
-      libreoffice-still
-      vlc
-    ];
+    ++
+      lib.optionals
+        (utilities.hasTags [
+          "gui"
+          "dev"
+        ])
+        [
+          unstable.vscode
+          jetbrains.idea-ultimate
+          jetbrains.datagrip
+        ]
+    ++
+      lib.optionals
+        (utilities.hasTags [
+          "gui"
+          "personal"
+        ])
+        [
+          google-chrome
+          tor-browser
+          gimp
+          banana-cursor
+          libreoffice-still
+          vlc
+        ];
 }
