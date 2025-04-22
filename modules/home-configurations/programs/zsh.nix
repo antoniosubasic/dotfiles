@@ -16,7 +16,6 @@
 
     shellAliases =
       {
-        shutdown = "shutdown -h now";
         ":q" = "exit";
         nohist = "HISTFILE=/dev/null";
 
@@ -106,6 +105,14 @@
           fi
         else
           command code "$@"
+        fi
+      }
+
+      shutdown() {
+        if [ $# -eq 0 ]; then
+          command shutdown -h now
+        else
+          command shutdown $@
         fi
       }
 
