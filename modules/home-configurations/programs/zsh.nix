@@ -51,6 +51,9 @@
       // lib.optionalAttrs (builtins.elem pkgs.wl-clipboard osConfig.environment.systemPackages) {
         copy = "wl-copy";
         paste = "wl-paste";
+      }
+      // lib.optionalAttrs (osConfig.programs.nh.enable) {
+        c = "nh clean all ${osConfig.programs.nh.clean.extraArgs}";
       };
 
     history = {
