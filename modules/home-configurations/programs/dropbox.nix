@@ -1,10 +1,34 @@
-{ lib, utilities, ... }:
+{
+  lib,
+  pkgs,
+  utilities,
+  ...
+}:
 
+let
+  dropbox = pkgs.dropbox;
+in
 lib.optionalAttrs
   (utilities.hasTags [
     "gui"
     "personal"
   ])
   {
-    services.dropbox.enable = true;
+    home.packages = [ dropbox ];
+
+    systemd.user.services.dropbox = {
+      Unit = {
+        Description = "Dropbox";
+        After = [ "graphical-session.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${dropbox}/bin/dropbox start -i";
+        Restart = "on-failure";
+        Type = "exec";
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+    };
   }
