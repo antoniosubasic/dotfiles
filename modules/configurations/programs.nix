@@ -23,7 +23,6 @@
         ])
         [
           wl-clipboard
-          ripgrep
           libnotify
         ]
     ++ lib.optionals (utilities.hasTag "dev") [

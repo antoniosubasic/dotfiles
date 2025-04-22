@@ -31,7 +31,7 @@
         ll = "ls -al";
         tree = "ls -T";
       }
-      // lib.optionalAttrs (builtins.elem pkgs.ripgrep osConfig.environment.systemPackages) {
+      // lib.optionalAttrs (config.programs.ripgrep.enable) {
         grep = "rg";
       }
       // lib.optionalAttrs (builtins.elem pkgs.asciidoctor config.home.packages) {
