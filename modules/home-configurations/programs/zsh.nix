@@ -78,52 +78,54 @@
     completionInit = "autoload -Uz compinit && autoload -Uz vcs_info && compinit";
     defaultKeymap = "emacs";
 
-    initExtra = ''
-      precmd() { vcs_info }
+    initExtra =
+      ''
+        precmd() { vcs_info }
 
-      # zsh prompt
-      zstyle ':vcs_info:*' enable git
-      zstyle ':vcs_info:*' check-for-changes true
-      zstyle ':vcs_info:git:*' unstagedstr '*'
-      zstyle ':vcs_info:git:*' stagedstr '+'
-      zstyle ':vcs_info:git:*' formats ' %F{yellow}(%b)%f' # %b = branch, %c = +, %u = *
+        # zsh prompt
+        zstyle ':vcs_info:*' enable git
+        zstyle ':vcs_info:*' check-for-changes true
+        zstyle ':vcs_info:git:*' unstagedstr '*'
+        zstyle ':vcs_info:git:*' stagedstr '+'
+        zstyle ':vcs_info:git:*' formats ' %F{yellow}(%b)%f' # %b = branch, %c = +, %u = *
 
-      # zsh completion
-      zstyle ':completion:*' completer _complete
-      zstyle ':completion:*' matcher-list '''''' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
+        # zsh completion
+        zstyle ':completion:*' completer _complete
+        zstyle ':completion:*' matcher-list '''''' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
 
-      setopt PROMPT_SUBST
-      PROMPT='%F{blue}%~%f''${vcs_info_msg_0_}%(?.%F{green}.%F{red}) ❯%f '
+        setopt PROMPT_SUBST
+        PROMPT='%F{blue}%~%f''${vcs_info_msg_0_}%(?.%F{green}.%F{red}) ❯%f '
 
-      code() {
-        if [ ! -e "$1" ]; then
-          local dir=$(zoxide query "$@")
-          if [ $? -eq 0 ] && [ -n "$dir" ]; then
-            command code "$dir"
+        shutdown() {
+          if [ $# -eq 0 ]; then
+            command shutdown -h now
           else
-            return 1
+            command shutdown $@
           fi
-        else
-          command code "$@"
-        fi
-      }
+        }
 
-      shutdown() {
-        if [ $# -eq 0 ]; then
-          command shutdown -h now
-        else
-          command shutdown $@
-        fi
-      }
-
-      # bash like keybindings (https://www.enlinux.com/bash-keyboard-shortcuts)
-      bindkey "^T" transpose-chars
-      bindkey "^[[3~" delete-char
-      bindkey "^[[1;5D" backward-word
-      bindkey "^[[1;5C" forward-word
-      bindkey "^[[3;5~" kill-word
-      bindkey "^H" backward-kill-word
-    '';
+        # bash like keybindings (https://www.enlinux.com/bash-keyboard-shortcuts)
+        bindkey "^T" transpose-chars
+        bindkey "^[[3~" delete-char
+        bindkey "^[[1;5D" backward-word
+        bindkey "^[[1;5C" forward-word
+        bindkey "^[[3;5~" kill-word
+        bindkey "^H" backward-kill-word
+      ''
+      + lib.optionalString (config.programs.vscode.enable) ''
+        code() {
+          if [ ! -e "$1" ]; then
+            local dir=$(zoxide query "$@")
+            if [ $? -eq 0 ] && [ -n "$dir" ]; then
+              command code "$dir"
+            else
+              return 1
+            fi
+          else
+            command code "$@"
+          fi
+        }
+      '';
 
     plugins = [
       {
