@@ -69,6 +69,7 @@
           config = {
             username = "antonio";
             system = "x86_64-linux";
+            timezone = "Europe/Vienna";
           } // (if builtins.pathExists configPath then import configPath else { });
 
           givenTags =

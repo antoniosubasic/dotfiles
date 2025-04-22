@@ -2,6 +2,7 @@
   pkgs,
   hostname,
   username,
+  timezone,
   config,
   lib,
   utilities,
@@ -32,7 +33,7 @@
   };
 
   time = {
-    timeZone = "Europe/Vienna";
+    timeZone = timezone;
     hardwareClockInLocalTime = true;
   };
 
