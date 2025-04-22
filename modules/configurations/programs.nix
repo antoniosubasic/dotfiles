@@ -14,6 +14,8 @@
       wget
       unzip
       jq
+      exiftool
+      testdisk
     ]
     ++
       lib.optionals
@@ -23,11 +25,66 @@
         ])
         [
           wl-clipboard
-          libnotify
+          asciidoctor
+          sl
         ]
     ++ lib.optionals (utilities.hasTag "dev") [
+      nixd
+      nixfmt-rfc-style
       docker-compose
-    ];
+      sqlite
+      gcc
+      (dotnetCorePackages.combinePackages [
+        dotnet-sdk_8
+        dotnet-sdk_9
+        dotnet-sdk_10
+      ])
+      rustup
+      unstable.trunk
+      nodejs
+      typescript
+      swi-prolog
+      (pkgs.jdk23.override { enableJavaFX = true; })
+      (pkgs.openjfx.override { withWebKit = true; })
+      maven
+    ]
+    ++
+      lib.optionals
+        (utilities.hasTags [
+          "shell"
+          "dev"
+        ])
+        [
+          just
+          gh
+          tokei
+          unstable.act
+        ]
+    ++
+      lib.optionals
+        (utilities.hasTags [
+          "gui"
+          "dev"
+        ])
+        [
+          unstable.vscode
+          jetbrains.idea-ultimate
+          jetbrains.datagrip
+        ]
+    ++
+      lib.optionals
+        (utilities.hasTags [
+          "gui"
+          "personal"
+        ])
+        [
+          google-chrome
+          tor-browser
+          gimp
+          banana-cursor
+          libreoffice-still
+          vlc
+        ];
 
   virtualisation = {
     docker.enable = utilities.hasTag "dev";
