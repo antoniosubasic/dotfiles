@@ -67,7 +67,6 @@
           "dev"
         ])
         [
-          unstable.vscode
           jetbrains.idea-ultimate
           jetbrains.datagrip
         ]
