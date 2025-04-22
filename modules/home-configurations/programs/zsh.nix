@@ -48,9 +48,9 @@
       // lib.optionalAttrs (builtins.elem pkgs.tokei config.home.packages) {
         cloc = "tokei";
       }
-      // lib.optionalAttrs (builtins.elem pkgs.xsel osConfig.environment.systemPackages) {
-        copy = "xsel --input --clipboard";
-        paste = "xsel --output --clipboard";
+      // lib.optionalAttrs (builtins.elem pkgs.wl-clipboard osConfig.environment.systemPackages) {
+        copy = "wl-copy";
+        paste = "wl-paste";
       };
 
     history = {

@@ -22,7 +22,7 @@
           "personal"
         ])
         [
-          xsel
+          wl-clipboard
           ripgrep
           libnotify
         ]
