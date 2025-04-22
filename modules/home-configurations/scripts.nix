@@ -59,12 +59,10 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           exit 1
         fi
 
-        if [ -n "''$(${pkgs.git}/bin/git -C "''$FLAKE" log HEAD..@{upstream} --oneline)" ]; then
-          ${pkgs.git}/bin/git -C "''$FLAKE" pull
-          if [ $? -ne 0 ]; then
-            echo "pulling remote failed"
-            exit 1
-          fi
+        ${pkgs.git}/bin/git -C "''$FLAKE" pull
+        if [ $? -ne 0 ]; then
+          echo "pulling remote failed"
+          exit 1
         fi
 
         if [ "''$1" = "-u" ] || [ "''$1" = "--update" ]; then
