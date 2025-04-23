@@ -57,7 +57,6 @@
         ])
         [
           just
-          gh
           tokei
           unstable.act
         ]
