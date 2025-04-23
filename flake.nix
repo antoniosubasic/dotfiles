@@ -48,6 +48,7 @@
           "bt_shell"
           "bt_gui"
           "bt_dev"
+          "bt_ai"
           "bt_kde"
         ];
       };
@@ -60,6 +61,7 @@
         "bt_shell"
         "bt_gui"
         "bt_dev"
+        "bt_ai"
         "bt_nvidia"
         "bt_kde"
       ];

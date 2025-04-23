@@ -91,7 +91,7 @@
     containerd.enable = utilities.hasTag "dev";
   };
 
-  services = {
+  services = rec {
     tailscale = {
       enable = utilities.hasTag "personal";
       package = unstable.tailscale;
@@ -103,20 +103,14 @@
     };
     ollama =
       {
-        enable = utilities.hasTags [
-          "shell"
-          "personal"
-        ];
+        enable = utilities.hasTag "ai";
         package = unstable.ollama;
       }
       // lib.optionalAttrs (utilities.hasTag "nvidia") {
         acceleration = "cuda";
       };
     open-webui = {
-      enable = utilities.hasTags [
-        "gui"
-        "personal"
-      ];
+      enable = ollama.enable && utilities.hasTag "gui";
       package = unstable.open-webui;
       environment = {
         WEBUI_AUTH = "False";
