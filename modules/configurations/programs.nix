@@ -85,10 +85,7 @@
           vlc
         ];
 
-  virtualisation = {
-    docker.enable = utilities.hasTag "dev";
-    containerd.enable = utilities.hasTag "dev";
-  };
+  virtualisation.docker.enable = utilities.hasTag "dev";
 
   services = rec {
     tailscale = {
