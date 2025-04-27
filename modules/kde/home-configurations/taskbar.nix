@@ -38,7 +38,7 @@
           digitalClock = {
             date = {
               enable = true;
-              format.custom = "ddd MMM dd";
+              format.custom = "ddd dd MMM";
             };
             time.showSeconds = "always";
           };
