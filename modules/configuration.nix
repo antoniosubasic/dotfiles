@@ -1,4 +1,4 @@
-{ utilities, lib, ... }:
+{ lib, utilities, ... }:
 
 {
   imports =

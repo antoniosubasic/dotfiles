@@ -1,7 +1,7 @@
 {
-  utilities,
-  lib,
   osConfig,
+  lib,
+  utilities,
   username,
   ...
 }:

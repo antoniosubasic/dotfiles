@@ -1,12 +1,12 @@
 {
+  config,
   pkgs,
   upkgs,
-  hostname,
-  username,
-  timezone,
-  config,
   lib,
   utilities,
+  hostname,
+  timezone,
+  username,
   ...
 }:
 

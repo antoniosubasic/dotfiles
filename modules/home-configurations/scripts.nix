@@ -1,8 +1,8 @@
 {
-  utilities,
-  lib,
-  pkgs,
   osConfig,
+  pkgs,
+  lib,
+  utilities,
   ...
 }:
 

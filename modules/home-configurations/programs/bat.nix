@@ -1,4 +1,4 @@
-{ utilities, pkgs, ... }:
+{ pkgs, utilities, ... }:
 
 {
   programs.bat = {

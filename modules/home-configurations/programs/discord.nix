@@ -1,7 +1,7 @@
 {
   upkgs,
-  utilities,
   lib,
+  utilities,
   ...
 }:
 
