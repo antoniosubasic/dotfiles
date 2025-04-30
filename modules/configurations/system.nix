@@ -1,12 +1,12 @@
 {
   pkgs,
+  upkgs,
   hostname,
   username,
   timezone,
   config,
   lib,
   utilities,
-  unstable,
   ...
 }:
 
@@ -111,7 +111,7 @@
     nix-ld = {
       enable = true;
       libraries = with pkgs; [
-        unstable.stdenv.cc.cc.lib
+        upkgs.stdenv.cc.cc.lib
         glib
         util-linux
         xorg.libX11

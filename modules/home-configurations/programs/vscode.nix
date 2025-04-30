@@ -1,4 +1,4 @@
-{ utilities, unstable, ... }:
+{ upkgs, utilities, ... }:
 
 {
   programs.vscode = {
@@ -6,6 +6,6 @@
       "gui"
       "dev"
     ];
-    package = unstable.vscode;
+    package = upkgs.vscode;
   };
 }

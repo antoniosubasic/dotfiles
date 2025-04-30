@@ -1,7 +1,7 @@
 {
+  upkgs,
   utilities,
   lib,
-  unstable,
   ...
 }:
 
@@ -12,7 +12,7 @@ lib.optionalAttrs
   ])
   {
     home.packages = [
-      (unstable.discord.override { withVencord = true; })
+      (upkgs.discord.override { withVencord = true; })
     ];
 
     home.file.".config/Vencord/settings/settings.json".source = ./vencord-settings.json;

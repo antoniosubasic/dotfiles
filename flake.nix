@@ -104,7 +104,7 @@
             inherit hostname;
             tags = flattenTags givenTags;
             utilities = import ./lib/utils.nix { inherit lib tags; };
-            unstable = import nixpkgs-unstable {
+            upkgs = import nixpkgs-unstable {
               system = config.system;
               config.allowUnfree = true;
             };

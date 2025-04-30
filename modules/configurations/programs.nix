@@ -1,7 +1,7 @@
 {
-  lib,
   pkgs,
-  unstable,
+  upkgs,
+  lib,
   utilities,
   ...
 }:
@@ -41,7 +41,7 @@
         dotnet-sdk_10
       ])
       rustup
-      unstable.trunk
+      upkgs.trunk
       nodejs
       typescript
       swi-prolog
@@ -58,7 +58,7 @@
         [
           just
           tokei
-          unstable.act
+          upkgs.act
         ]
     ++
       lib.optionals
@@ -90,7 +90,7 @@
   services = rec {
     tailscale = {
       enable = utilities.hasTag "personal";
-      package = unstable.tailscale;
+      package = upkgs.tailscale;
       extraUpFlags = [ "--operator=$USER" ];
     };
     plantuml-server = {
@@ -100,14 +100,14 @@
     ollama =
       {
         enable = utilities.hasTag "ai";
-        package = unstable.ollama;
+        package = upkgs.ollama;
       }
       // lib.optionalAttrs (utilities.hasTag "nvidia") {
         acceleration = "cuda";
       };
     open-webui = {
       enable = ollama.enable && utilities.hasTag "gui";
-      package = unstable.open-webui;
+      package = upkgs.open-webui;
       environment = {
         WEBUI_AUTH = "False";
         DEFAULT_USER_ROLE = "admin";
