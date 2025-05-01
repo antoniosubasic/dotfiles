@@ -11,6 +11,9 @@
 
       input = {
         kb_layout = "at";
+        numlock_by_default = true;
+        sensitivity = 0.2;
+        accel_profile = "flat";
       };
 
       monitor = [
