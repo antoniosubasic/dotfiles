@@ -102,6 +102,11 @@
         };
       };
 
+      general = {
+        gaps_out = 10;
+        "col.active_border" = "rgba(ffffff80)";
+      };
+
       animations = {
         enabled = true;
 
