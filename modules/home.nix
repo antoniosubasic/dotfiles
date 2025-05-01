@@ -11,6 +11,9 @@
     utilities.importNixFiles ./home-configurations
     ++ lib.optionals (utilities.hasTag "kde") [
       ./kde/home.nix
+    ]
+    ++ lib.optionals (utilities.hasTag "hyprland") [
+      ./hyprland/home.nix
     ];
 
   home = {

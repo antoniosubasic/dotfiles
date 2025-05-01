@@ -15,6 +15,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    hyprland.url = "github:hyprwm/Hyprland";
   };
 
   outputs =
@@ -23,6 +25,7 @@
       nixpkgs-unstable,
       home-manager,
       plasma-manager,
+      hyprland,
       ...
     }:
     let
@@ -36,6 +39,7 @@
         tg_desktop = [
           "tg_personal"
           "bt_nvidia"
+          "bt_hyprland"
         ];
         tg_laptop = [
           "tg_personal"
@@ -64,6 +68,7 @@
         "bt_ai"
         "bt_nvidia"
         "bt_kde"
+        "bt_hyprland"
       ];
 
       mkSystem =
@@ -108,6 +113,7 @@
               system = config.system;
               config.allowUnfree = true;
             };
+            hyprPkgs = hyprland.packages.${config.system};
           };
         in
         nixpkgs.lib.nixosSystem {
