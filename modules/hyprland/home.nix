@@ -1,9 +1,10 @@
-{ osConfig, ... }:
+{ osConfig, hyprPkgs, ... }:
 
 {
   wayland.windowManager.hyprland = {
     enable = true;
     package = osConfig.programs.hyprland.package;
+    plugins = with hyprPkgs; [ virtual-desktops ];
     settings = {
       "$mod" = "SUPER";
       "$terminal" = "alacritty";

@@ -17,6 +17,10 @@
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-virtual-desktops = {
+      url = "github:levnikmyskin/hyprland-virtual-desktops";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
   outputs =
@@ -25,9 +29,8 @@
       nixpkgs-unstable,
       home-manager,
       plasma-manager,
-      hyprland,
       ...
-    }:
+    }@inputs:
     let
       lib = nixpkgs.lib;
 
@@ -113,7 +116,10 @@
               system = config.system;
               config.allowUnfree = true;
             };
-            hyprPkgs = hyprland.packages.${config.system};
+            hyprPkgs = {
+              inherit (inputs.hyprland.packages.${config.system}) hyprland;
+              inherit (inputs.hyprland-virtual-desktops.packages.${config.system}) virtual-desktops;
+            };
           };
         in
         nixpkgs.lib.nixosSystem {
