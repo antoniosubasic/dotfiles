@@ -9,7 +9,12 @@
     waybar.enable = true;
   };
 
+  services.gnome.gnome-keyring.enable = true;
+
   environment.systemPackages = with pkgs; [
+    libsecret
+    gnome.seahorse
+
     libnotify
     mako
 
