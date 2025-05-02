@@ -2,7 +2,6 @@
   programs.plasma.shortcuts = {
     "services/Alacritty.desktop"."_launch" = "Ctrl+Alt+T";
     "services/org.kde.kalk.desktop"."_launch" = "Calculator";
-    "services/net.local.printf.desktop"."_launch" = "Ctrl+Alt+S";
 
     "kwin" = {
       "Switch One Desktop Down" = "Meta+J";
