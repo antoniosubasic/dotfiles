@@ -11,7 +11,14 @@
       transpose-ssh = "!f() { git remote set-url origin $(git remote get-url origin | sed 's|https://github.com/|git@github.com:|'); }; f";
       transpose-https = "!f() { git remote set-url origin $(git remote get-url origin | sed 's|git@github.com:|https://github.com/|'); }; f";
       tree = "log --graph --oneline --decorate --all";
-      url = "!f() { git remote get-url origin | sed 's|git@github.com:|https://github.com/|'; }; f";
+      url = "!f() {
+        branch=$(git symbolic-ref --short -q HEAD) || nobranch=true && {
+          git ls-remote --exit-code --heads origin -q refs/heads/$branch > /dev/null || nobranch=true
+        }
+        url=$(git remote get-url origin | sed 's|git@github.com:|https://github.com/|')
+        printf '%s%s' $url $([ \"$nobranch\" = true ] || printf '/tree/%s' $branch)
+        printf '\n'
+      }; f";
     };
     extraConfig = {
       user.github = "antoniosubasic";
