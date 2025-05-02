@@ -13,7 +13,7 @@
 
   environment.systemPackages = with pkgs; [
     libsecret
-    gnome.seahorse
+    seahorse
 
     libnotify
     mako
