@@ -6,7 +6,6 @@
       enable = true;
       package = hyprPkgs.hyprland;
     };
-    waybar.enable = true;
   };
 
   services.gnome.gnome-keyring.enable = true;

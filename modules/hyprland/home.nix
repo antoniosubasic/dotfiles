@@ -1,6 +1,8 @@
-{ osConfig, ... }:
+{ osConfig, utilities, ... }:
 
 {
+  imports = utilities.importNixFiles ./home-configurations;
+
   wayland.windowManager.hyprland = {
     enable = true;
     package = osConfig.programs.hyprland.package;
