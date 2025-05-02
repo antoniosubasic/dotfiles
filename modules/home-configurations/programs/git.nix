@@ -19,6 +19,7 @@
         printf '%s%s' $url $([ \"$nobranch\" = true ] || printf '/tree/%s' $branch)
         printf '\n'
       }; f";
+      open = "!f() { open \"$(git url)\"; }; f";
     };
     extraConfig = {
       user.github = "antoniosubasic";
