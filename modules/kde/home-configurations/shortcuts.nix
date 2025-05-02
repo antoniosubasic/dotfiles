@@ -9,11 +9,13 @@
       "Switch One Desktop Up" = "Meta+K";
       "Switch One Desktop to the Left" = "Meta+H";
       "Switch One Desktop to the Right" = "Meta+L";
+
+      "Window One Desktop Down" = "Meta+Alt+J";
+      "Window One Desktop Up" = "Meta+Alt+K";
+      "Window One Desktop to the Left" = "Meta+Alt+H";
+      "Window One Desktop to the Right" = "Meta+Alt+L";
+
       "Window Maximize" = "Meta+Up";
-      "Window One Desktop Down" = "Meta+Shift+J";
-      "Window One Desktop Up" = "Meta+Shift+K";
-      "Window One Desktop to the Left" = "Meta+Shift+H";
-      "Window One Desktop to the Right" = "Meta+Shift+L";
     };
 
     "ksmserver" = {
