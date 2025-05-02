@@ -73,8 +73,8 @@
         "$mod SHIFT, 8, movetoworkspace, 8"
         "$mod SHIFT, 9, movetoworkspace, 9"
         "$mod SHIFT, 0, movetoworkspace, 10"
-        "$mod ALT, l, workspace, +1"
-        "$mod ALT, h, workspace, -1"
+        "$mod, m, workspace, e+1"
+        "$mod, n, workspace, e-1"
       ];
 
       layerrule = [
