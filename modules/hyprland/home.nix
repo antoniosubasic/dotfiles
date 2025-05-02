@@ -45,9 +45,9 @@
         ################
         # Window Focus #
         ################
-        "$mod, h, movefocus, l"
-        "$mod, j, movefocus, d"
-        "$mod, k, movefocus, u"
+        "$mod, j, movefocus, l"
+        "$mod, k, movefocus, d"
+        "$mod, i, movefocus, u"
         "$mod, l, movefocus, r"
 
         ######################
