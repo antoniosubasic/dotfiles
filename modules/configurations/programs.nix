@@ -83,6 +83,7 @@
           banana-cursor
           libreoffice-still
           vlc
+          signal-desktop
         ];
 
   virtualisation.docker.enable = utilities.hasTag "dev";
