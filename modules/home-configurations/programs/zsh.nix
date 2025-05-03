@@ -48,8 +48,8 @@
         cloc = "tokei";
       }
       // lib.optionalAttrs (builtins.elem pkgs.wl-clipboard osConfig.environment.systemPackages) {
-        copy = "wl-copy";
-        paste = "wl-paste";
+        copy = "wl-copy -t text/plain";
+        paste = "wl-paste -t text/plain";
       }
       // lib.optionalAttrs (osConfig.programs.nh.enable) {
         c = "nh clean all ${osConfig.programs.nh.clean.extraArgs}";
