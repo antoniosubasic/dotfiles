@@ -9,13 +9,13 @@
       cm = "commit -m";
       cp = "!f() { git clone git@github.com:$(git config user.github)/$1.git \${2:-$1}; }; f";
       transpose-ssh = "!f() { git remote set-url origin $(git remote get-url origin | sed 's|https://github.com/|git@github.com:|'); }; f";
-      transpose-https = "!f() { git remote set-url origin $(git remote get-url origin | sed 's|git@github.com:|https://github.com/|'); }; f";
+      transpose-https = "!f() { git remote set-url origin $(git remote get-url origin | sed -e 's|git@github.com:|https://github.com/|' -e 's|\.git$||'); }; f";
       tree = "log --graph --oneline --decorate --all";
       url = "!f() {
         branch=$(git symbolic-ref --short -q HEAD) || nobranch=true && {
           git ls-remote --exit-code --heads origin -q refs/heads/$branch > /dev/null || nobranch=true
         }
-        url=$(git remote get-url origin | sed 's|git@github.com:|https://github.com/|')
+        url=$(git remote get-url origin | sed -e 's|git@github.com:|https://github.com/|' -e 's|\.git$||')
         printf '%s%s' $url $([ \"$nobranch\" = true ] || printf '/tree/%s' $branch)
         printf '\n'
       }; f";
