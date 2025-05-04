@@ -84,6 +84,7 @@
           libreoffice-still
           vlc
           signal-desktop
+          spotify
         ];
 
   virtualisation.docker.enable = utilities.hasTag "dev";
