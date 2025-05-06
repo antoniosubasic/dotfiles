@@ -28,6 +28,7 @@
           wl-clipboard
           asciidoctor
           sl
+          nix-search-cli
         ]
     ++ lib.optionals (utilities.hasTag "dev") [
       nixd
