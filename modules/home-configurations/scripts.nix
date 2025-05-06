@@ -54,32 +54,32 @@ lib.optionalAttrs (utilities.hasTag "shell") {
     ]
     ++ lib.optionals (osConfig.programs.nh.enable && osConfig.programs.nh.flake != null) [
       (pkgs.writeShellScriptBin "y" ''
-        if [ -n "''$(${pkgs.git}/bin/git -C "''$FLAKE" status --porcelain)" ]; then
+        if [ -n "''$(${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" status --porcelain)" ]; then
           echo "uncommitted changes detected"
           exit 1
         fi
 
-        ${pkgs.git}/bin/git -C "''$FLAKE" pull
+        ${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" pull
         if [ $? -ne 0 ]; then
           echo "pulling remote failed"
           exit 1
         fi
 
         if [ "''$1" = "-u" ] || [ "''$1" = "--update" ]; then
-          ${pkgs.nix}/bin/nix flake update --flake "''$FLAKE"
+          ${pkgs.nix}/bin/nix flake update --flake "${osConfig.programs.nh.flake}"
           if [ $? -ne 0 ]; then
             echo "updating flake.lock failed"
             exit 1
           fi
 
-          if [ -n "''$(${pkgs.git}/bin/git -C "''$FLAKE" status --porcelain)" ]; then
-            ${pkgs.git}/bin/git -C "''$FLAKE" commit -m "bump(flake): update flake.lock" flake.lock
+          if [ -n "''$(${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" status --porcelain)" ]; then
+            ${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" commit -m "bump(flake): update flake.lock" flake.lock
             if [ $? -ne 0 ]; then
               echo "committing flake.lock failed"
               exit 1
             fi
 
-            ${pkgs.git}/bin/git -C "''$FLAKE" push
+            ${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" push
             if [ $? -ne 0 ]; then
               echo "pushing flake.lock failed"
               exit 1
@@ -91,7 +91,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
       '')
 
       (pkgs.writeShellScriptBin "ubuild" ''
-        sudo nixos-rebuild switch --flake "''$FLAKE"
+        sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}"
         if [ "''$1" = "-s" ] || [ "''$1" = "--shutdown" ]; then
           shutdown -h now
         fi
