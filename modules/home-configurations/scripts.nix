@@ -89,5 +89,12 @@ lib.optionalAttrs (utilities.hasTag "shell") {
 
         ${pkgs.nh}/bin/nh os switch
       '')
+
+      (pkgs.writeShellScriptBin "ubuild" ''
+        sudo nixos-rebuild switch --flake "''$FLAKE"
+        if [ "''$1" = "-s" ] || [ "''$1" = "--shutdown" ]; then
+          shutdown -h now
+        fi
+      '')
     ];
 }
