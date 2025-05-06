@@ -85,6 +85,7 @@
           vlc
           signal-desktop
           spotify
+          bibata-cursors
         ];
 
   virtualisation.docker.enable = utilities.hasTag "dev";
