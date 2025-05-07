@@ -4,7 +4,7 @@
       floating = true;
       screen = "all";
       widgets = [
-        "org.kde.plasma.kickoff"
+        { kickoff.icon = "nix-snowflake"; }
         "org.kde.plasma.pager"
         {
           iconTasks = {
