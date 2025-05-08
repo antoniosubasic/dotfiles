@@ -14,6 +14,9 @@
       "Window One Desktop to the Left" = "Meta+Alt+H";
       "Window One Desktop to the Right" = "Meta+Alt+L";
 
+      "Window to Next Screen" = "Meta+Shift+L";
+      "Window to Previous Screen" = "Meta+Shift+H";
+
       "Window Maximize" = "Meta+Up";
     };
 
