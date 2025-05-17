@@ -97,10 +97,10 @@
         PROMPT='%F{blue}%~%f''${vcs_info_msg_0_}%(?.%F{green}.%F{red}) ❯%f '
 
         shutdown() {
-          if [ $# -eq 0 ]; then
+          if [ ''$# -eq 0 ]; then
             command shutdown -h now
           else
-            command shutdown $@
+            command shutdown ''$@
           fi
         }
 
@@ -114,15 +114,15 @@
       ''
       + lib.optionalString (config.programs.vscode.enable) ''
         code() {
-          if [ ! -e "$1" ]; then
-            local dir=$(zoxide query "$@")
-            if [ $? -eq 0 ] && [ -n "$dir" ]; then
-              command code "$dir"
+          if [ ! -e "''$1" ]; then
+            local dir=''$(zoxide query "''$@")
+            if [ ''$? -eq 0 ] && [ -n "''$dir" ]; then
+              command code "''$dir"
             else
               return 1
             fi
           else
-            command code "$@"
+            command code "''$@"
           fi
         }
       '';
