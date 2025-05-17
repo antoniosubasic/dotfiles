@@ -53,19 +53,34 @@ lib.optionalAttrs (utilities.hasTag "shell") {
       '')
     ]
     ++ lib.optionals (osConfig.programs.nh.enable && osConfig.programs.nh.flake != null) [
-      (pkgs.writeShellScriptBin "y" ''
-        if [ -n "''$(${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" status --porcelain)" ]; then
-          echo "uncommitted changes detected"
-          exit 1
-        fi
+      (pkgs.writeShellScriptBin "build" ''
+        update=false
+        shutdown=false
+        for arg in "''$@"; do
+          case "''$arg" in
+            -u|--update) update=true ;;
+            -s|--shutdown) shutdown=true ;;
+            -us|-su) update=true; shutdown=true ;;
+            *)
+              echo "unknown option: ''$arg"
+              echo "usage: build [-u|--update] [-s|--shutdown]"
+              exit 1
+              ;;
+          esac
+        done
 
-        ${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" pull
-        if [ $? -ne 0 ]; then
-          echo "pulling remote failed"
-          exit 1
-        fi
+        if [[ "''$update" == true ]]; then
+          if [ -n "''$(${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" status --porcelain)" ]; then
+            echo "uncommitted changes detected"
+            exit 1
+          fi
 
-        if [ "''$1" = "-u" ] || [ "''$1" = "--update" ]; then
+          ${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" pull
+          if [ $? -ne 0 ]; then
+            echo "pulling remote failed"
+            exit 1
+          fi
+
           ${pkgs.nix}/bin/nix flake update --flake "${osConfig.programs.nh.flake}"
           if [ $? -ne 0 ]; then
             echo "updating flake.lock failed"
@@ -87,13 +102,11 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           fi
         fi
 
-        ${pkgs.nh}/bin/nh os switch
-      '')
-
-      (pkgs.writeShellScriptBin "ubuild" ''
-        sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}"
-        if [ "''$1" = "-s" ] || [ "''$1" = "--shutdown" ]; then
+        if [[ "''$shutdown" == true ]]; then
+          sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}"
           shutdown -h now
+        else
+          ${pkgs.nh}/bin/nh os switch
         fi
       '')
     ];
