@@ -115,6 +115,7 @@
         glib
         util-linux
         xorg.libX11
+        libgdiplus
       ];
     };
     nh = rec {
