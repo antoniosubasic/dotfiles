@@ -1,7 +1,7 @@
 {
   programs.plasma.configFile."mimeapps.list" = {
     "Added Associations" = {
-      "application/pdf" = "google-chrome.desktop";
+      "application/pdf" = "org.kde.okular.desktop";
       "image/avif" = "org.kde.gwenview.desktop";
       "image/bmp" = "org.kde.gwenview.desktop";
       "image/heif" = "org.kde.gwenview.desktop";
@@ -14,7 +14,7 @@
       "x-scheme-handler/geo" = "google-maps-geo-handler.desktop";
     };
     "Default Applications" = {
-      "application/pdf" = "google-chrome.desktop";
+      "application/pdf" = "org.kde.okular.desktop";
       "image/avif" = "org.kde.gwenview.desktop";
       "image/bmp" = "org.kde.gwenview.desktop";
       "image/heif" = "org.kde.gwenview.desktop";
