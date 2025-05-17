@@ -49,6 +49,7 @@
       (pkgs.jdk23.override { enableJavaFX = true; })
       (pkgs.openjfx.override { withWebKit = true; })
       maven
+      python314
     ]
     ++
       lib.optionals
