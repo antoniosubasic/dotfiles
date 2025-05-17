@@ -4,6 +4,7 @@
       shortcuts = {
         captureRectangularRegion = [ "Print" "Meta+Shift+S" ];
         captureCurrentMonitor = "Shift+Print";
+        launch = "Meta+S";
       };
     };
     configFile.spectaclerc = {
