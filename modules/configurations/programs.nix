@@ -136,5 +136,64 @@
       "gui"
       "personal"
     ];
+    firefox = {
+      enable = utilities.hasTags [
+        "gui"
+        "personal"
+      ];
+      policies = {
+        DisableTelemetry = true;
+        DisableFirefoxStudies = true;
+        EnableTrackingProtection = {
+          Value = true;
+          Locked = true;
+          Cryptomining = true;
+          Fingerprinting = true;
+        };
+        DisablePocket = true;
+        DisableFirefoxAccounts = true;
+        DisableAccounts = true;
+        DisableFirefoxScreenshots = true;
+        DontCheckDefaultBrowser = true;
+        DisplayBookmarksToolbar = "never";
+        ExtensionSettings = {
+          "*".installation_mode = "blocked";
+          "uBlock0@raymondhill.net" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          "jid1-MnnxcxisBPnSXQ@jetpack" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
+            installation_mode = "force_installed";
+          };
+        };
+        Preferences = {
+          "browser.contentblocking.category" = {
+            Value = "strict";
+            Status = "locked";
+          };
+          "browser.topsites.contile.enabled" = {
+            Value = false;
+            Status = "locked";
+          };
+          "extensions.screenshots.disabled" = {
+            Value = true;
+            Status = "locked";
+          };
+          "browser.newtabpage.activity-stream.showSponsored" = {
+            Value = false;
+            Status = "locked";
+          };
+          "browser.newtabpage.activity-stream.system.showSponsored" = {
+            Value = false;
+            Status = "locked";
+          };
+          "browser.newtabpage.activity-stream.showSponsoredTopSites" = {
+            Value = false;
+            Status = "locked";
+          };
+        };
+      };
+    };
   };
 }
