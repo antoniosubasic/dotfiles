@@ -116,6 +116,9 @@
         util-linux
         xorg.libX11
         libgdiplus
+        libffi
+        zlib
+        cairo
       ];
     };
     nh = rec {
