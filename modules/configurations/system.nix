@@ -136,6 +136,11 @@
 
   environment.variables = {
     LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
+    OPENSSL_DIR = pkgs.openssl.dev;
+    OPENSSL_LIB_DIR = "${pkgs.openssl.dev}/lib";
+    OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
+    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+    OPENSSL_STATIC = 0;
   };
 
   # This value determines the NixOS release from which the default

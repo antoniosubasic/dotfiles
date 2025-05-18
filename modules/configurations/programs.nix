@@ -17,6 +17,9 @@
       jq
       exiftool
       testdisk
+      openssl
+      openssl.dev
+      pkg-config
     ]
     ++
       lib.optionals
