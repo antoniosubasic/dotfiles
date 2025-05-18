@@ -53,73 +53,122 @@ lib.optionalAttrs (utilities.hasTag "shell") {
       '')
     ]
     ++ lib.optionals (osConfig.programs.nh.enable && osConfig.programs.nh.flake != null) [
-      (pkgs.writeShellScriptBin "build" ''
-        update=false
-        shutdown=false
-        detached=false
-        for arg in "''$@"; do
-          case "''$arg" in
-            -u|--update) update=true ;;
-            -s|--shutdown) shutdown=true ;;
-            -d|--detached) detached=true ;;
-            -usd|-uds|-sud|-sdu|-dus|-dsu) update=true; shutdown=true; detached=true ;;
-            *)
-              echo "unknown option: ''$arg"
-              echo "usage: build [-u|--update] [-s|--shutdown] [-d|--detached]"
-              exit 1
-              ;;
-          esac
-        done
+      (
+        let
+          buildParams = [
+            {
+              name = "update";
+              description = "Update flake before building";
+              default = false;
+            }
+            {
+              name = "shutdown";
+              description = "Shutdown after building";
+              default = false;
+            }
+            {
+              name = "detached";
+              description = "Run build in detached mode";
+              default = false;
+            }
+          ];
+        in
+        pkgs.writeShellScriptBin "build" ''
+          ${lib.concatMapStringsSep "\n" (
+            param: "${param.name}=${if param.default then "true" else "false"}"
+          ) buildParams}
+          unknown=false
 
-        if [[ "''$update" == true ]]; then
-          if [ -n "''$(${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" status --porcelain)" ]; then
-            echo "uncommitted changes detected"
+          for arg in "''$@"; do
+            case "''$arg" in
+              ${lib.concatMapStringsSep "\n" (
+                param: "-${builtins.substring 0 1 param.name}|--${param.name}) ${param.name}=true ;;"
+              ) buildParams}
+              -*)
+                for (( i=1; i<''${#arg}; i++ )); do
+                  case "''${arg:''$i:1}" in
+                    ${lib.concatMapStringsSep "\n" (
+                      param: "-${builtins.substring 0 1 param.name}) ${param.name}=true ;;"
+                    ) buildParams}
+                    *) unknown=true ;;
+                  esac
+                done
+                ;;
+              *) unknown=true ;;
+            esac
+          done
+
+          if [[ "''$unknown" == true ]]; then
+            echo "unknown option: ''$arg"
+            echo ""
+            echo "usage: build ${
+              lib.concatMapStringsSep " " (
+                param: "[-${builtins.substring 0 1 param.name}|--${param.name}]"
+              ) buildParams
+            }"
+            echo "options:"
+            ${lib.concatMapStringsSep "\n" (
+              param:
+              "echo \"  -${builtins.substring 0 1 param.name}, --${param.name}    $(printf \"%*s\" ${
+                builtins.toString (
+                  (lib.foldl (a: b: lib.max a (builtins.stringLength b.name)) 0 buildParams)
+                  - (builtins.stringLength param.name)
+                )
+              }) ${param.description}\""
+            ) buildParams}
             exit 1
           fi
 
-          ${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" pull
-          if [ $? -ne 0 ]; then
-            echo "pulling remote failed"
-            exit 1
-          fi
-
-          ${pkgs.nix}/bin/nix flake update --flake "${osConfig.programs.nh.flake}"
-          if [ $? -ne 0 ]; then
-            echo "updating flake.lock failed"
-            exit 1
-          fi
-
-          if [ -n "''$(${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" status --porcelain)" ]; then
-            ${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" commit -m "bump(flake): update flake.lock" flake.lock
-            if [ $? -ne 0 ]; then
-              echo "committing flake.lock failed"
+          if [[ "''$update" == true ]]; then
+            if [ -n "''$(${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" status --porcelain)" ]; then
+              echo "uncommitted changes detected"
               exit 1
             fi
 
-            ${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" push
+            ${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" pull
             if [ $? -ne 0 ]; then
-              echo "pushing flake.lock failed"
+              echo "pulling remote failed"
               exit 1
             fi
-          fi
-        fi
 
-        if [[ "''$shutdown" == true ]] || [[ "''$detached" == true ]]; then
-          systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
-            outfile="$(mktemp)"
-            sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}" > ''$outfile 2>&1
+            ${pkgs.nix}/bin/nix flake update --flake "${osConfig.programs.nh.flake}"
             if [ $? -ne 0 ]; then
-              cp ''$outfile ~/Desktop/nixos-rebuild-failed-$(date -Iseconds).log
+              echo "updating flake.lock failed"
+              exit 1
             fi
-          '
-          if [[ "''$shutdown" == true ]]; then
-            shutdown -h now
+
+            if [ -n "''$(${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" status --porcelain)" ]; then
+              ${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" commit -m "bump(flake): update flake.lock" flake.lock
+              if [ $? -ne 0 ]; then
+                echo "committing flake.lock failed"
+                exit 1
+              fi
+
+              ${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" push
+              if [ $? -ne 0 ]; then
+                echo "pushing flake.lock failed"
+                exit 1
+              fi
+            fi
           fi
-        else
-          systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
-            ${pkgs.nh}/bin/nh os switch
-          '
-        fi
-      '')
+
+          if [[ "''$shutdown" == true ]] || [[ "''$detached" == true ]]; then
+            systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
+              outfile="$(mktemp)"
+              sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}" > ''$outfile 2>&1
+              if [ $? -ne 0 ]; then
+                cp ''$outfile ~/Desktop/nixos-rebuild-failed-$(date -Iseconds).log
+              fi
+            '
+            if [[ "''$shutdown" == true ]]; then
+              shutdown -h now
+            fi
+          else
+            systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
+              ${pkgs.nh}/bin/nh os switch
+            '
+          fi
+        ''
+      )
     ];
 }
