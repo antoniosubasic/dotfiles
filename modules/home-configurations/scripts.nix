@@ -76,6 +76,11 @@ lib.optionalAttrs (utilities.hasTag "shell") {
               description = "Pull remote changes before building";
               default = false;
             }
+            {
+              name = "help";
+              description = "Show help";
+              default = false;
+            }
           ];
         in
         pkgs.writeShellScriptBin "build" ''
@@ -103,9 +108,12 @@ lib.optionalAttrs (utilities.hasTag "shell") {
             esac
           done
 
-          if [[ "''$unknown" == true ]]; then
-            echo "unknown option: ''$arg"
-            echo ""
+          if [[ "''$help" == true ]] || [[ "''$unknown" == true ]]; then
+            if [[ "''$unknown" == true ]]; then
+              echo "unknown option: ''$arg"
+              echo ""
+            fi
+
             echo "usage: build ${
               lib.concatMapStringsSep " " (
                 param: "[-${builtins.substring 0 1 param.name}|--${param.name}]"
@@ -121,7 +129,12 @@ lib.optionalAttrs (utilities.hasTag "shell") {
                 )
               }) ${param.description}\""
             ) buildParams}
-            exit 1
+
+            if [[ "''$unknown" == true ]]; then
+              exit 1
+            else
+              exit 0
+            fi
           fi
 
           if [[ "''$pull" == true ]]; then
