@@ -44,7 +44,9 @@
         dotnet-sdk_9
         dotnet-sdk_10
       ])
-      rustup
+      upkgs.cargo
+      upkgs.rust-analyzer
+      upkgs.rustc
       upkgs.trunk
       nodejs
       typescript
