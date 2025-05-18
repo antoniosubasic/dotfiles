@@ -17,7 +17,7 @@
       "Window to Next Screen" = "Meta+Shift+L";
       "Window to Previous Screen" = "Meta+Shift+H";
 
-      "Window Maximize" = "Meta+Up";
+      "Window Maximize" = "Meta+M";
     };
 
     "ksmserver" = {
