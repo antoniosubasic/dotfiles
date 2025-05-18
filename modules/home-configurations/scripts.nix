@@ -103,10 +103,14 @@ lib.optionalAttrs (utilities.hasTag "shell") {
         fi
 
         if [[ "''$shutdown" == true ]]; then
-          sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}"
+          systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
+            sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}"
+          '
           shutdown -h now
         else
-          ${pkgs.nh}/bin/nh os switch
+          systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
+            ${pkgs.nh}/bin/nh os switch
+          '
         fi
       '')
     ];
