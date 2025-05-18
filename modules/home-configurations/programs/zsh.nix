@@ -53,7 +53,8 @@
         paste = "wl-paste -t text/plain";
       }
       // lib.optionalAttrs (osConfig.programs.nh.enable) {
-        c = "nh clean all ${osConfig.programs.nh.clean.extraArgs}";
+        clean = "nh clean all ${osConfig.programs.nh.clean.extraArgs}";
+        c = "clean";
       };
 
     history = {
