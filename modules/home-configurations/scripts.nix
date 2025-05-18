@@ -63,12 +63,17 @@ lib.optionalAttrs (utilities.hasTag "shell") {
             }
             {
               name = "shutdown";
-              description = "Shutdown after building";
+              description = "Shutdown after building (auto-activates detached mode)";
               default = false;
             }
             {
               name = "detached";
-              description = "Run build in detached mode";
+              description = "Run build in detached mode (prevents screen locking)";
+              default = false;
+            }
+            {
+              name = "pull";
+              description = "Pull remote changes before building";
               default = false;
             }
           ];
@@ -119,7 +124,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
             exit 1
           fi
 
-          if [[ "''$update" == true ]]; then
+          if [[ "''$pull" == true ]]; then
             if [ -n "''$(${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" status --porcelain)" ]; then
               echo "uncommitted changes detected"
               exit 1
@@ -130,7 +135,9 @@ lib.optionalAttrs (utilities.hasTag "shell") {
               echo "pulling remote failed"
               exit 1
             fi
+          fi
 
+          if [[ "''$update" == true ]]; then
             ${pkgs.nix}/bin/nix flake update --flake "${osConfig.programs.nh.flake}"
             if [ $? -ne 0 ]; then
               echo "updating flake.lock failed"
