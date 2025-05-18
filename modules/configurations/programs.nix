@@ -47,6 +47,8 @@
       upkgs.cargo
       upkgs.rust-analyzer
       upkgs.rustc
+      upkgs.clippy
+      upkgs.rustfmt
       upkgs.trunk
       nodejs
       typescript
