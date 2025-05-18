@@ -98,7 +98,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
                 for (( i=1; i<''${#arg}; i++ )); do
                   case "''${arg:''$i:1}" in
                     ${lib.concatMapStringsSep "\n" (
-                      param: "-${builtins.substring 0 1 param.name}) ${param.name}=true ;;"
+                      param: "${builtins.substring 0 1 param.name}) ${param.name}=true ;;"
                     ) buildParams}
                     *)
                       echo "unknown option: -''${arg:''$i:1}"
