@@ -104,7 +104,11 @@ lib.optionalAttrs (utilities.hasTag "shell") {
 
         if [[ "''$shutdown" == true ]]; then
           systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
-            sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}"
+            outfile="$(mktemp)"
+            sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}" > ''$outfile 2>&1
+            if [ $? -ne 0 ]; then
+              cp ''$outfile ~/Desktop/nixos-rebuild-failed-$(date -Iseconds).log
+            fi
           '
           shutdown -h now
         else
