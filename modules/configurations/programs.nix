@@ -170,32 +170,31 @@
             installation_mode = "force_installed";
           };
         };
-        Preferences = {
-          "browser.contentblocking.category" = {
-            Value = "strict";
-            Status = "locked";
+        Preferences =
+          let
+            value-true = {
+              Value = true;
+              Status = "locked";
+            };
+            value-false = {
+              Value = false;
+              Status = value-true.Status;
+            };
+          in
+          {
+            "browser.contentblocking.category" = {
+              Value = "strict";
+              Status = "locked";
+            };
+            "browser.topsites.contile.enabled" = value-false;
+            "extensions.screenshots.disabled" = value-true;
+            "browser.newtabpage.activity-stream.feeds.topsites" = value-false;
+            "browser.newtabpage.activity-stream.showSponsored" = value-false;
+            "browser.newtabpage.activity-stream.system.showSponsored" = value-false;
+            "browser.newtabpage.activity-stream.showSponsoredTopSites" = value-false;
+            "browser.search.defaultenginename" = "DuckDuckGo";
+            "browser.search.order.1" = "DuckDuckGo";
           };
-          "browser.topsites.contile.enabled" = {
-            Value = false;
-            Status = "locked";
-          };
-          "extensions.screenshots.disabled" = {
-            Value = true;
-            Status = "locked";
-          };
-          "browser.newtabpage.activity-stream.showSponsored" = {
-            Value = false;
-            Status = "locked";
-          };
-          "browser.newtabpage.activity-stream.system.showSponsored" = {
-            Value = false;
-            Status = "locked";
-          };
-          "browser.newtabpage.activity-stream.showSponsoredTopSites" = {
-            Value = false;
-            Status = "locked";
-          };
-        };
       };
     };
   };
