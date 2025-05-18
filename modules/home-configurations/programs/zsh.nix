@@ -18,6 +18,7 @@
       {
         ":q" = "exit";
         nohist = "HISTFILE=/dev/null";
+        b = "build";
 
         ".." = "cd ..";
         "2.." = "cd ../..";
