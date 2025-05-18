@@ -100,17 +100,23 @@ lib.optionalAttrs (utilities.hasTag "shell") {
                     ${lib.concatMapStringsSep "\n" (
                       param: "-${builtins.substring 0 1 param.name}) ${param.name}=true ;;"
                     ) buildParams}
-                    *) unknown=true ;;
+                    *)
+                      echo "unknown option: -''${arg:''$i:1}"
+                      unknown=true
+                      break
+                      ;;
                   esac
                 done
                 ;;
-              *) unknown=true ;;
+              *)
+                echo "unknown option: ''$arg"
+                unknown=true
+                ;;
             esac
           done
 
           if [[ "''$help" == true ]] || [[ "''$unknown" == true ]]; then
             if [[ "''$unknown" == true ]]; then
-              echo "unknown option: ''$arg"
               echo ""
             fi
 
