@@ -56,14 +56,16 @@ lib.optionalAttrs (utilities.hasTag "shell") {
       (pkgs.writeShellScriptBin "build" ''
         update=false
         shutdown=false
+        detached=false
         for arg in "''$@"; do
           case "''$arg" in
             -u|--update) update=true ;;
             -s|--shutdown) shutdown=true ;;
-            -us|-su) update=true; shutdown=true ;;
+            -d|--detached) detached=true ;;
+            -usd|-uds|-sud|-sdu|-dus|-dsu) update=true; shutdown=true; detached=true ;;
             *)
               echo "unknown option: ''$arg"
-              echo "usage: build [-u|--update] [-s|--shutdown]"
+              echo "usage: build [-u|--update] [-s|--shutdown] [-d|--detached]"
               exit 1
               ;;
           esac
@@ -102,7 +104,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           fi
         fi
 
-        if [[ "''$shutdown" == true ]]; then
+        if [[ "''$shutdown" == true ]] || [[ "''$detached" == true ]]; then
           systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
             outfile="$(mktemp)"
             sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}" > ''$outfile 2>&1
@@ -110,7 +112,9 @@ lib.optionalAttrs (utilities.hasTag "shell") {
               cp ''$outfile ~/Desktop/nixos-rebuild-failed-$(date -Iseconds).log
             fi
           '
-          shutdown -h now
+          if [[ "''$shutdown" == true ]]; then
+            shutdown -h now
+          fi
         else
           systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
             ${pkgs.nh}/bin/nh os switch
