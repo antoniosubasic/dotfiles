@@ -62,6 +62,11 @@ lib.optionalAttrs (utilities.hasTag "shell") {
               default = false;
             }
             {
+              name = "test";
+              description = "Run test build only";
+              default = false;
+            }
+            {
               name = "shutdown";
               description = "Shutdown after building (auto-activates detached mode)";
               default = false;
@@ -85,7 +90,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
         in
         pkgs.writeShellScriptBin "build" ''
           set -euo pipefail
-          
+
           ${lib.concatMapStringsSep "\n" (
             param: "${param.name}=${if param.default then "true" else "false"}"
           ) buildParams}
@@ -184,21 +189,23 @@ lib.optionalAttrs (utilities.hasTag "shell") {
             fi
           fi
 
+          build_mode=''$([[ "''$test" == true ]] && printf "test" || printf "switch")
+
           if [[ "''$shutdown" == true ]] || [[ "''$detached" == true ]]; then
-            systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
-              outfile="$(mktemp)"
-              sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}" |& tee ''$outfile
-              if [ $? -ne 0 ]; then
-                cp ''$outfile ~/Desktop/$(date -Iseconds)-nixos-rebuild.log
+            systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c "
+              outfile=\"\$(mktemp)\"
+              sudo nixos-rebuild ''$build_mode --flake \"${osConfig.programs.nh.flake}\" |& tee \''$outfile
+              if [ \$? -ne 0 ]; then
+                cp \''$outfile ~/Desktop/\$(date -Iseconds)-nixos-rebuild.log
               fi
-            '
+            "
             if [[ "''$shutdown" == true ]]; then
               shutdown -h now
             fi
           else
-            systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
-              ${pkgs.nh}/bin/nh os switch
-            '
+            systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c "
+              ${pkgs.nh}/bin/nh os ''$build_mode
+            "
           fi
         ''
       )
