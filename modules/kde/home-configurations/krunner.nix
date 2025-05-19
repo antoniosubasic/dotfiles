@@ -1,4 +1,9 @@
-{ lib, username, ... }:
+{
+  osConfig,
+  lib,
+  username,
+  ...
+}:
 
 let
   mkSearchProvider =
@@ -72,9 +77,9 @@ let
       query = "https://www.wolframalpha.com/input/?i=\\\\{@}";
     }
     {
-      name = "Nix Packages 24.11";
+      name = "Nix Packages ${osConfig.system.stateVersion}";
       shortcut = "pkgs";
-      query = "https://search.nixos.org/packages?channel=24.11&from=0&size=50&sort=relevance&type=packages&query=\\\\{@}";
+      query = "https://search.nixos.org/packages?channel=${osConfig.system.stateVersion}&from=0&size=50&sort=relevance&type=packages&query=\\\\{@}";
     }
     {
       name = "Nix Packages unstable";
