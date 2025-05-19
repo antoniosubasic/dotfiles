@@ -127,7 +127,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
               echo ""
             fi
 
-            echo "usage: build ${
+            echo "usage: ''$(basename "''$0") ${
               lib.concatMapStringsSep " " (
                 param: "[-${builtins.substring 0 1 param.name}|--${param.name}]"
               ) buildParams
