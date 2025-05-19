@@ -189,7 +189,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
               outfile="$(mktemp)"
               sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}" |& tee ''$outfile
               if [ $? -ne 0 ]; then
-                cp ''$outfile ~/Desktop/nixos-rebuild-failed-$(date -Iseconds).log
+                cp ''$outfile ~/Desktop/$(date -Iseconds)-nixos-rebuild.log
               fi
             '
             if [[ "''$shutdown" == true ]]; then
