@@ -143,6 +143,10 @@ lib.optionalAttrs (utilities.hasTag "shell") {
             fi
           fi
 
+          if [[ "''$detached" == true ]]; then
+            sudo -v
+          fi
+
           if [[ "''$pull" == true ]]; then
             if [ -n "''$(${pkgs.git}/bin/git -C "${osConfig.programs.nh.flake}" status --porcelain)" ]; then
               echo "uncommitted changes detected"
