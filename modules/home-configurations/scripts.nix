@@ -84,6 +84,8 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           ];
         in
         pkgs.writeShellScriptBin "build" ''
+          set -euo pipefail
+          
           ${lib.concatMapStringsSep "\n" (
             param: "${param.name}=${if param.default then "true" else "false"}"
           ) buildParams}
@@ -185,7 +187,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           if [[ "''$shutdown" == true ]] || [[ "''$detached" == true ]]; then
             systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c '
               outfile="$(mktemp)"
-              sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}" > ''$outfile 2>&1
+              sudo nixos-rebuild switch --flake "${osConfig.programs.nh.flake}" |& tee ''$outfile
               if [ $? -ne 0 ]; then
                 cp ''$outfile ~/Desktop/nixos-rebuild-failed-$(date -Iseconds).log
               fi
