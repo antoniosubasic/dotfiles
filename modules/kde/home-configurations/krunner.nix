@@ -93,6 +93,7 @@ in
     krunner = {
       position = "center";
       historyBehavior = "enableSuggestions";
+      activateWhenTypingOnDesktop = false;
     };
     configFile = {
       krunnerrc = {
