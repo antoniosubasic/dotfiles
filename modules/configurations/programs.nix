@@ -17,6 +17,7 @@
       jq
       exiftool
       testdisk
+      libnotify
       openssl
       openssl.dev
       pkg-config
