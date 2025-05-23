@@ -164,6 +164,7 @@
           Locked = true;
           Cryptomining = true;
           Fingerprinting = true;
+          EmailTracking = true;
         };
         DisablePocket = true;
         DisableFirefoxAccounts = true;
@@ -171,6 +172,36 @@
         DisableFirefoxScreenshots = true;
         DontCheckDefaultBrowser = true;
         DisplayBookmarksToolbar = "never";
+        DNSOverHTTPS = {
+          Enabled = true;
+          Locked = true;
+          ProviderURL = "https://cloudflare-dns.com/dns-query";
+          Fallback = false;
+        };
+        FirefoxHome = {
+          Search = true;
+          TopSites = false;
+          SponsoredTopSites = false;
+          Highlights = false;
+          Pocket = false;
+          SponsoredPocket = false;
+          Snippets = false;
+          Locked = true;
+        };
+        FirefoxSuggest = {
+          WebSuggestions = true;
+          SponsoredSuggestions = false;
+          ImproveSuggest = false;
+          Locked = true;
+        };
+        NoDefaultBookmarks = true;
+        OfferToSaveLogins = false;
+        PromptForDownloadLocation = true;
+        SearchEngines = {
+          Default = "DuckDuckGo";
+          DefaultPrivate = "DuckDuckGo";
+          PreventInstalls = true;
+        };
         ExtensionSettings = {
           "*".installation_mode = "blocked";
           "uBlock0@raymondhill.net" = {
@@ -182,31 +213,6 @@
             installation_mode = "force_installed";
           };
         };
-        Preferences =
-          let
-            value-true = {
-              Value = true;
-              Status = "locked";
-            };
-            value-false = {
-              Value = false;
-              Status = value-true.Status;
-            };
-          in
-          {
-            "browser.contentblocking.category" = {
-              Value = "strict";
-              Status = "locked";
-            };
-            "browser.topsites.contile.enabled" = value-false;
-            "extensions.screenshots.disabled" = value-true;
-            "browser.newtabpage.activity-stream.feeds.topsites" = value-false;
-            "browser.newtabpage.activity-stream.showSponsored" = value-false;
-            "browser.newtabpage.activity-stream.system.showSponsored" = value-false;
-            "browser.newtabpage.activity-stream.showSponsoredTopSites" = value-false;
-            "browser.search.defaultenginename" = "DuckDuckGo";
-            "browser.search.order.1" = "DuckDuckGo";
-          };
       };
     };
   };
