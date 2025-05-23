@@ -35,6 +35,9 @@
           asciidoctor
           sl
           nix-search-cli
+          xh
+          hyperfine
+          presenterm
         ]
     ++ lib.optionals (utilities.hasTag "dev") [
       nixd
@@ -60,6 +63,7 @@
       (pkgs.openjfx.override { withWebKit = true; })
       maven
       python314
+      kondo
     ]
     ++
       lib.optionals
@@ -69,6 +73,7 @@
         ])
         [
           just
+          mask
           tokei
           upkgs.act
         ]
