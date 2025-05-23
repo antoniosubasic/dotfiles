@@ -9,18 +9,20 @@
 {
   environment.systemPackages =
     with pkgs;
-    lib.optionals (utilities.hasTag "shell") [
+    [
       man
       curl
       wget
       unzip
+      openssl
+      openssl.dev
+      pkg-config
+    ]
+    ++ lib.optionals (utilities.hasTag "shell") [
       jq
       exiftool
       testdisk
       libnotify
-      openssl
-      openssl.dev
-      pkg-config
     ]
     ++
       lib.optionals
