@@ -80,7 +80,7 @@
     completionInit = "autoload -Uz compinit && autoload -Uz vcs_info && compinit";
     defaultKeymap = "emacs";
 
-    initExtra =
+    initContent =
       ''
         precmd() { vcs_info }
 

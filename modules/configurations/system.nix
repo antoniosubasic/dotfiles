@@ -70,6 +70,7 @@
     }
     // lib.optionalAttrs (utilities.hasTag "nvidia") {
       nvidia = {
+        open = true;
         modesetting.enable = true;
         package = config.boot.kernelPackages.nvidiaPackages.production;
         powerManagement.enable = true;
