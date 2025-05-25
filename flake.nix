@@ -101,6 +101,7 @@
             );
 
           args = config // rec {
+            stateVersion = "24.11";
             inherit hostname;
             tags = flattenTags givenTags;
             utilities = import ./lib/utils.nix { inherit lib tags; };
