@@ -52,6 +52,9 @@
         copy = "wl-copy -t text/plain";
         paste = "wl-paste -t text/plain";
       }
+      // lib.optionalAttrs (builtins.elem pkgs.xh osConfig.environment.systemPackages) {
+        http = "xh";
+      }
       // lib.optionalAttrs (osConfig.programs.nh.enable) {
         clean = "nh clean all ${osConfig.programs.nh.clean.extraArgs}";
         c = "clean";
