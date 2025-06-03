@@ -19,13 +19,13 @@
         ":q" = "exit";
         nohist = "HISTFILE=/dev/null";
         b = "build";
-
-        ".." = "cd ..";
-        "2.." = "cd ../..";
-        "3.." = "cd ../../..";
-        "4.." = "cd ../../../..";
-        "5.." = "cd ../../../../..";
       }
+      // builtins.listToAttrs (
+        map (n: {
+          name = "${if n == 1 then "" else toString n}..";
+          value = "cd ${lib.concatStrings (builtins.genList (_: "../") n)}";
+        }) (lib.range 1 9)
+      )
       // lib.optionalAttrs (config.programs.eza.enable) {
         ls = "eza";
         ll = "ls -al";
