@@ -28,6 +28,19 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           exit 2
         fi
       '')
+      (pkgs.writeShellScriptBin "ns" ''
+        if [ $# -eq 0 ]; then
+          echo "usage: $(basename "$0") <pkg1> [pkg2] [...]"
+          exit 1
+        fi
+
+        args=()
+        for arg in "$@"; do
+          args+=("nixpkgs#$arg")
+        done
+
+        ${pkgs.nix}/bin/nix shell "''${args[@]}"
+      '')
     ]
     ++ lib.optionals (utilities.hasTag "gui") [
       (pkgs.writeShellScriptBin "open" ''
