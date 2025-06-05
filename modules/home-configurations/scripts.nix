@@ -55,58 +55,32 @@ lib.optionalAttrs (utilities.hasTag "shell") {
     ++ lib.optionals (osConfig.programs.nh.enable && osConfig.programs.nh.flake != null) [
       (
         let
-          buildParams = [
-            {
-              name = "update";
-              description = "Update flake before building";
-              default = false;
-            }
-            {
-              name = "test";
-              description = "Run test build only";
-              default = false;
-            }
-            {
-              name = "shutdown";
-              description = "Shutdown after building (auto-activates detached mode)";
-              default = false;
-            }
-            {
-              name = "detached";
-              description = "Run build in detached mode (prevents screen locking)";
-              default = false;
-            }
-            {
-              name = "pull";
-              description = "Pull remote changes before building";
-              default = false;
-            }
-            {
-              name = "help";
-              description = "Show help";
-              default = false;
-            }
-          ];
+          buildParams = {
+            update = "Update flake before building";
+            test = "Run test build only";
+            shutdown = "Shutdown after building (auto-activates detached mode)";
+            detached = "Run build in detached mode (prevents screen locking)";
+            pull = "Pull remote changes before building";
+            help = "Show help";
+          };
         in
         pkgs.writeShellScriptBin "build" ''
           set -euo pipefail
 
-          ${lib.concatMapStringsSep "\n" (
-            param: "${param.name}=${if param.default then "true" else "false"}"
-          ) buildParams}
+          ${lib.concatMapStringsSep "\n" (param: "${param}=false") (lib.attrNames buildParams)}
           unknown=false
 
           for arg in "''$@"; do
             case "''$arg" in
               ${lib.concatMapStringsSep "\n" (
-                param: "-${builtins.substring 0 1 param.name}|--${param.name}) ${param.name}=true ;;"
-              ) buildParams}
+                param: "-${builtins.substring 0 1 param}|--${param}) ${param}=true ;;"
+              ) (lib.attrNames buildParams)}
               -*)
                 for (( i=1; i<''${#arg}; i++ )); do
                   case "''${arg:''$i:1}" in
                     ${lib.concatMapStringsSep "\n" (
-                      param: "${builtins.substring 0 1 param.name}) ${param.name}=true ;;"
-                    ) buildParams}
+                      param: "${builtins.substring 0 1 param}) ${param}=true ;;"
+                    ) (lib.attrNames buildParams)}
                     *)
                       echo "unknown option: -''${arg:''$i:1}"
                       unknown=true
@@ -128,20 +102,20 @@ lib.optionalAttrs (utilities.hasTag "shell") {
             fi
 
             echo "usage: ''$(basename "''$0") ${
-              lib.concatMapStringsSep " " (
-                param: "[-${builtins.substring 0 1 param.name}|--${param.name}]"
-              ) buildParams
+              lib.concatMapStringsSep " " (param: "[-${builtins.substring 0 1 param}|--${param}]") (
+                lib.attrNames buildParams
+              )
             }"
             echo "options:"
             ${lib.concatMapStringsSep "\n" (
               param:
-              "echo \"  -${builtins.substring 0 1 param.name}, --${param.name}    $(printf \"%*s\" ${
+              "echo \"  -${builtins.substring 0 1 param}, --${param}    $(printf \"%*s\" ${
                 builtins.toString (
-                  (lib.foldl (a: b: lib.max a (builtins.stringLength b.name)) 0 buildParams)
-                  - (builtins.stringLength param.name)
+                  (lib.foldl (a: b: lib.max a (builtins.stringLength b)) 0 (lib.attrNames buildParams))
+                  - (builtins.stringLength param)
                 )
-              }) ${param.description}\""
-            ) buildParams}
+              }) ${buildParams.${param}}\""
+            ) (lib.attrNames buildParams)}
 
             if [[ "''$unknown" == true ]]; then
               exit 1
