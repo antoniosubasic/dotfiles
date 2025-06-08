@@ -19,6 +19,8 @@
         ":q" = "exit";
         nohist = "HISTFILE=/dev/null";
         b = "build";
+        conf = "man configuration.nix";
+        hconf = "man home-configuration.nix";
       }
       // builtins.listToAttrs (
         map (n: {
