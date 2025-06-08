@@ -1,9 +1,9 @@
-{ utilities, ... }:
+{ config, utilities, ... }:
 
 {
   programs.fzf = {
     enable = utilities.hasTag "shell";
-    enableZshIntegration = true;
+    enableZshIntegration = config.programs.zsh.enable;
     defaultCommand = "fd --type f --follow";
     defaultOptions = [ "--reverse" ];
   };
