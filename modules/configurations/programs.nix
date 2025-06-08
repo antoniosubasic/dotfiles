@@ -59,8 +59,8 @@
       nodejs
       typescript
       swi-prolog
-      (pkgs.jdk23.override { enableJavaFX = true; })
-      (pkgs.openjfx.override { withWebKit = true; })
+      (pkgs.jdk21.override { enableJavaFX = true; })
+      (pkgs.openjfx21.override { withWebKit = true; })
       maven
       python314
       kondo
