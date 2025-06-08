@@ -34,7 +34,10 @@
       };
       log.date = "iso";
       pull.ff = "only";
-      push.autoSetupRemote = true;
+      push = {
+        autoSetupRemote = true;
+        followTags = true;
+      };
       transfer.fsckobjects = true;
       fetch.fsckobjects = true;
       receive.fsckObjects = true;
