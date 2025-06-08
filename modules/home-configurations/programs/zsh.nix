@@ -117,7 +117,7 @@
         bindkey "^[[3;5~" kill-word
         bindkey "^H" backward-kill-word
       ''
-      + lib.optionalString (config.programs.vscode.enable) ''
+      + lib.optionalString (config.programs.vscode.enable && config.programs.zoxide.enable) ''
         code() {
           if [ ! -e "''$1" ]; then
             local dir=''$(zoxide query "''$@")
