@@ -45,6 +45,7 @@
       docker-compose
       sqlite
       gcc
+      lld
       (dotnetCorePackages.combinePackages [
         dotnet-sdk_8
         dotnet-sdk_9
