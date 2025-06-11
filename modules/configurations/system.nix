@@ -62,6 +62,8 @@
 
   hardware =
     {
+      enableAllFirmware = true;
+      enableAllHardware = true;
       bluetooth.enable = utilities.hasTag "bluetooth";
       graphics = {
         enable = true;
