@@ -21,10 +21,10 @@
         {
           systemTray.items = {
             hidden = [
-              "org.kde.plasma.brightness"
               "org.kde.plasma.katesessions"
             ];
             shown = [
+              "org.kde.plasma.brightness"
               "org.kde.plasma.volume"
               "org.kde.plasma.bluetooth"
               "org.kde.plasma.clipboard"
