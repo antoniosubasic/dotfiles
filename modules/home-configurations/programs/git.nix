@@ -7,6 +7,7 @@
     userEmail = "antonio.subasic.public@gmail.com";
     aliases = {
       cm = "commit -m";
+      a = "add";
       ca = "commit --amend";
       cp = "!f() { git clone git@github.com:$(git config user.github)/$1.git \${2:-$1}; }; f";
       transpose-ssh = "!f() { git remote set-url origin $(git remote get-url origin | sed 's|https://github.com/|git@github.com:|'); }; f";
