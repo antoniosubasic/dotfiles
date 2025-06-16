@@ -100,7 +100,6 @@
           gimp
           banana-cursor
           libreoffice-still
-          vlc
           signal-desktop
           spotify
           bibata-cursors
