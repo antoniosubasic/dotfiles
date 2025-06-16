@@ -1,6 +1,7 @@
 let
   pdf = "org.kde.okular.desktop";
   image = "org.kde.gwenview.desktop";
+  video = "org.kde.dragonplayer.desktop";
   plaintext = "org.kde.kate.desktop";
   browser = "google-chrome.desktop";
   geolocation = "google-maps-geo-handler.desktop";
@@ -17,6 +18,7 @@ in
       "image/svg+xml" = image;
       "image/webp" = image;
       "image/x-icns" = image;
+      "video/mp4" = video;
       "text/plain" = plaintext;
       "x-scheme-handler/geo" = geolocation;
     };
@@ -30,6 +32,7 @@ in
       "image/svg+xml" = image;
       "image/webp" = image;
       "image/x-icns" = image;
+      "video/mp4" = video;
       "text/html" = browser;
       "text/plain" = plaintext;
       "x-scheme-handler/geo" = geolocation;
