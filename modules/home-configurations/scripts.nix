@@ -71,8 +71,8 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           buildParams = {
             update = "Update flake before building";
             test = "Run test build only";
-            shutdown = "Shutdown after building (auto-activates detached mode)";
-            detached = "Run build in detached mode (prevents screen locking)";
+            shutdown = "Shutdown after building (automatically uses now)";
+            now = "Authenticate now before building";
             pull = "Pull remote changes before building";
             help = "Show help";
           };
@@ -137,7 +137,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
             fi
           fi
 
-          if [[ "''$detached" == true ]]; then
+          if [[ "''$now" == true ]]; then
             sudo -v
           fi
 
@@ -178,7 +178,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
 
           build_mode=''$([[ "''$test" == true ]] && printf "test" || printf "switch")
 
-          if [[ "''$shutdown" == true ]] || [[ "''$detached" == true ]]; then
+          if [[ "''$shutdown" == true ]] || [[ "''$now" == true ]]; then
             systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c "
               outfile=\"\$(mktemp)\"
               sudo nixos-rebuild ''$build_mode --flake \"${osConfig.programs.nh.flake}\" |& tee \''$outfile
