@@ -179,7 +179,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           build_mode=''$([[ "''$test" == true ]] && printf "test" || printf "switch")
 
           if [[ "''$shutdown" == true ]] || [[ "''$now" == true ]]; then
-            systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c "
+            systemd-inhibit --what=idle:sleep:handle-lid-switch --who="NixOS build script" --why="NixOS rebuild" bash -c "
               outfile=\"\$(mktemp)\"
               sudo nixos-rebuild ''$build_mode --flake \"${osConfig.programs.nh.flake}\" |& tee \''$outfile
               if [ \$? -ne 0 ]; then
@@ -190,7 +190,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
               shutdown -h now
             fi
           else
-            systemd-inhibit --what=idle:sleep:handle-lid-switch --why="NixOS rebuild" bash -c "
+            systemd-inhibit --what=idle:sleep:handle-lid-switch --who="NixOS build script" --why="NixOS rebuild" bash -c "
               ${pkgs.nh}/bin/nh os ''$build_mode
             "
           fi
