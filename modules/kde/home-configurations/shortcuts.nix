@@ -22,6 +22,11 @@
 
     "ksmserver" = {
       "Lock Session" = "Ctrl+Alt+L";
+      "Halt Without Confirmation" = "Meta+Ctrl+Shift+S";
+    };
+
+    "org_kde_powerdevil" = {
+      "Hibernate" = "Meta+Ctrl+Shift+H";
     };
   };
 }
