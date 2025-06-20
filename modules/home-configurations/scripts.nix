@@ -69,7 +69,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
       (
         let
           buildParams = {
-            update = "Update flake before building";
+            update = "Update flake before building (automatically uses now)";
             test = "Run test build only";
             shutdown = "Shutdown after building (automatically uses now)";
             now = "Authenticate now before building";
@@ -137,7 +137,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
             fi
           fi
 
-          if [[ "$shutdown" == true ]]; then
+          if [[ "$shutdown" == true ]] || [[ "$update" == true ]]; then
             now=true
           fi
 
