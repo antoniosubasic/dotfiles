@@ -89,6 +89,9 @@
       ''
         precmd() { vcs_info }
 
+        # removes confirmation when using `rm -rf *`
+        setopt rm_star_silent
+
         # zsh prompt
         zstyle ':vcs_info:*' enable git
         zstyle ':vcs_info:*' check-for-changes true
