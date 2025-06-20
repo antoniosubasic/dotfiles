@@ -7,7 +7,6 @@
       "personal"
     ];
     settings = {
-      "browser.toolbars.bookmarks.visibility" = "never";
       "sidebar.visibility" = "hide-sidebar";
       "privacy.clearOnShutdown.history" = true;
       "privacy.clearOnShutdown.formdata" = true;
