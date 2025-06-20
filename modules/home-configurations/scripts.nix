@@ -137,6 +137,10 @@ lib.optionalAttrs (utilities.hasTag "shell") {
             fi
           fi
 
+          if [[ "$shutdown" == true ]]; then
+            now=true
+          fi
+
           if [[ "''$now" == true ]]; then
             sudo -v
           fi
@@ -178,7 +182,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
 
           build_mode=''$([[ "''$test" == true ]] && printf "test" || printf "switch")
 
-          if [[ "''$shutdown" == true ]] || [[ "''$now" == true ]]; then
+          if [[ "''$now" == true ]]; then
             systemd-inhibit --what=idle:sleep:handle-lid-switch --who="NixOS build script" --why="NixOS rebuild" bash -c "
               outfile=\"\$(mktemp)\"
               sudo nixos-rebuild ''$build_mode --flake \"${osConfig.programs.nh.flake}\" |& tee \''$outfile
