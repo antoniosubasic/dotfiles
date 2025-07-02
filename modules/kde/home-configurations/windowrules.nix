@@ -31,6 +31,35 @@
           };
         };
       }
+      {
+        description = "Fullscreen";
+        match = {
+          window-class = {
+            value = "Google Chrome|Code";
+            type = "regex";
+            match-whole = true;
+          };
+          window-types = [
+            "normal"
+            "desktop"
+            "dock"
+            "toolbar"
+            "torn-of-menu"
+            "dialog"
+            "menubar"
+            "utility"
+            "spash"
+            "osd"
+          ];
+        };
+        apply = rec {
+          maximizehoriz = {
+            value = true;
+            apply = "initially";
+          };
+          maximizevert = maximizehoriz;
+        };
+      }
     ]
     ++ lib.optionals (utilities.hasTag "virtual_desktops") [
       {
