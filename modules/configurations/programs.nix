@@ -64,6 +64,7 @@
       (pkgs.openjfx21.override { withWebKit = true; })
       maven
       python314
+      go
       kondo
     ]
     ++
