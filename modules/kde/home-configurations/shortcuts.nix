@@ -22,6 +22,7 @@
 
     "ksmserver" = {
       "Lock Session" = "Ctrl+Alt+L";
+      "Reboot Without Confirmation" = "Meta+Ctrl+Shift+R";
       "Halt Without Confirmation" = "Meta+Ctrl+Shift+S";
     };
 
