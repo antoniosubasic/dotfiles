@@ -40,7 +40,7 @@
         adoc = "asciidoctor";
       }
       // lib.optionalAttrs (config.programs.fastfetch.enable) {
-        neofetch = "fastfetch";
+        neofetch = "fastfetch -c neofetch.jsonc";
       }
       // lib.optionalAttrs (config.programs.bat.enable) {
         cat = "bat";
