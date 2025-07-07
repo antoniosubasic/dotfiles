@@ -34,10 +34,8 @@
           wl-clipboard
           asciidoctor
           sl
-          nix-search-cli
           xh
           hyperfine
-          presenterm
         ]
     ++ lib.optionals (utilities.hasTag "dev") [
       nixd
@@ -49,7 +47,6 @@
       (dotnetCorePackages.combinePackages [
         dotnet-sdk_8
         dotnet-sdk_9
-        dotnet-sdk_10
       ])
       upkgs.cargo
       upkgs.rust-analyzer
@@ -59,13 +56,11 @@
       upkgs.trunk
       nodejs
       typescript
-      swi-prolog
       (pkgs.jdk21.override { enableJavaFX = true; })
       (pkgs.openjfx21.override { withWebKit = true; })
       maven
       python314
       go
-      kondo
     ]
     ++
       lib.optionals
@@ -99,11 +94,9 @@
           google-chrome
           tor-browser
           gimp
-          banana-cursor
           libreoffice-still
           signal-desktop
           spotify
-          bibata-cursors
         ];
 
   virtualisation.docker.enable = utilities.hasTag "dev";
