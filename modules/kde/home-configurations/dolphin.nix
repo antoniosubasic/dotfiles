@@ -23,7 +23,7 @@
     };
     ktrashrc = {
       "\\/home\\/${username}\\/.local\\/share\\/Trash" = {
-        Days = 100;
+        Days = 30;
         LimitReachedAction = 0;
         Percent = 10;
         UseSizeLimit = true;
