@@ -1,9 +1,9 @@
 let
   touchpads = [
     {
-      name = "DLL0A81:00 04F3:314B Touchpad";
-      vendorId = "04F3";
-      productId = "314B";
+      name = "GXTP5400:00 27C6:0F91 Touchpad";
+      vendorId = "27C6";
+      productId = "0F91";
     }
   ];
 
