@@ -40,7 +40,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/{bin,share/sqldeveloper,share/pixmaps}
+    mkdir -p $out/{bin,share/sqldeveloper,share/pixmaps,share/icons/hicolor/48x48/apps}
 
     cp -r sqldeveloper/* $out/share/sqldeveloper/
 
@@ -54,6 +54,7 @@ stdenv.mkDerivation rec {
 
     if [ -f $out/share/sqldeveloper/doc/icon.png ]; then
       cp $out/share/sqldeveloper/doc/icon.png $out/share/pixmaps/sqldeveloper.png
+      cp $out/share/sqldeveloper/doc/icon.png $out/share/icons/hicolor/48x48/apps/sqldeveloper.png
     fi
 
     runHook postInstall
