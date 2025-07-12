@@ -8,6 +8,7 @@
   desktop-file-utils,
   copyDesktopItems,
   makeDesktopItem,
+  scale ? null,
 }:
 
 stdenv.mkDerivation rec {
@@ -48,7 +49,8 @@ stdenv.mkDerivation rec {
     makeWrapper $out/share/sqldeveloper/sqldeveloper.sh $out/bin/sqldeveloper \
       --set JAVA_HOME "${openjdk17}" \
       --set _JAVA_AWT_WM_NONREPARENTING 1 \
-      --prefix PATH : "${openjdk17}/bin"
+      --prefix PATH : "${openjdk17}/bin" \
+      ${lib.optionalString (scale != null) "--set GDK_SCALE \"${toString scale}\""}
 
     if [ -f $out/share/sqldeveloper/doc/icon.png ]; then
       cp $out/share/sqldeveloper/doc/icon.png $out/share/pixmaps/sqldeveloper.png

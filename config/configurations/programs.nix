@@ -145,9 +145,12 @@
       "gui"
       "personal"
     ];
-    sqldeveloper.enable = utilities.hasTags [
-      "gui"
-      "dev"
-    ];
+    sqldeveloper = {
+      enable = utilities.hasTags [
+        "gui"
+        "dev"
+      ];
+      scale = 2;
+    };
   };
 }
