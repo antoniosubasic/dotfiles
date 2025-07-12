@@ -145,5 +145,9 @@
       "gui"
       "personal"
     ];
+    sqldeveloper.enable = utilities.hasTags [
+      "gui"
+      "dev"
+    ];
   };
 }

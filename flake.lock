@@ -1,5 +1,16 @@
 {
   "nodes": {
+    "customModules": {
+      "locked": {
+        "path": "./modules",
+        "type": "path"
+      },
+      "original": {
+        "path": "./modules",
+        "type": "path"
+      },
+      "parent": []
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -78,6 +89,7 @@
     },
     "root": {
       "inputs": {
+        "customModules": "customModules",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",

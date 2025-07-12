@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    customModules.url = "path:./modules";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
@@ -23,6 +24,7 @@
       nixpkgs-unstable,
       home-manager,
       plasma-manager,
+      customModules,
       ...
     }:
     let
@@ -118,6 +120,8 @@
           modules = [
             ./machines/${hostname}/hardware-configuration.nix
             ./config/configuration.nix
+
+            customModules.nixosModules.customModules
 
             home-manager.nixosModules.home-manager
             {
