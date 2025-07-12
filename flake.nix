@@ -117,7 +117,7 @@
           specialArgs = args;
           modules = [
             ./machines/${hostname}/hardware-configuration.nix
-            ./modules/configuration.nix
+            ./config/configuration.nix
 
             home-manager.nixosModules.home-manager
             {
@@ -125,7 +125,7 @@
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = args;
               home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
-              home-manager.users.${config.username} = import ./modules/home.nix;
+              home-manager.users.${config.username} = import ./config/home.nix;
             }
           ];
         };
