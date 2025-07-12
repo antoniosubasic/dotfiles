@@ -190,6 +190,24 @@ lib.optionalAttrs (utilities.hasTag "shell") {
                 cp \''$outfile ~/Desktop/\$(date -Iseconds)-nixos-rebuild.log
               fi
             "
+            ${
+              if (builtins.hasAttr "NTFY_URL" osConfig.environment.variables) then
+                ''
+                  if ls ~/Desktop/*nixos-rebuild.log > /dev/null 2>&1; then
+                    status=1
+                  else
+                    status=0
+                  fi
+                  ${pkgs.curl}/bin/curl -s \
+                    -H "Title: NixOS rebuild" \
+                    -H "Priority: 5" \
+                    -H "Tags: $([ $status -ne 0 ] && printf "warning" || printf "partying_face")" \
+                    -d "$(hostname) $([ $status -ne 0 ] && printf "failed rebuilding" || printf "was successfully rebuilt")$([ $shutdown = true ] && printf ", shutting down...")" \
+                    $NTFY_URL/nixos-rebuild > /dev/null
+                ''
+              else
+                ""
+            }
             if [[ "''$shutdown" == true ]]; then
               shutdown -h now
             fi
