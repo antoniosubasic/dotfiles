@@ -83,6 +83,7 @@
         [
           jetbrains.idea-ultimate
           jetbrains.datagrip
+          upkgs.burpsuite
         ]
     ++
       lib.optionals
