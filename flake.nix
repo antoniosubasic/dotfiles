@@ -15,6 +15,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    aoc-runtime = {
+      url = "github:antoniosubasic/aoc-runtime";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -23,6 +28,7 @@
       nixpkgs-unstable,
       home-manager,
       plasma-manager,
+      aoc-runtime,
       ...
     }:
     let
@@ -126,6 +132,10 @@
               home-manager.extraSpecialArgs = args;
               home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
               home-manager.users.${config.username} = import ./modules/home.nix;
+            }
+
+            {
+              nixpkgs.overlays = [ (import ./lib/overlays.nix { inherit aoc-runtime; }) ];
             }
           ];
         };

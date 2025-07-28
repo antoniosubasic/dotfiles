@@ -36,6 +36,7 @@
           sl
           xh
           hyperfine
+          aoc-runtime
         ]
     ++ lib.optionals (utilities.hasTag "dev") [
       nixd
