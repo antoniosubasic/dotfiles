@@ -101,7 +101,10 @@
           spotify
         ];
 
-  virtualisation.docker.enable = utilities.hasTag "dev";
+  virtualisation = rec {
+    docker.enable = utilities.hasTag "dev";
+    containerd.enable = docker.enable;
+  };
 
   services = rec {
     tailscale = {
@@ -113,14 +116,13 @@
       enable = utilities.hasTag "dev";
       listenPort = 9090;
     };
-    ollama =
-      {
-        enable = utilities.hasTag "ai";
-        package = upkgs.ollama;
-      }
-      // lib.optionalAttrs (utilities.hasTag "nvidia") {
-        acceleration = "cuda";
-      };
+    ollama = {
+      enable = utilities.hasTag "ai";
+      package = upkgs.ollama;
+    }
+    // lib.optionalAttrs (utilities.hasTag "nvidia") {
+      acceleration = "cuda";
+    };
     open-webui = {
       enable = ollama.enable && utilities.hasTag "gui";
       package = upkgs.open-webui;
