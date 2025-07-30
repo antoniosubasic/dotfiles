@@ -9,11 +9,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1753817512,
-        "narHash": "sha256-dZd3qWsb+9Z+C+2+ydA/1tpLcUlMt9+ko9xxsY8HX+U=",
+        "lastModified": 1753862141,
+        "narHash": "sha256-RmywdK09f9Zk+3dMdGFzqwcLUFe8SN3uTVmCes9O/Hw=",
         "owner": "antoniosubasic",
         "repo": "aoc-runtime",
-        "rev": "423dd3d8da1af41b0f9dcc766515adef0dc21826",
+        "rev": "fab60f9a696e1fae635c4bceeb5c74ce56b08139",
         "type": "github"
       },
       "original": {
