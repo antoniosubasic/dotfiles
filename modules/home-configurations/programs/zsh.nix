@@ -59,7 +59,6 @@
       }
       // lib.optionalAttrs (osConfig.programs.nh.enable) {
         clean = "nh clean all ${osConfig.programs.nh.clean.extraArgs}";
-        c = "clean";
       };
 
     history = {
