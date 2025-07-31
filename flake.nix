@@ -81,7 +81,8 @@
             username = "antonio";
             system = "x86_64-linux";
             timezone = "Europe/Vienna";
-          } // (if builtins.pathExists configPath then import configPath else { });
+          }
+          // (if builtins.pathExists configPath then import configPath else { });
 
           givenTags =
             if !(builtins.hasAttr "tags" config) then
@@ -126,12 +127,15 @@
             ./modules/configuration.nix
 
             home-manager.nixosModules.home-manager
+
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = args;
-              home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
-              home-manager.users.${config.username} = import ./modules/home.nix;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = args;
+                sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+                users.${config.username} = import ./modules/home.nix;
+              };
             }
 
             {
