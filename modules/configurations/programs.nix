@@ -94,6 +94,7 @@
         ])
         [
           google-chrome
+          ungoogled-chromium
           tor-browser
           gimp
           libreoffice-still
