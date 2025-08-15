@@ -181,41 +181,41 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           fi
 
           build_mode=''$([[ "''$test" == true ]] && printf "test" || printf "switch")
+          
+          systemd-inhibit \
+            --what=idle:sleep:handle-lid-switch \
+            --who="NixOS build script" \
+            --why="NixOS rebuild" \
+            bash <<-EOF
+              if [[ "$now" == true ]]; then
+                outfile="\$(mktemp)"
+                sudo nixos-rebuild "$build_mode" --flake "${osConfig.programs.nh.flake}" |& tee \$outfile
 
-          if [[ "''$now" == true ]]; then
-            systemd-inhibit --what=idle:sleep:handle-lid-switch --who="NixOS build script" --why="NixOS rebuild" bash -c "
-              outfile=\"\$(mktemp)\"
-              sudo nixos-rebuild ''$build_mode --flake \"${osConfig.programs.nh.flake}\" |& tee \''$outfile
-              if [ \$? -ne 0 ]; then
-                cp \''$outfile ~/Desktop/\$(date -Iseconds)-nixos-rebuild.log
-              fi
-            "
-            ${
-              if (builtins.hasAttr "NTFY_URL" osConfig.environment.variables) then
-                ''
-                  if ls ~/Desktop/*nixos-rebuild.log > /dev/null 2>&1; then
-                    status=1
-                  else
-                    status=0
-                  fi
+                if [ \$? -ne 0 ]; then
+                  cp \$outfile ~/Desktop/\$(date -Iseconds)-nixos-rebuild.log
+                  tag="warning"
+                  message="failed rebuilding"
+                else
+                  tag="partying_face"
+                  message="was successfully rebuilt"
+                fi
+
+                if [ ! -z "\$NTFY_URL" ]; then
                   ${pkgs.curl}/bin/curl -s \
                     -H "Title: NixOS rebuild" \
                     -H "Priority: 5" \
-                    -H "Tags: $([ $status -ne 0 ] && printf "warning" || printf "partying_face")" \
-                    -d "$(hostname) $([ $status -ne 0 ] && printf "failed rebuilding" || printf "was successfully rebuilt")$([ $shutdown = true ] && printf ", shutting down...")" \
-                    $NTFY_URL/nixos-rebuild > /dev/null
-                ''
+                    -H "Tags: \$tag" \
+                    -d "\$(hostname) \$message\$([[ "$shutdown" == true ]] && printf ", shutting down...")" \
+                    \$NTFY_URL/nixos-rebuild > /dev/null
+                fi
+
+                if [[ "$shutdown" == true ]]; then
+                  shutdown -h now
+                fi
               else
-                ""
-            }
-            if [[ "''$shutdown" == true ]]; then
-              shutdown -h now
-            fi
-          else
-            systemd-inhibit --what=idle:sleep:handle-lid-switch --who="NixOS build script" --why="NixOS rebuild" bash -c "
-              ${pkgs.nh}/bin/nh os ''$build_mode
-            "
-          fi
+                ${pkgs.nh}/bin/nh os "$build_mode"
+              fi
+EOF
         ''
       )
     ];
