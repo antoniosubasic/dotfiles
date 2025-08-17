@@ -13,4 +13,6 @@
       khelpcenter
     ];
   };
+
+  programs.kdeconnect.enable = true;
 }
