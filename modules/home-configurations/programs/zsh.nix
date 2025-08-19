@@ -21,6 +21,7 @@
         b = "build";
         conf = "man configuration.nix";
         hconf = "man home-configuration.nix";
+        nd = "nix develop";
       }
       // builtins.listToAttrs (
         map (n: {
