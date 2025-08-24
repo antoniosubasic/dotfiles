@@ -23,6 +23,7 @@
       exiftool
       testdisk
       libnotify
+      ffmpeg
     ]
     ++
       lib.optionals
