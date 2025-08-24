@@ -1,7 +1,7 @@
 let
   pdf = "org.kde.okular.desktop";
   image = "org.kde.gwenview.desktop";
-  video = "org.kde.dragonplayer.desktop";
+  video = "vlc.desktop";
   plaintext = "org.kde.kate.desktop";
   browser = "google-chrome.desktop";
   geolocation = "google-maps-geo-handler.desktop";

@@ -101,6 +101,7 @@
           libreoffice-still
           signal-desktop
           spotify
+          vlc
         ];
 
   virtualisation = rec {
