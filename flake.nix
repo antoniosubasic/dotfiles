@@ -133,7 +133,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = args;
-                sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+                sharedModules = [ plasma-manager.homeModules.plasma-manager ];
                 users.${config.username} = import ./modules/home.nix;
               };
             }
