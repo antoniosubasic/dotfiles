@@ -17,6 +17,9 @@
       "Window to Next Screen" = "Meta+Shift+L";
       "Window to Previous Screen" = "Meta+Shift+H";
 
+      "Window Quick Tile Left" = "Meta+Ctrl+H";
+      "Window Quick Tile Right" = "Meta+Ctrl+L";
+
       "Window Maximize" = "Meta+M";
     };
 
