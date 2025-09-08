@@ -5,6 +5,7 @@ let
   plaintext = "org.kde.kate.desktop";
   browser = "google-chrome.desktop";
   geolocation = "google-maps-geo-handler.desktop";
+  email = "gmail-url-handler.desktop";
 
   set = {
     "application/pdf" = pdf;
@@ -22,7 +23,7 @@ let
     "x-scheme-handler/geo" = geolocation;
     "x-scheme-handler/http" = browser;
     "x-scheme-handler/https" = browser;
-    "x-scheme-handler/mailto" = browser;
+    "x-scheme-handler/mailto" = email;
   };
 in
 {
