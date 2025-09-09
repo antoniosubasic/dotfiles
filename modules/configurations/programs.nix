@@ -49,7 +49,6 @@
       (dotnetCorePackages.combinePackages [
         dotnet-sdk_8
         dotnet-sdk_9
-        dotnet-sdk_10
       ])
       upkgs.cargo
       upkgs.rust-analyzer
