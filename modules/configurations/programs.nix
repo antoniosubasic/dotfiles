@@ -83,7 +83,6 @@
           "dev"
         ])
         [
-          jetbrains.idea-ultimate
           jetbrains.datagrip
           jetbrains-toolbox
           upkgs.burpsuite
