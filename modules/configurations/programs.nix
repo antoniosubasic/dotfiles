@@ -7,6 +7,8 @@
 }:
 
 {
+  imports = utilities.importNixFiles ./programs;
+
   environment.systemPackages =
     with pkgs;
     [
@@ -102,55 +104,4 @@
           spotify
           vlc
         ];
-
-  virtualisation = rec {
-    docker.enable = utilities.hasTag "dev";
-    containerd.enable = docker.enable;
-  };
-
-  services = rec {
-    tailscale = {
-      enable = utilities.hasTag "personal";
-      package = upkgs.tailscale;
-      extraUpFlags = [ "--operator=$USER" ];
-      useRoutingFeatures = if utilities.hasTag "personal" then "client" else "none";
-    };
-    plantuml-server = {
-      enable = utilities.hasTag "dev";
-      listenPort = 9090;
-    };
-    ollama = {
-      enable = utilities.hasTag "ai";
-      package = upkgs.ollama;
-    }
-    // lib.optionalAttrs (utilities.hasTag "nvidia") {
-      acceleration = "cuda";
-    };
-    open-webui = {
-      enable = ollama.enable && utilities.hasTag "gui";
-      package = upkgs.open-webui;
-      environment = {
-        WEBUI_AUTH = "False";
-        DEFAULT_USER_ROLE = "admin";
-        DO_NOT_TRACK = "True";
-        SCARF_NO_ANALYTICS = "True";
-      };
-      port = 8888;
-    };
-  };
-
-  programs = {
-    zsh.enable = utilities.hasTag "shell";
-    wireshark = {
-      enable = utilities.hasTags [
-        "gui"
-        "dev"
-      ];
-      package = pkgs.wireshark;
-    };
-    gnome-disks.enable = utilities.hasTags [
-      "gui"
-      "personal"
-    ];
-  };
 }
