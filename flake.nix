@@ -47,6 +47,7 @@
           "tg_personal"
           "bt_fingerprint"
           "bt_virtual_desktops"
+          "bt_gaming"
         ];
         tg_personal = [
           "bt_personal"
@@ -71,6 +72,7 @@
         "bt_nvidia"
         "bt_kde"
         "bt_virtual_desktops"
+        "bt_gaming"
       ];
 
       mkSystem =
