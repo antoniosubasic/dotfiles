@@ -90,5 +90,38 @@
           };
         };
       }
+    ] ++ lib.optionals (!(utilities.hasTag "virtual_desktops")) [
+      {
+        description = "Discord - Desktop Monitor 2";
+        match = {
+          window-class = {
+            value = "discord";
+            type = "exact";
+            match-whole = false;
+          };
+          window-types = [
+            "normal"
+            "desktop"
+            "dock"
+            "toolbar"
+            "torn-of-menu"
+            "dialog"
+            "menubar"
+            "utility"
+            "spash"
+            "osd"
+          ];
+        };
+        apply = {
+          screen = {
+            value = 0;
+            apply = "initially";
+          };
+          ignoregeometry = {
+            value = true;
+            apply = "initially";
+          };
+        };
+      }
     ];
 }
