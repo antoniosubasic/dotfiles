@@ -108,6 +108,18 @@
               ) tags
             );
 
+          # order preference when importing arguments in submodules:
+          #   stateVersion
+          #   config
+          #   osConfig
+          #   pkgs
+          #   upkgs
+          #   lib
+          #   utilities
+          #   hostname
+          #   timezone
+          #   username
+          #   userVars
           args = config // rec {
             stateVersion = "25.05";
             inherit hostname;
