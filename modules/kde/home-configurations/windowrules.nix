@@ -1,4 +1,4 @@
-{ lib, utilities, ... }:
+{ lib, userVars, ... }:
 
 {
   programs.plasma.window-rules = [
@@ -60,68 +60,55 @@
       };
     }
   ]
-  ++ lib.optionals (utilities.hasTag "virtual_desktops") [
-    {
-      description = "Discord - Virtual Desktop 2";
-      match = {
-        window-class = {
-          value = "discord";
-          type = "exact";
-          match-whole = false;
-        };
-        window-types = [
-          "normal"
-          "desktop"
-          "dock"
-          "toolbar"
-          "torn-of-menu"
-          "dialog"
-          "menubar"
-          "utility"
-          "spash"
-          "osd"
-        ];
-      };
-      apply = {
-        desktops = {
-          value = "Desktop_2";
-          apply = "initially";
-        };
-      };
-    }
-  ]
-  ++ lib.optionals (!(utilities.hasTag "virtual_desktops")) [
-    {
-      description = "Discord - Desktop Monitor 2";
-      match = {
-        window-class = {
-          value = "discord";
-          type = "exact";
-          match-whole = false;
-        };
-        window-types = [
-          "normal"
-          "desktop"
-          "dock"
-          "toolbar"
-          "torn-of-menu"
-          "dialog"
-          "menubar"
-          "utility"
-          "spash"
-          "osd"
-        ];
-      };
-      apply = {
-        screen = {
-          value = 0;
-          apply = "initially";
-        };
-        ignoregeometry = {
-          value = true;
-          apply = "initially";
-        };
-      };
-    }
-  ];
+  ++
+    lib.optionals
+      (builtins.elem userVars.virtual_desktops [
+        1
+        2
+      ])
+      [
+        {
+          description = "Discord - 2nd ${
+            if userVars.virtual_desktops == 1 then "Desktop Monitor" else "Virtual Desktop"
+          }";
+          match = {
+            window-class = {
+              value = "discord";
+              type = "exact";
+              match-whole = false;
+            };
+            window-types = [
+              "normal"
+              "desktop"
+              "dock"
+              "toolbar"
+              "torn-of-menu"
+              "dialog"
+              "menubar"
+              "utility"
+              "spash"
+              "osd"
+            ];
+          };
+          apply =
+            if userVars.virtual_desktops == 1 then
+              {
+                screen = {
+                  value = 0;
+                  apply = "initially";
+                };
+                ignoregeometry = {
+                  value = true;
+                  apply = "initially";
+                };
+              }
+            else
+              {
+                desktops = {
+                  value = "Desktop_2";
+                  apply = "initially";
+                };
+              };
+        }
+      ];
 }

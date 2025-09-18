@@ -46,7 +46,6 @@
         tg_laptop = [
           "tg_personal"
           "bt_fingerprint"
-          "bt_virtual_desktops"
           "bt_gaming"
         ];
         tg_personal = [
@@ -71,7 +70,6 @@
         "bt_ai"
         "bt_nvidia"
         "bt_kde"
-        "bt_virtual_desktops"
         "bt_gaming"
       ];
 
@@ -114,6 +112,7 @@
             stateVersion = "25.05";
             inherit hostname;
             tags = flattenTags givenTags;
+            userVars = if builtins.hasAttr "vars" config then config.vars else { };
             utilities = import ./lib/utils.nix { inherit lib tags; };
             upkgs = import nixpkgs-unstable {
               system = config.system;
