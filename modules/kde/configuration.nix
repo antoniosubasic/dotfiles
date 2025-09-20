@@ -16,5 +16,9 @@ rec {
       [General]
       background=${builtins.path { path = ./home-configurations/appearance/lockscreen.png; }}
     '')
+    (pkgs.runCommand "sddm-avatar" { } ''
+      mkdir -p $out/share/sddm/themes/${services.displayManager.sddm.theme}/faces
+      cp ${./home-configurations/appearance/avatar.png} $out/share/sddm/themes/${services.displayManager.sddm.theme}/faces/.face.icon
+    '')
   ];
 }
