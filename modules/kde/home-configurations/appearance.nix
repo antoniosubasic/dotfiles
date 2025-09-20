@@ -8,7 +8,11 @@ let
 in
 {
   programs.plasma = {
-    workspace.colorScheme = "BreezeDark";
+    workspace = {
+      lookAndFeel = "org.kde.breezedark.desktop";
+      theme = "breeze-dark";
+      colorScheme = "BreezeDark";
+    };
     kwin.effects.shakeCursor.enable = false;
     configFile.kwinrc.Effect-overview.BorderActivate = 9;
     kscreenlocker.appearance.wallpaper = toPath ./appearance/lockscreen.png;
