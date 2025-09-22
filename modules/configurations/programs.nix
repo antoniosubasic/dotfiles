@@ -60,8 +60,7 @@
       upkgs.trunk
       nodejs
       typescript
-      (pkgs.jdk21.override { enableJavaFX = true; })
-      (pkgs.openjfx21.override { withWebKit = true; })
+      jdk
       maven
       python314
       go
