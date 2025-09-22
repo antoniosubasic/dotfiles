@@ -12,16 +12,15 @@
     name = username;
     home = "/home/${username}";
     shell = pkgs.zsh;
-    extraGroups =
-      [
-        "networkmanager"
-        "wheel"
-      ]
-      ++ lib.optionals (config.virtualisation.docker.enable) [
-        "docker"
-      ]
-      ++ lib.optionals (config.programs.wireshark.enable) [
-        "wireshark"
-      ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ]
+    ++ lib.optionals (config.virtualisation.docker.enable) [
+      "docker"
+    ]
+    ++ lib.optionals (config.programs.wireshark.enable) [
+      "wireshark"
+    ];
   };
 }

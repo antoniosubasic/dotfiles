@@ -2,7 +2,10 @@
   programs.plasma = {
     spectacle = {
       shortcuts = {
-        captureRectangularRegion = [ "Print" "Meta+Shift+S" ];
+        captureRectangularRegion = [
+          "Print"
+          "Meta+Shift+S"
+        ];
         captureCurrentMonitor = "Shift+Print";
         launch = "Meta+S";
       };

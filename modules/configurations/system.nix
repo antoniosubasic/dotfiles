@@ -14,14 +14,14 @@
 {
   boot.loader = {
     efi.canTouchEfiVariables = true;
-    grub =
-      {
-        enable = true;
-        device = "nodev";
-        efiSupport = true;
-        useOSProber = utilities.hasTag "dualboot";
-      }
-      // lib.optionalAttrs
+    grub = {
+      enable = true;
+      device = "nodev";
+      efiSupport = true;
+      useOSProber = utilities.hasTag "dualboot";
+    }
+    //
+      lib.optionalAttrs
         (utilities.hasTags [
           "gui"
           "personal"
@@ -57,25 +57,24 @@
     };
   };
 
-  hardware =
-    {
-      enableAllFirmware = true;
-      enableAllHardware = true;
-      bluetooth.enable = utilities.hasTag "bluetooth";
-      graphics = {
-        enable = true;
-        enable32Bit = true;
-      };
-    }
-    // lib.optionalAttrs (utilities.hasTag "nvidia") {
-      nvidia = {
-        open = false;
-        modesetting.enable = true;
-        package = config.boot.kernelPackages.nvidiaPackages.production;
-        powerManagement.enable = true;
-      };
-      nvidia-container-toolkit.enable = true;
+  hardware = {
+    enableAllFirmware = true;
+    enableAllHardware = true;
+    bluetooth.enable = utilities.hasTag "bluetooth";
+    graphics = {
+      enable = true;
+      enable32Bit = true;
     };
+  }
+  // lib.optionalAttrs (utilities.hasTag "nvidia") {
+    nvidia = {
+      open = false;
+      modesetting.enable = true;
+      package = config.boot.kernelPackages.nvidiaPackages.production;
+      powerManagement.enable = true;
+    };
+    nvidia-container-toolkit.enable = true;
+  };
 
   security = {
     rtkit.enable = true;
@@ -83,17 +82,16 @@
   };
 
   services = {
-    xserver =
-      {
-        enable = true;
-        xkb = {
-          layout = "at";
-          variant = "";
-        };
-      }
-      // lib.optionalAttrs (utilities.hasTag "nvidia") {
-        videoDrivers = [ "nvidia" ];
+    xserver = {
+      enable = true;
+      xkb = {
+        layout = "at";
+        variant = "";
       };
+    }
+    // lib.optionalAttrs (utilities.hasTag "nvidia") {
+      videoDrivers = [ "nvidia" ];
+    };
 
     pipewire = {
       enable = true;
@@ -140,17 +138,17 @@
     };
   };
 
-  environment.variables =
-    {
-      LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
-      OPENSSL_DIR = pkgs.openssl.dev;
-      OPENSSL_LIB_DIR = "${pkgs.openssl.dev}/lib";
-      OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
-      PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
-      OPENSSL_STATIC = 0;
-      RUST_SRC_PATH = pkgs.rust.packages.stable.rustPlatform.rustLibSrc;
-    }
-    // lib.optionalAttrs
+  environment.variables = {
+    LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
+    OPENSSL_DIR = pkgs.openssl.dev;
+    OPENSSL_LIB_DIR = "${pkgs.openssl.dev}/lib";
+    OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
+    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+    OPENSSL_STATIC = 0;
+    RUST_SRC_PATH = pkgs.rust.packages.stable.rustPlatform.rustLibSrc;
+  }
+  //
+    lib.optionalAttrs
       (utilities.hasTags [
         "personal"
         "shell"
