@@ -58,6 +58,9 @@
     // lib.optionalAttrs (builtins.elem pkgs.xh osConfig.environment.systemPackages) {
       http = "xh";
     }
+    // lib.optionalAttrs (builtins.elem pkgs.trashy osConfig.environment.systemPackages) {
+      t = "trash";
+    }
     // lib.optionalAttrs (osConfig.programs.nh.enable) {
       clean = "nh clean all ${osConfig.programs.nh.clean.extraArgs}";
     };

@@ -41,6 +41,7 @@ let
         xh
         hyperfine
         aoc-runtime
+        trashy
       ];
     }
     {
