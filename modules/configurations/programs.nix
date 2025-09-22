@@ -84,7 +84,6 @@
           "dev"
         ])
         [
-          jetbrains.datagrip
           jetbrains-toolbox
           upkgs.burpsuite
         ]
