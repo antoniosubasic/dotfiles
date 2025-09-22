@@ -133,6 +133,10 @@
       };
       flake = "/home/${username}/.dotfiles";
     };
+    appimage = rec {
+      enable = utilities.hasTag "gui";
+      binfmt = enable;
+    };
   };
 
   environment.variables =
