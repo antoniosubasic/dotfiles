@@ -116,6 +116,7 @@
         glib
         util-linux
         xorg.libX11
+        xorg.libxshmfence
         libgdiplus
         libffi
         zlib
