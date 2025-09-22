@@ -70,7 +70,8 @@
     nvidia = {
       open = false;
       modesetting.enable = true;
-      package = config.boot.kernelPackages.nvidiaPackages.production;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      nvidiaPersistenced = true;
       powerManagement.enable = true;
     };
     nvidia-container-toolkit.enable = true;

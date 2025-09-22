@@ -107,6 +107,13 @@ let
         vlc
       ];
     }
+    {
+      tags = [ "nvidia" ];
+      packages = with pkgs; [
+        vulkan-loader
+        vulkan-tools
+      ];
+    }
   ];
 in
 {
