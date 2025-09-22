@@ -16,6 +16,7 @@
 
     shellAliases = {
       ":q" = "exit";
+      "q" = "exit";
       nohist = "HISTFILE=/dev/null";
       b = "build";
       conf = "man configuration.nix";
