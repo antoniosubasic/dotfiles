@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# pre-commit hook to format nix files with nixfmt
+# formats all staged .nix files, excluding hardware configurations for machines
+
+set -e
+
+if ! command -v nixfmt &> /dev/null; then
+    echo "error: couldn't find nixfmt"
+    echo "please install nixfmt to use this pre-commit hook"
+    exit 1
+fi
+
+nix_files=$(git diff --staged --name-only --diff-filter=ACM | grep '\.nix$' | grep -v '/machines/.*/hardware-configuration\.nix$' || true)
+
+if [ -n "$nix_files" ]; then
+    nixfmt $nix_files
+    git add $nix_files
+
+    echo "formatted $(echo $nix_files | wc -w) nix file(s)"
+    
+    if git diff --staged --quiet; then
+        echo "no changes remaining after formatting - aborting commit"
+        exit 1
+    fi
+fi
