@@ -120,6 +120,7 @@
         libffi
         zlib
         cairo
+        icu
       ];
     };
     nh = rec {
