@@ -71,6 +71,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           update = "Update flake before building (automatically uses now)";
           test = "Run test build only";
           shutdown = "Shutdown after building (automatically uses now)";
+          reboot = "Reboot after building (automatically uses now)";
           now = "Authenticate now before building";
           pull = "Pull remote changes before building";
           help = "Show help";
@@ -136,7 +137,7 @@ lib.optionalAttrs (utilities.hasTag "shell") {
                     fi
                   fi
 
-                  if [[ "$shutdown" == true ]] || [[ "$update" == true ]]; then
+                  if [[ "$shutdown" == true ]] || [[ "$reboot" == true ]] || [[ "$update" == true ]]; then
                     now=true
                   fi
 
@@ -210,6 +211,8 @@ lib.optionalAttrs (utilities.hasTag "shell") {
 
                         if [[ "$shutdown" == true ]]; then
                           shutdown -h now
+                        elif [[ "$reboot" == true ]]; then
+                          shutdown -r now
                         fi
                       else
                         ${pkgs.nh}/bin/nh os "$build_mode"
