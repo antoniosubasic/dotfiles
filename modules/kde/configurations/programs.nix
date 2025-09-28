@@ -8,4 +8,9 @@
   ];
 
   programs.kdeconnect.enable = true;
+
+  environment.systemPackages = with pkgs.kdePackages; [
+    kalk
+    kdenlive
+  ];
 }
