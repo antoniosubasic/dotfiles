@@ -101,6 +101,7 @@ let
       packages = with pkgs; [
         google-chrome
         ungoogled-chromium
+        obs-studio
         tor-browser
         gimp
         libreoffice-still
