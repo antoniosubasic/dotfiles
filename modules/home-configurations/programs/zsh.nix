@@ -22,6 +22,7 @@
       conf = "man configuration.nix";
       hconf = "man home-configuration.nix";
       nd = "nix develop";
+      conda-init = "source $HOME/miniconda3/bin/activate";
     }
     // builtins.listToAttrs (
       map (n: {
