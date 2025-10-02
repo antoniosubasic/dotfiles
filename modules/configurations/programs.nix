@@ -100,6 +100,7 @@ let
       ];
       packages = with pkgs; [
         google-chrome
+        ungoogled-chromium
         tor-browser
         gimp
         libreoffice-still
