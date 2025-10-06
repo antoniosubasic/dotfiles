@@ -80,6 +80,7 @@
   security = {
     rtkit.enable = true;
     pam.services.login.fprintAuth = false;
+    polkit.enable = true;
   };
 
   services = {
