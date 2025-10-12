@@ -41,6 +41,37 @@
           fi
         '';
       })
+
+      (pkgs.writeShellApplication rec {
+        name = "gh-open";
+        derivationArgs.pname = name;
+        runtimeInputs = with pkgs; [
+          git
+          xdg-utils
+          jq
+        ];
+        text = ''
+          #!/usr/bin/env bash
+          if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+            if [[ ! " $* " =~ " --branch " ]]; then
+              branch=$(git rev-parse --abbrev-ref HEAD)
+              default_branch=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)
+              if [ ! "$branch" = "$default_branch" ]; then
+                remote=$(git remote | head -n1)
+                if git ls-remote --exit-code --heads "$remote" "$branch" > /dev/null 2>&1; then
+                  gh browse --branch "$branch" "$@"
+                  exit $?
+                fi
+              fi
+            fi
+            gh browse "$@"
+          else
+            url=$(gh api user | jq -r .html_url)
+            echo "Opening $url in your browser."
+            xdg-open "$url"
+          fi
+        '';
+      })
     ];
     gitCredentialHelper.enable = false;
     settings = {
@@ -48,7 +79,6 @@
       editor = config.programs.git.extraConfig.core.editor;
       aliases = {
         c = "repo clone";
-        open = "browse";
       };
     };
   };
