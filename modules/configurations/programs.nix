@@ -39,9 +39,7 @@ let
         asciidoctor
         sl
         xh
-        hyperfine
         aoc-runtime
-        trashy
       ];
     }
     {
@@ -78,7 +76,6 @@ let
       ];
       packages = with pkgs; [
         just
-        mask
         tokei
         upkgs.act
       ];
