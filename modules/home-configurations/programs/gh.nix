@@ -18,6 +18,10 @@
     settings = {
       git_protocol = "ssh";
       editor = config.programs.git.extraConfig.core.editor;
+      aliases = {
+        c = "repo clone";
+        open = "browse";
+      };
     };
   };
 }
