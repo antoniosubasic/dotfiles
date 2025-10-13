@@ -18,6 +18,7 @@
       ":q" = "exit";
       "q" = "exit";
       nohist = "HISTFILE=/dev/null";
+      cdt = "cd $(mktemp -d)";
       b = "build";
       conf = "man configuration.nix";
       hconf = "man home-configuration.nix";
