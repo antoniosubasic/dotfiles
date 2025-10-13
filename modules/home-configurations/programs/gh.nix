@@ -1,10 +1,55 @@
 {
   config,
   pkgs,
+  lib,
   utilities,
   ...
 }:
 
+let
+  functionalities = {
+    interactiveClone = "interactive-clone";
+    interactiveClonePersonal = "interactive-clone-personal";
+  };
+
+  cloneExtension =
+    functionality:
+    (
+      assert lib.assertOneOf "functionality" functionality (lib.attrValues functionalities);
+      (pkgs.writeShellApplication rec {
+        name = "gh-${functionality}";
+        derivationArgs.pname = name;
+        runtimeInputs = with pkgs; [
+          jq
+          fzf
+        ];
+        text = ''
+          #!/usr/bin/env bash
+          selected="$(
+          ${
+            if functionality == functionalities.interactiveClonePersonal then
+              ''gh repo list --json name | jq -r '.[].name' | \''
+            else
+              ''gh api user/repos --paginate | jq -r '.[].full_name' | \''
+          }
+            fzf --preview 'GH_FORCE_TTY=1 gh repo view {}' --expect=enter,alt-enter --bind 'alt-enter:accept'
+          )"
+          key=$(echo "$selected" | head -1)
+          repo=$(echo "$selected" | tail -n +2)
+          if [ -n "$repo" ]; then
+            if [ "$key" = 'alt-enter' ]; then
+              read -r -p 'clone as: ' name
+              if [ -z "''${name+x}" ] || [ -z "$name" ]; then
+                gh repo clone "$repo"
+              else
+                gh repo clone "$repo" "$name"
+              fi
+            fi
+          fi
+        '';
+      })
+    );
+in
 {
   programs.gh = {
     enable = utilities.hasTags [
@@ -14,31 +59,18 @@
     extensions = with pkgs; [
       gh-contribs
 
+      (cloneExtension functionalities.interactiveClone)
+      (cloneExtension functionalities.interactiveClonePersonal)
+
       (pkgs.writeShellApplication rec {
-        name = "gh-ic";
+        name = "gh-clone-personal";
         derivationArgs.pname = name;
         runtimeInputs = with pkgs; [
           jq
-          fzf
         ];
         text = ''
           #!/usr/bin/env bash
-          selected="$(
-            gh api user/repos --paginate | jq -r '.[].full_name' | \
-            fzf --preview 'GH_FORCE_TTY=1 gh repo view {}' --expect=enter,alt-enter --bind 'alt-enter:accept'
-          )"
-          key=$(echo "$selected" | head -1)
-          repo=$(echo "$selected" | tail -n +2)
-          if [ -n "$repo" ]; then
-            if [ "$key" = 'alt-enter' ]; then
-              read -r -p 'clone as: ' name
-            fi
-            if [ -z "''${name+x}" ] || [ -z "$name" ]; then
-              gh repo clone "$repo"
-            else
-              gh repo clone "$repo" "$name"
-            fi
-          fi
+          gh repo clone "$(gh api user | jq -r .login)/$1" "''${@:2}"
         '';
       })
 
@@ -79,6 +111,9 @@
       editor = config.programs.git.extraConfig.core.editor;
       aliases = {
         c = "repo clone";
+        cp = "clone-personal";
+        ic = "interactive-clone";
+        icp = "interactive-clone-personal";
       };
     };
   };
