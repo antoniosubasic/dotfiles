@@ -12,6 +12,7 @@
   environment.systemPackages = with pkgs.kdePackages; [
     kalk
     kdenlive
+    (pkgs.karp)
     kompare
   ];
 }
