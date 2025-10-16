@@ -109,8 +109,9 @@ in
     settings = {
       git_protocol = "ssh";
       editor = config.programs.git.extraConfig.core.editor;
-      aliases = {
-        c = "repo clone";
+      aliases = rec {
+        clone = "repo clone";
+        c = clone;
         cp = "clone-personal";
         ic = "interactive-clone";
         icp = "interactive-clone-personal";
