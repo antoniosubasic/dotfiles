@@ -118,6 +118,11 @@
         fi
       }
 
+      npm_global_bin="$HOME/.npm-global/bin"
+      if [ -d "''$npm_global_bin" ]; then
+        export PATH="''$npm_global_bin:$PATH"
+      fi
+
       # bash like keybindings (https://www.enlinux.com/bash-keyboard-shortcuts)
       bindkey "^T" transpose-chars
       bindkey "^[[3~" delete-char
