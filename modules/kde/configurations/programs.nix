@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  utilities,
+  ...
+}:
 
 {
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
@@ -7,12 +12,15 @@
     khelpcenter
   ];
 
-  programs.kdeconnect.enable = true;
+  programs.kdeconnect.enable = utilities.hasTag "personal";
 
-  environment.systemPackages = with pkgs.kdePackages; [
-    kalk
-    kdenlive
-    (pkgs.karp)
-    kompare
-  ];
+  environment.systemPackages = lib.optionals (utilities.hasTag "personal") (
+    with pkgs.kdePackages;
+    [
+      kalk
+      kdenlive
+      (pkgs.karp)
+      kompare
+    ]
+  );
 }
