@@ -13,7 +13,7 @@ in
       theme = "breeze-dark";
       colorScheme = "BreezeDark";
     };
-    kwin.effects.shakeCursor.enable = false;
+    kwin.effects.shakeCursor.enable = true;
     configFile.kwinrc.Effect-overview.BorderActivate = 9;
     kscreenlocker.appearance.wallpaper = toPath ./appearance/lockscreen.png;
     workspace.wallpaper = toPath ./appearance/desktop.png;
