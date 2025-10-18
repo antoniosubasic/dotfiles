@@ -21,6 +21,7 @@
       kdenlive
       (pkgs.karp)
       kompare
+      kcolorchooser
     ]
   );
 }
