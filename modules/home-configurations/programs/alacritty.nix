@@ -8,21 +8,26 @@
     ];
     settings = {
       env.TERM = "xterm-256color";
+
       window = {
         dimensions = {
           columns = 125;
           lines = 30;
         };
-        padding = {
+        padding = rec {
           x = 10;
-          y = 10;
+          y = x;
         };
         decorations = "full";
         opacity = 0.99;
       };
+
       scrolling.history = 10000;
+
       selection.save_to_clipboard = true;
+
       cursor.style = "Beam";
+
       font = {
         normal = {
           family = "JetBrainsMono Nerd Font";
@@ -41,6 +46,7 @@
           style = "Bold Italic";
         };
       };
+
       keyboard.bindings = [
         {
           key = "N";
@@ -48,6 +54,7 @@
           action = "SpawnNewInstance";
         }
       ];
+
       colors = {
         primary = {
           background = "#1a1b26";
