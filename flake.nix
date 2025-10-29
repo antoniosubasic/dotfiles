@@ -47,6 +47,7 @@
           "tg_personal"
           "bt_fingerprint"
           "bt_gaming"
+          "bt_ai"
         ];
         tg_personal = [
           "bt_personal"
