@@ -113,8 +113,8 @@ in
         clone = "repo clone";
         c = clone;
         cp = "clone-personal";
-        ic = "interactive-clone";
-        icp = "interactive-clone-personal";
+        ic = functionalities.interactiveClone;
+        icp = functionalities.interactiveClonePersonal;
       };
     };
   };
