@@ -39,12 +39,12 @@ let
           if [ -n "$repo" ]; then
             if [ "$key" = 'alt-enter' ]; then
               read -r -p 'clone as: ' name
-              if [ -z "''${name+x}" ] || [ -z "$name" ]; then
-                gh repo clone "$repo"
-              else
+              if [ -n "$name" ]; then
                 gh repo clone "$repo" "$name"
+                exit 0
               fi
             fi
+            gh repo clone "$repo"
           fi
         '';
       })
