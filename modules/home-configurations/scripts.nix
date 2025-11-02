@@ -21,7 +21,15 @@ lib.optionalAttrs (utilities.hasTag "shell") {
           exit 1
         fi
 
-        printf "%s\n%s\n" "''$pos" "https://www.google.com/maps/place/''$(echo "''$pos" | ${pkgs.gnused}/bin/sed -e "s|°|%C2%B0|g" -e "s|'|%27|g" -e "s|\"|%22|g" -e "s|,|+|g" -e "s| ||g")"
+        loc="https://www.google.com/maps/place/''$(echo "''$pos" | ${pkgs.gnused}/bin/sed -e "s|°|%C2%B0|g" -e "s|'|%27|g" -e "s|\"|%22|g" -e "s|,|+|g" -e "s| ||g")"
+
+        if [ -t 1 ]; then
+          # stdout is a terminal - show both position and URL
+          printf "%s\n%s\n" "''$pos" "''$loc"
+        else
+          # stdout is piped - only show URL
+          echo "''$loc"
+        fi
       else
         echo "file not found: ''$1"
         exit 2
