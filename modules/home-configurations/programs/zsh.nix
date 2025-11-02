@@ -96,6 +96,9 @@
       # removes confirmation when using `rm -rf *`
       setopt rm_star_silent
 
+      # completion for locate script - complete files for first argument
+      compdef '_files' locate
+
       # zsh prompt
       zstyle ':vcs_info:*' enable git
       zstyle ':vcs_info:*' check-for-changes true
