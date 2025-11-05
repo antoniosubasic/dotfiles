@@ -44,7 +44,7 @@ let
     }
     {
       tags = [ "dev" ];
-      packages = with pkgs; [
+      packages = with upkgs; [
         nixd
         nixfmt-rfc-style
         docker-compose
@@ -55,12 +55,12 @@ let
           dotnet-sdk_8
           dotnet-sdk_9
         ])
-        upkgs.cargo
-        upkgs.rust-analyzer
-        upkgs.rustc
-        upkgs.clippy
-        upkgs.rustfmt
-        upkgs.trunk
+        cargo
+        rust-analyzer
+        rustc
+        clippy
+        rustfmt
+        trunk
         nodejs
         typescript
         jdk
@@ -74,10 +74,10 @@ let
         "dev"
         "shell"
       ];
-      packages = with pkgs; [
+      packages = with upkgs; [
         just
         tokei
-        upkgs.act
+        act
       ];
     }
     {
@@ -85,9 +85,9 @@ let
         "dev"
         "gui"
       ];
-      packages = with pkgs; [
+      packages = with upkgs; [
         jetbrains-toolbox
-        upkgs.burpsuite
+        burpsuite
       ];
     }
     {
