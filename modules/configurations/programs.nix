@@ -61,7 +61,7 @@ let
         clippy
         rustfmt
         trunk
-        nodejs
+        nodejs_latest
         typescript
         jdk
         maven
