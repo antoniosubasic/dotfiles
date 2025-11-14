@@ -19,6 +19,9 @@
     ++ lib.optionals (config.virtualisation.docker.enable) [
       "docker"
     ]
+    ++ lib.optionals (config.virtualisation.virtualbox.host.enable) [
+      "vboxusers"
+    ]
     ++ lib.optionals (config.programs.wireshark.enable) [
       "wireshark"
     ];
