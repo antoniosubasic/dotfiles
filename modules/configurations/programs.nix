@@ -40,6 +40,7 @@ let
         sl
         xh
         aoc-runtime
+        asciinema
       ];
     }
     {
