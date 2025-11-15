@@ -1,3 +1,5 @@
+{ pkgs, ... }:
+
 let
   toPath =
     path:
@@ -7,7 +9,7 @@ let
     };
 in
 {
-  programs.plasma = {
+  programs.plasma = rec {
     workspace = {
       lookAndFeel = "org.kde.breezedark.desktop";
       theme = "breeze-dark";
@@ -15,8 +17,8 @@ in
     };
     kwin.effects.shakeCursor.enable = true;
     configFile.kwinrc.Effect-overview.BorderActivate = 9;
-    kscreenlocker.appearance.wallpaper = toPath ./appearance/lockscreen.png;
-    workspace.wallpaper = toPath ./appearance/desktop.png;
+    kscreenlocker.appearance.wallpaper = workspace.wallpaper;
+    workspace.wallpaper = "${pkgs.kdePackages.plasma-workspace-wallpapers}/share/wallpapers/Patak/contents/images_dark/3840x2160.png";
   };
 
   home.file.".face.icon".source = ./appearance/avatar.png;
