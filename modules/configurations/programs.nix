@@ -45,7 +45,7 @@ let
     }
     {
       tags = [ "dev" ];
-      packages = with upkgs; [
+      packages = with pkgs; [
         nixd
         nixfmt-rfc-style
         docker-compose
